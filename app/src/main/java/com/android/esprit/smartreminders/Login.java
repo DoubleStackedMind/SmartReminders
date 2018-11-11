@@ -49,12 +49,12 @@ public class Login extends AppCompatActivity {
                 WebServiceUser ws = new WebServiceUser(getApplicationContext());
                 User usr = new User();
                 Map<String,String> myMap = new HashMap<>();
-                myMap.put(((TextView)findViewById(R.id.txusername)).getText().toString(),((TextView)findViewById(R.id.txpwd)).getText().toString());
+                myMap.put("email",((TextView)findViewById(R.id.txusername)).getText().toString());
+                myMap.put("password",((TextView)findViewById(R.id.txpwd)).getText().toString());
                 try {
                     usr = ws.findBy(myMap);
                     if(usr != null) {
-                        //startActivity(new Intent(Login.this, Profile.class));
-
+                        startActivity(new Intent(Login.this, Profile.class));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
