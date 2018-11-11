@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Services.WebServiceUser;
@@ -48,7 +49,7 @@ public class Login extends AppCompatActivity {
                 WebServiceUser ws = new WebServiceUser(getApplicationContext());
                 User usr = new User();
                 Map<String,String> myMap = new HashMap<>();
-                myMap.put(findViewById(R.id.txusername).toString(),findViewById(R.id.txpwd).toString());
+                myMap.put(((TextView)findViewById(R.id.txusername)).getText().toString(),((TextView)findViewById(R.id.txpwd)).getText().toString());
                 try {
                     usr = ws.findBy(myMap);
                     if(usr != null) {
