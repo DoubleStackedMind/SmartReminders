@@ -49,7 +49,7 @@ public class WebServiceUser extends WebServiceConsumer<User> {
 
     @Override
     public User findBy(Map<String, String> columnAndValue) throws InterruptedException {
-        String localUrl = url + "/";
+        String localUrl = url ;
         for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
             if (localUrl.endsWith("/"))// beginning of the get attributes
             {
@@ -72,7 +72,7 @@ public class WebServiceUser extends WebServiceConsumer<User> {
 
     @Override
     public List<User> fetch(Map<String, String> columnAndValue) throws InterruptedException {
-        String localUrl = url + "/all/";
+        String localUrl = url + "all/";
         for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
             if (localUrl.endsWith("/"))// beginning of the get attributes
             {
