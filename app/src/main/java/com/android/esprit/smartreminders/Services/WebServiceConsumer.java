@@ -37,7 +37,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
     public abstract T findBy(Map<String,String> columnAndValue) throws InterruptedException;
 
-    public abstract List<T> fetch(Map<String,String> columnAndValue);// arguments can null
+    public abstract List<T> fetch(Map<String,String> columnAndValue) throws InterruptedException;// arguments can null
 
     public abstract void ResponseBody(String response);
 

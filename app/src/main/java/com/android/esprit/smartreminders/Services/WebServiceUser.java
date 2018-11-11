@@ -35,12 +35,16 @@ public class WebServiceUser extends WebServiceConsumer<User> {
 
     @Override
     public int update(User user) {
-        return 0;
+        String localUrl = url + +user.getId()+"/edit";
+        Consume(localUrl, user);
+        return 200;
     }
 
     @Override
     public int remove(User user) {
-        return 0;
+        String localUrl = url + +user.getId()+"/delete";
+        Consume(localUrl, user);
+        return 200;
     }
 
     @Override
@@ -67,8 +71,24 @@ public class WebServiceUser extends WebServiceConsumer<User> {
 
 
     @Override
-    public List<User> fetch(Map<String, String> columnAndValue) {
-        return null;
+    public List<User> fetch(Map<String, String> columnAndValue) throws InterruptedException {
+        String localUrl = url + "/all/";
+        for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
+            if (localUrl.endsWith("/"))// beginning of the get attributes
+            {
+                localUrl += "?" + one.getKey() + "=" + one.getValue();
+            } else // after adding the first attribue you pass an &
+            {
+                localUrl += "&" + one.getKey() + "=" + one.getValue();
+            }
+        }
+        ConsumeAndWait(localUrl, Request.Method.GET);// this will notify the object when done
+        synchronized (this) {// will wait until notified
+            wait();
+            if (entities.isEmpty())
+                return null;
+            return entities;
+        }
     }
 
 
