@@ -3,15 +3,10 @@ package com.android.esprit.smartreminders.Services;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.ListView;
-
 import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +56,6 @@ public class WebServiceUser extends WebServiceConsumer<User> {
             u.FromJsonObject(j.getJSONObject(i));
             entities.add(u);
             }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
