@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Entities;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class User implements Entity {
         return id * 195 + email.hashCode() + password.hashCode();
     }
 
-    @Override
+
     public void FromJsonObject(JSONObject ja) throws JSONException {
 
                 this.id=ja.getInt("id");
@@ -74,7 +75,7 @@ public class User implements Entity {
 
     }
 
-    @Override
+
     public JSONObject ToJsonObject() throws JSONException {
         return
                 new JSONObject()
@@ -83,7 +84,7 @@ public class User implements Entity {
                         .put("password", this.password);
     }
 
-    @Override
+
     public Map<String, String> ToPostMap() {
         Map<String, String> res = new HashMap<>();
 
@@ -92,4 +93,6 @@ public class User implements Entity {
         res.put("password", this.password);
         return res;
     }
+
+
 }
