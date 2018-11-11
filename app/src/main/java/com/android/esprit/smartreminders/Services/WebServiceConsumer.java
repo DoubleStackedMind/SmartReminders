@@ -35,9 +35,9 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
     public abstract int remove(T t);
 
-    public abstract T findBy(String arg);
+    public abstract T findBy(Map<String,String> columnAndValue) throws InterruptedException;
 
-    public abstract List<T> fetch(String[] args);// arguments can null
+    public abstract List<T> fetch(Map<String,String> columnAndValue) throws InterruptedException;// arguments can null
 
     public abstract void ResponseBody(String response);
 
@@ -72,7 +72,12 @@ public abstract class WebServiceConsumer<T extends Entity> {
                 method,
                 url,
                 response -> {
-                    ResponseBody(response);
+                    synchronized (WebServiceConsumer.this)
+                    {
+                        ResponseBody(response);
+                        notify();
+                    }
+
                 },
                 error -> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
