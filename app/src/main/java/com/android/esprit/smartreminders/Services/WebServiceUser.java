@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class WebServiceUser extends WebServiceConsumer<User> {
     private String url;
@@ -42,9 +43,10 @@ public class WebServiceUser extends WebServiceConsumer<User> {
     }
 
     @Override
-    public List<User> fetch(String[] args) {
+    public List<User> fetch(Map<String, String> columnAndValue) {
         return null;
     }
+
 
     @Override
     public void ResponseBody(String response) {
