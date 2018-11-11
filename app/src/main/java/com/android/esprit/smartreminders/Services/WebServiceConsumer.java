@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Services;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.esprit.smartreminders.Entities.Entity;
@@ -12,22 +13,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface WebServiceConsumer<T extends Entity> {
-    public int insert(T t);
+public abstract class WebServiceConsumer<T extends Entity> {
+    protected Context parentActivity;
+    protected List<T>entities;
 
-    public int update(T t);
+    public Context getParentActivity() {
+        return parentActivity;
+    }
 
-    public int remove(T t);
+    public void setParentActivity(Context parentActivity) {
+        this.parentActivity = parentActivity;
+    }
 
-    public T findBy(String arg);
+    public List<T> getEntities() {
+        return entities;
+    }
 
-    public List<T> fetch(String[] args);// arguments can null
+    public abstract int insert(T t);
 
-    public String ResponseBody();
+    public abstract int update(T t);
 
-    public String RequestBody();
+    public abstract int remove(T t);
 
-    public default void Consume(String url, int method, T t) {
+    public abstract T findBy(String arg);
+
+    public abstract List<T> fetch(String[] args);// arguments can null
+
+    public abstract void ResponseBody(String response);
+
+
+
+    public WebServiceConsumer(Context parentActivity) {
+        this.parentActivity=parentActivity;
+    }
+
+
+    public  void Consume(String url, T t) {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok");
@@ -38,26 +59,26 @@ public interface WebServiceConsumer<T extends Entity> {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                return new HashMap<String, String>(t.ToPostMap(t));
+                return new HashMap<String, String>(t.ToPostMap());
             }
         };
-        RequestQueue queue = Volley.newRequestQueue(null);
+        RequestQueue queue = Volley.newRequestQueue(parentActivity);
         queue.add(postRequest);
     }
 
-    public default void ConsumeAndWait(String url, int method) {
+    public  void ConsumeAndWait(String url, int method) {
 
         StringRequest stringRequest = new StringRequest(
                 method,
                 url,
                 response -> {
-                    ResponseBody();
+                    ResponseBody(response);
                 },
                 error -> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
                 }
         );
-        RequestQueue queue = Volley.newRequestQueue(null);
+        RequestQueue queue = Volley.newRequestQueue(parentActivity);
         queue.add(stringRequest);
     }
 }
