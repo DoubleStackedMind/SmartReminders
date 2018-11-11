@@ -61,6 +61,7 @@ public class WebServiceUser extends WebServiceConsumer<User> {
         }
         ConsumeAndWait(localUrl, Request.Method.GET);// this will notify the object when done
         synchronized (this) {// will wait until notified
+            Log.d("Thread Waiting", "findBy: Stopped and weitng for response ");
             wait();
             if (entities.isEmpty())
                 return null;

@@ -67,14 +67,16 @@ public abstract class WebServiceConsumer<T extends Entity> {
     }
 
     public  void ConsumeAndWait(String url, int method) {
-
+        Log.d("Url", "ConsumeAndWait: Url Used :"+url);
         StringRequest stringRequest = new StringRequest(
                 method,
                 url,
                 response -> {
+                    Log.d("Thread One", "ConsumeAndWait: Entring synchronized scope...");
                     synchronized (WebServiceConsumer.this)
                     {
                         ResponseBody(response);
+                        Log.d("Thread one Starting", "ConsumeAndWait: All Done Notifying");
                         notify();
                     }
 
