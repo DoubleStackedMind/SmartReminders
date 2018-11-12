@@ -1,7 +1,10 @@
 package com.android.esprit.smartreminders.Services;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.android.esprit.smartreminders.Entities.Entity;
 import com.android.volley.Request;
@@ -14,15 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class WebServiceConsumer<T extends Entity> {
-    protected Context parentActivity;
-    protected List<T>entities;
 
-    public Context getParentActivity() {
-        return parentActivity;
-    }
+    protected Activity parentActivity;//where the webService was called Essential to Extract Context
+    protected List<T> entities;
+    protected CallBackWSConsumer<T> Behavour;
 
-    public void setParentActivity(Context parentActivity) {
+    public void setParentActivity(Activity parentActivity) {
         this.parentActivity = parentActivity;
+
     }
 
     public List<T> getEntities() {
@@ -35,27 +37,25 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
     public abstract int remove(T t);
 
-    public abstract T findBy(Map<String,String> columnAndValue) throws InterruptedException;
+    public abstract void findBy(Map<String, String> columnAndValue) throws InterruptedException;
 
-    public abstract List<T> fetch(Map<String,String> columnAndValue) throws InterruptedException;// arguments can null
+    public abstract void fetch(Map<String, String> columnAndValue) throws InterruptedException;// arguments can null
 
     public abstract void ResponseBody(String response);
 
 
-
-    public WebServiceConsumer(Context parentActivity) {
-        this.parentActivity=parentActivity;
+    public WebServiceConsumer(Activity parentActivity, CallBackWSConsumer<T> Behaviour) {
+        this.parentActivity = parentActivity;
+        this.Behavour = Behaviour;
     }
 
 
-    public  void Consume(String url, T t) {
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                response -> {
-                    Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok");
-                },
-                error -> {
-                    Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
-                }
+    public void Consume(String url, T t) {
+        StringRequest postRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                response -> Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok"),
+                error -> Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !")
         ) {
             @Override
             protected Map<String, String> getParams() {
@@ -66,26 +66,26 @@ public abstract class WebServiceConsumer<T extends Entity> {
         queue.add(postRequest);
     }
 
-    public  void ConsumeAndWait(String url, int method) {
-        Log.d("Url", "ConsumeAndWait: Url Used :"+url);
+    public void ConsumeAndWait(String url, int method) {
+        Log.d("Url", "ConsumeAndWait: Url Used :" + url);
         StringRequest stringRequest = new StringRequest(
                 method,
                 url,
                 response -> {
-                    Log.d("Thread One", "ConsumeAndWait: Entring synchronized scope...");
-                    synchronized (WebServiceConsumer.this)
-                    {
-                        ResponseBody(response);
-                        Log.d("Thread one Starting", "ConsumeAndWait: All Done Notifying");
-                        notify();
-                    }
-
+                    ResponseBody(response);
+                    this.Behavour.OnResultPresent(entities);
                 },
                 error -> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
+                    this.Behavour.OnResultNull();
                 }
         );
         RequestQueue queue = Volley.newRequestQueue(parentActivity);
         queue.add(stringRequest);
     }
+
 }
+
+
+
+
