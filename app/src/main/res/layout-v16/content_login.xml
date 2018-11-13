@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
-    android:background="@drawable/grad_bg"
-   >
+    android:background="@drawable/grad_bg">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
 
             </LinearLayout>
 
-            <Button
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/LoginBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -126,7 +126,10 @@
                 android:text="@string/login_now_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:spinning_bar_color="#FFF"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="6dp"/>
 
         </RelativeLayout>
 
