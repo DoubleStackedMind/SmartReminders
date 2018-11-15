@@ -18,4 +18,10 @@
     <color name="list_divider">#CCCCCC</color>
     <color name="list_item_secondary">#666666</color>
     <color name="black">#000000</color>
+    <!--toolbar text color-->
+    <color name="toolbar_text_color">#ffffff</color>
+    <!--tab color-->
+    <color name="tabIndicatorColor">#e31722</color>
+    <color name="tabSelectedTextColor">#e31722</color>
+    <color name="tabTextColor">#ffffff</color>
 </resources>

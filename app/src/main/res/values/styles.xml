@@ -16,6 +16,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="ListItemPrimaryText" parent="android:Widget.TextView">
         <item name="android:maxLines">1</item>
         <item name="android:paddingLeft">16dp</item>
@@ -34,5 +35,10 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:textColor">@color/list_item_secondary</item>
         <item name="android:textSize">@dimen/list_item_secondary_text</item>
+    </style>
+
+    <style name="fragment_text">
+        <item name="android:textColor">#ffacacac</item>
+        <item name="android:textSize">25dp</item>
     </style>
 </resources>

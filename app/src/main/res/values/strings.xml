@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SmartReminders</string>
     <string name="action_settings">Settings</string>
-    <string name="url_root">http://192.168.1.12/WebServices/web/</string>
+    <string name="url_root">http://192.168.1.4/WebServices/web/</string>
     <string name="logo_des">LogoDescription</string>
     <string name="login_label">Login</string>
     <string name="email_label">Email</string>
@@ -30,4 +30,18 @@
     <string name="label_end_date_must_be_greater_than_start_date">End date must be greater than start date.</string>
     <string name="date_must_not_be_earlier_than_today">Date must not be earlier than today.</string>
     <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="hostunreachable">Server is down</string>
+    <string name="title_activity_main_frame">MainFrame</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">UserName</string>
+    <string name="nav_header_subtitle">Rewind&amp;Remind</string>
+    <string name="nav_header_desc">UserName</string>
+    <string name="today__schedule">Today\'s Schedule</string>
+    <string name="daily_plans">Daily Plans</string>
+    <string name="tasks">Tasks</string>
+    <string name="events_meetingss"><![CDATA[Events&Meetings]]></string>
+    <string name="community">Community</string>
+    <string name="share_your_tasks">Share your Tasks</string>
+    <string name="browse_for_tasks">Browse For Tasks</string>
 </resources>
