@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SmartReminders</string>
     <string name="action_settings">Settings</string>
-    <string name="url_root">192.168.1.5/WebServices/web/</string>
+    <string name="url_root">https://10.0.2.2:8000/app_dev.php/</string>
 </resources>
