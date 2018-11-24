@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public abstract class CustomAdapter<T> extends ArrayAdapter {
     private ArrayList<T> Array;
     private Context context;
-    private int SingleLayOut;
+    private int SingleLayOut;// Reference to Layout for Single item
 
     public CustomAdapter(@NonNull Context context, ArrayList<T>Array,int SingleLayOut) {
         super(context ,SingleLayOut,Array);

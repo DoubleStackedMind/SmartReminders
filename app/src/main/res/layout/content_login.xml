@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:background="@drawable/grad_bg"
-    tools:context="com.android.esprit.smartreminders.Login">
+    tools:context="com.android.esprit.smartreminders.Activitys.Login">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -21,7 +21,8 @@
             android:layout_height="80dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_twitter" />
+            android:src="@drawable/app_logo"
+            android:contentDescription="@string/logo_des" />
 
         <RelativeLayout
             android:id="@+id/rellay1"
@@ -53,10 +54,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <EditText
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
+                        android:selectAllOnFocus="false"
+                        android:text="Email"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -70,6 +73,7 @@
                         android:fontFamily="sans-serif-light"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
+                        android:selectAllOnFocus="true"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -106,7 +110,7 @@
 
             </LinearLayout>
 
-            <Button
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/LoginBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -117,10 +121,13 @@
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
-                android:text="Login Now"
+                android:text="@string/login_now_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:spinning_bar_color="#FFF"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="6dp"/>
 
         </RelativeLayout>
 
