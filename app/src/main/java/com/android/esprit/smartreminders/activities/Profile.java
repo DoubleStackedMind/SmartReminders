@@ -1,4 +1,4 @@
-package com.android.esprit.smartreminders.Activitys;
+package com.android.esprit.smartreminders.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

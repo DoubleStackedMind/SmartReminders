@@ -29,6 +29,7 @@ public abstract class CustomAdapter<T> extends ArrayAdapter {
     public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        assert inflater != null;
         @SuppressLint("ViewHolder") final View rowView = inflater.inflate(SingleLayOut, null, true);
         //this code gets references to objects in the listview_row.xml file
         InflateInputs();

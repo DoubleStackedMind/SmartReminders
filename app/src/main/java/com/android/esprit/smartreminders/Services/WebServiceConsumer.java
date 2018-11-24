@@ -73,11 +73,14 @@ public abstract class WebServiceConsumer<T extends Entity> {
                 url,
                 response -> {
                     ResponseBody(response);
+                    if(entities.isEmpty())
+                    this.Behavour.OnResultNull();
+                    else
                     this.Behavour.OnResultPresent(entities);
                 },
                 error -> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
-                    this.Behavour.OnResultNull();
+                    this.Behavour.OnHostUnreachable();
                 }
         );
         RequestQueue queue = Volley.newRequestQueue(parentActivity);

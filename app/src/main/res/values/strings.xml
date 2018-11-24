@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">SmartReminders</string>
     <string name="action_settings">Settings</string>
-    <string name="url_root">http://192.168.1.4/WebServices/web/</string>
+    <string name="url_root">http://192.168.1.10/WebServices/web/</string>
     <string name="logo_des">LogoDescription</string>
     <string name="login_label">Login</string>
-    <string name="email_label">Email</string>
+    <string name="email_label">Email</string>s
     <string name="password_label">Password</string>
     <string name="login_now_btn_label">Login Now</string>
     <string name="signup_now_label">Signup Now</string>
@@ -44,4 +44,16 @@
     <string name="community">Community</string>
     <string name="share_your_tasks">Share your Tasks</string>
     <string name="browse_for_tasks">Browse For Tasks</string>
+    <string name="nav_home">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment sdqfsdmohcsmckqsnmICJùqscijs sdoifjsdoifj sdifjqsdifhuqudoifh qsdifhsqdkjshdqflkjshqdfqlksjdhflsdkjqhfpqsdiufh</string>
+    <string name="home_test">Home</string>
+    <string name="daily_plans_test">Daily Plans</string>
+    <string name="schedule_test">schedule</string>
+    <string name="tasks_test">Tasks</string>
+    <string name="events_meetings_test"><![CDATA[events & meetings]]></string>
+    <string name="share_tasks_test">Share tasks</string>
+    <string name="browse_tasks_test">Browse Tasks</string>
+    <string name="settings_test">settings</string>
 </resources>
