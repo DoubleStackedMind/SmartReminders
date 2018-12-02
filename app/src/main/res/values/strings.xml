@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SmartReminders</string>
     <string name="action_settings">Settings</string>
-    <string name="url_root">http://127.0.0.1:8000/</string>
+    <string name="url_root">http://192.168.1.7/WebServices/web/</string>
     <string name="logo_des">LogoDescription</string>
     <string name="login_label">Login</string>
     <string name="email_label">Email</string>s
@@ -47,7 +47,8 @@
     <string name="nav_home">Home</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment sdqfsdmohcsmckqsnmICJùqscijs sdoifjsdoifj sdifjqsdifhuqudoifh qsdifhsqdkjshdqflkjshqdfqlksjdhflsdkjqhfpqsdiufh</string>
+    <string name="hello_blank_fragment">Hello blank fragment </string>
+    <!-- END: Remove or change this placeholder text -->
     <string name="home_test">Home</string>
     <string name="daily_plans_test">Daily Plans</string>
     <string name="schedule_test">schedule</string>
@@ -56,4 +57,17 @@
     <string name="share_tasks_test">Share tasks</string>
     <string name="browse_tasks_test">Browse Tasks</string>
     <string name="settings_test">settings</string>
+
+    <string name="vertical_form_stepper_form_continue">Continue</string>
+    <string name="vertical_form_stepper_form_discard_question">Discard data?</string>
+    <string name="vertical_form_stepper_form_info_will_be_lost">All the information you have given will be lost</string>
+    <string name="vertical_form_stepper_form_discard_cancel">Cancel</string>
+    <string name="vertical_form_stepper_form_discard">Discard</string>
+    <string name="vertical_form_stepper_form_confirm_button">Confirm data</string>
+    <string name="vertical_form_stepper_form_last_step">Confirmation</string>
+    <string name="vertical_form_stepper_form_sending_data_message">Sending data…</string>
+    <string name="vertical_form_stepper_form_current_step_uncompleted_alert">Please complete the current field before continue</string>
+
+    <string name="vertical_form_stepper_form_down_previous">down_previous</string>
+    <string name="vertical_form_stepper_form_down_next">down_next</string>
 </resources>
