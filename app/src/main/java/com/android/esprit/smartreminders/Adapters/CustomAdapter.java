@@ -17,13 +17,15 @@ import java.util.ArrayList;
 public abstract class CustomAdapter<T> extends ArrayAdapter {
     protected ArrayList<T> Array;
     protected Context context;
+    protected int position;
     protected int SingleLayOut;// Reference to Layout for Single item
 
-    public CustomAdapter(@NonNull Context context, ArrayList<T>Array,int SingleLayOut) {
-        super(context ,SingleLayOut,Array);
+    public CustomAdapter(@NonNull Context context, ArrayList<T>Array,int SingleLayout) {
+        super(context ,SingleLayout,Array);
         this.context=context;
         this.Array=Array;
-        this.SingleLayOut=SingleLayOut;
+        this.position=0;
+        this.SingleLayOut=SingleLayout;
     }
     @NonNull
     @Override
@@ -31,12 +33,19 @@ public abstract class CustomAdapter<T> extends ArrayAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         assert inflater != null;
+        this.position=position;
         final View rowView = inflater.inflate(SingleLayOut, null, true);
         //this code gets references to objects in the listview_row.xml file
         System.out.println("position "+position);
-        InflateInputs(rowView,position);
+        InflateInputs(rowView);
         return rowView;
     }
-    public abstract void InflateInputs(View convertView,int pos);// must define a behaviour for each inflater
+    private void next(){
+        if(Array.size()-1>position)position++;
+    }
+
+
+
+    public abstract void InflateInputs(View convertView);// must define a behaviour for each inflater
 
 }

@@ -17,12 +17,11 @@ import java.util.ArrayList;
 public class DailyScheduleAdapter extends CustomAdapter<AbstractEventOrTask> {
 
     public DailyScheduleAdapter(@NonNull Context context, ArrayList<AbstractEventOrTask> Array) {
-        super(context, Array, R.layout.today_schedule_single);
-        this.SingleLayOut = R.layout.today_schedule_single;
+        super(context, Array,R.layout.today_schedule_single);
     }
 
     @Override
-    public void InflateInputs(View convertView, int pos) {
+    public void InflateInputs(View convertView) {
 
         ImageView recydledImaveView = (ImageView) convertView.findViewById(R.id.state);
 
@@ -30,13 +29,13 @@ public class DailyScheduleAdapter extends CustomAdapter<AbstractEventOrTask> {
 
         TextView recycledtime = (TextView) convertView.findViewById(R.id.time);
 
-        if (this.Array.get(pos) instanceof Task) {
-            Task t = (Task) this.Array.get(pos);
+        if (this.Array.get(position) instanceof Task) {
+            Task t = (Task) this.Array.get(position);
             recycledtime.setText(t.getExecutionTime().toString());
             recydledImaveView.setImageResource(t.getState().StateForIcon(this.context));
             recycleddescription.setText(t.getDescription());
-        } else if (this.Array.get(pos) instanceof Event) {
-            Event t = (Event) this.Array.get(pos);
+        } else if (this.Array.get(position) instanceof Event) {
+            Event t = (Event) this.Array.get(position);
             recycledtime.setText(t.getStartTime().toString()+"-"+t.getEndTime().toString());
             recydledImaveView.setImageResource(t.getState().StateForIcon(this.context));
             recycleddescription.setText(t.getDescription());

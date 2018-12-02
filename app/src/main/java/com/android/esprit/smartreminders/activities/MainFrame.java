@@ -1,8 +1,10 @@
 package com.android.esprit.smartreminders.activities;
 
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.android.esprit.smartreminders.Fragments.BrowseTasksFragment;
 import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
@@ -48,6 +51,13 @@ public class MainFrame extends AppCommonsActivity
         navigationView.setItemIconTintList(null);
         this.setTitle(R.string.app_name);
         this.switchFragments(R.id.fragment_container, new HomeFragment());
+        new Handler().postDelayed(this::init_Layout_data, 500);
+    }
+    private void init_Layout_data(){
+        SharedPreferences sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
+        String data = sharedPref.getString("Logged_user_data", "User name or data missing");
+        TextView f=((TextView)findViewById(R.id.tvusername));
+        f.setText(data.substring(0, data.indexOf("\n")));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
