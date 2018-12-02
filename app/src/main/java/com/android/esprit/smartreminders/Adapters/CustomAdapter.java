@@ -15,14 +15,15 @@ import com.android.esprit.smartreminders.R;
 import java.util.ArrayList;
 
 public abstract class CustomAdapter<T> extends ArrayAdapter {
-    private ArrayList<T> Array;
-    private Context context;
-    private int SingleLayOut;// Reference to Layout for Single item
+    protected ArrayList<T> Array;
+    protected Context context;
+    protected int SingleLayOut;// Reference to Layout for Single item
 
     public CustomAdapter(@NonNull Context context, ArrayList<T>Array,int SingleLayOut) {
         super(context ,SingleLayOut,Array);
         this.context=context;
         this.Array=Array;
+        this.SingleLayOut=SingleLayOut;
     }
     @NonNull
     @Override
@@ -30,11 +31,12 @@ public abstract class CustomAdapter<T> extends ArrayAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         assert inflater != null;
-        @SuppressLint("ViewHolder") final View rowView = inflater.inflate(SingleLayOut, null, true);
+        final View rowView = inflater.inflate(SingleLayOut, null, true);
         //this code gets references to objects in the listview_row.xml file
-        InflateInputs();
+        System.out.println("position "+position);
+        InflateInputs(rowView,position);
         return rowView;
     }
-    public abstract void InflateInputs();// must define a behavour for each inflator
+    public abstract void InflateInputs(View convertView,int pos);// must define a behaviour for each inflater
 
 }
