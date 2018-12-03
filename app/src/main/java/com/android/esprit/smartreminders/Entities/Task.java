@@ -1,11 +1,16 @@
 package com.android.esprit.smartreminders.Entities;
 
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.Time;
+import java.util.Map;
 import java.util.Objects;
 
-public class Task extends AbstractEventOrTask {
+public class Task extends AbstractEventOrTask implements Entity{
     protected Time executionTime;
 
     public Task() {
@@ -35,7 +40,6 @@ public class Task extends AbstractEventOrTask {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), executionTime);
     }
 
@@ -45,5 +49,26 @@ public class Task extends AbstractEventOrTask {
                 super.toString()+
                 "executionTime=" + executionTime +
                 '}';
+    }
+
+    @Override
+    public void FromJsonObject(JSONObject ja) throws JSONException {
+        try {
+            this.state=StateOfTask.fromString(ja.getString("state"));
+            this.executionTime.setTime(ja.getLong("executionTime"));
+            this.description=ja.getString("description");
+        } catch (NotAValidStateOfTask notAValidStateOfTask) {
+            notAValidStateOfTask.printStackTrace();
+        }
+    }
+
+    @Override
+    public JSONObject ToJsonObject() throws JSONException {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> ToPostMap() {
+        return null;
     }
 }
