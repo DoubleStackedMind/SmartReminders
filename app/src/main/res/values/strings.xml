@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">SmartReminders</string>
     <string name="action_settings">Settings</string>
-    <string name="url_root">http://192.168.1.7/WebServices/web/</string>
+    <string name="url_root">http://192.168.1.9/WebServices/web/</string>
     <string name="logo_des">LogoDescription</string>
     <string name="login_label">Login</string>
-    <string name="email_label">Email</string>s
+    <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_now_btn_label">Login Now</string>
     <string name="signup_now_label">Signup Now</string>
