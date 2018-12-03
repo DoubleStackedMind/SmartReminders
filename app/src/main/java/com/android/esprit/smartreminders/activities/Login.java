@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
     private CircularProgressButton LoginButton;
     private EditText passwordTextView;
     private EditText usernameTextView;
+    private Button SignupButton;
     //private Button
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -62,6 +64,8 @@ public class Login extends AppCompatActivity {
         this.LoginButton = (CircularProgressButton) findViewById(R.id.LoginBtn);
         this.passwordTextView = (EditText) findViewById(R.id.txpwd);
         this.usernameTextView = (EditText) findViewById(R.id.txusername);
+        this.SignupButton = (Button) findViewById(R.id.Signup);
+
         LoginButton.setOnClickListener((view) -> {
             if (checkInputs()) login();
         });
@@ -75,6 +79,13 @@ public class Login extends AppCompatActivity {
             if (checkInputs()) login();},
         2030);
         }
+
+        SignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this,Singup.class));
+            }
+        });
     }
 
     private void runDelayedStartup() {
