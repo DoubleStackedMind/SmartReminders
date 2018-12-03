@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface CallBackWSConsumer<T> {
     void OnResultPresent(List<T> result);
-    void OnResultNull();
+    default void  OnResultNull(){}
     void OnHostUnreachable();
 }

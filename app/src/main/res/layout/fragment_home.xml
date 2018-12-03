@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment"
     android:id="@+id/fragment_home">
-
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"

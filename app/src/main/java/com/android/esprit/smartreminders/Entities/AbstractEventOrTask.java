@@ -1,12 +1,14 @@
 package com.android.esprit.smartreminders.Entities;
 
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 
 import java.util.Objects;
 
-public class AbstractEventOrTask {
+public abstract class  AbstractEventOrTask {
     protected StateOfTask state;
     protected String description;
+    protected DayOfTheWeek day;
     public AbstractEventOrTask(){}
     public AbstractEventOrTask(StateOfTask state,String description){
         this.state=state;
