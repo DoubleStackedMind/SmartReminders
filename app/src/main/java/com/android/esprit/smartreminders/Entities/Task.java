@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Entities;
 
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
@@ -16,8 +17,8 @@ public class Task extends AbstractEventOrTask implements Entity{
     public Task() {
     }
 
-    public Task(StateOfTask state, String description, Time executionTime) {
-        super(state, description);
+    public Task(StateOfTask state, String description, DayOfTheWeek day, Time executionTime) {
+        super(state, description,day);
         this.executionTime = executionTime;
     }
 

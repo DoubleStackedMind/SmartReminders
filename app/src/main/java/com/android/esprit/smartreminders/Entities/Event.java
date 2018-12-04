@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Entities;
 
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 
 import java.sql.Time;
@@ -11,8 +12,8 @@ public class Event extends AbstractEventOrTask {
 
 
     public Event() {super();}
-    public Event(StateOfTask state,String description,Time StartTime,Time EndTime) {
-        super(state,description);
+    public Event(StateOfTask state, String description, DayOfTheWeek day, Time StartTime, Time EndTime) {
+        super(state,description,day);
         this.StartTime = StartTime;
         this.EndTime = EndTime;
     }

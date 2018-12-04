@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.android.esprit.smartreminders"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,7 @@ dependencies {
     implementation "com.android.support:design:$supportVer"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'junit:junit:4.12'
+
 
 
 }

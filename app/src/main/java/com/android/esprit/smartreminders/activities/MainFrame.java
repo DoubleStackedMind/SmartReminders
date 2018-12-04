@@ -20,6 +20,7 @@ import com.android.esprit.smartreminders.Fragments.BrowseTasksFragment;
 import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
 import com.android.esprit.smartreminders.Fragments.HomeFragment;
 import com.android.esprit.smartreminders.Fragments.PlansFragment;
+import com.android.esprit.smartreminders.Fragments.ProfileFragment;
 import com.android.esprit.smartreminders.Fragments.ScheduleFragment;
 import com.android.esprit.smartreminders.Fragments.SettingsFragment;
 import com.android.esprit.smartreminders.Fragments.ShareTasksFragment;
@@ -88,6 +89,11 @@ public class MainFrame extends AppCommonsActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             goToSettingsFragment();
+            return true;
+        }
+        else if(id== R.id.action_profile)
+        {
+            goToProfileFragment();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -165,6 +171,10 @@ public class MainFrame extends AppCommonsActivity
 
         switchFragmentsAddToBackStack(R.id.fragment_container, new SettingsFragment());
         Log.d("Fragments Behavour", "goToSettingsFragment: fragment changed !");
+    }
+    private void goToProfileFragment(){
+        switchFragmentsAddToBackStack(R.id.fragment_container, new ProfileFragment());
+        Log.d("Fragments Behavour", "goToProfileFragments: fragment changed !");
     }
 
 }
