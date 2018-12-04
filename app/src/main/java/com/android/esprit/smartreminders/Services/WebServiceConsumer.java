@@ -12,6 +12,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +23,10 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
     protected Activity parentActivity;//where the webService was called Essential to Extract Context
     protected List<T> entities;
-    protected CallBackWSConsumer<T> Behavour;
-
+    protected CallBackWSConsumer<T> Behaviour;
+    public void SetBehaviour(CallBackWSConsumer<T> callBack ){
+        this.Behaviour=callBack;
+    }
     public void setParentActivity(Activity parentActivity) {
         this.parentActivity = parentActivity;
 
@@ -46,16 +51,35 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
     public WebServiceConsumer(Activity parentActivity, CallBackWSConsumer<T> Behaviour) {
         this.parentActivity = parentActivity;
-        this.Behavour = Behaviour;
+        this.Behaviour = Behaviour;
     }
 
 
     public void Consume(String url, T t) {
+        Log.d("Url", "Consume: Url Used :" + url);
         StringRequest postRequest = new StringRequest(
                 Request.Method.POST,
                 url,
-                response -> Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok"),
-                error -> Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !")
+                response -> {
+                    System.out.println(response);
+                    String result="";
+                    try {
+                       JSONObject ja=new JSONObject(response);
+                        result=ja.get("result").toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (result.equals("ok")) {
+                        this.Behaviour.OnResultPresent();
+                        Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok");
+                    } else
+                        this.Behaviour.OnResultNull();
+
+                },
+                error -> {
+                    Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
+                    this.Behaviour.OnHostUnreachable();
+                }
         ) {
             @Override
             protected Map<String, String> getParams() {
@@ -73,14 +97,14 @@ public abstract class WebServiceConsumer<T extends Entity> {
                 url,
                 response -> {
                     ResponseBody(response);
-                    if(entities.isEmpty())
-                    this.Behavour.OnResultNull();
+                    if (entities.isEmpty())
+                        this.Behaviour.OnResultNull();
                     else
-                    this.Behavour.OnResultPresent(entities);
+                        this.Behaviour.OnResultPresent(entities);
                 },
                 error -> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
-                    this.Behavour.OnHostUnreachable();
+                    this.Behaviour.OnHostUnreachable();
                 }
         );
         RequestQueue queue = Volley.newRequestQueue(parentActivity);

@@ -6,7 +6,6 @@
 
 
     <!-- TODO: Update blank fragment layout -->
-
         <Button
             android:id="@+id/flash_open_close"
             android:layout_width="wrap_content"

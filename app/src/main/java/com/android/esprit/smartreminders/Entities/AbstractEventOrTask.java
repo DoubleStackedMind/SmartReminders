@@ -10,9 +10,10 @@ public abstract class  AbstractEventOrTask {
     protected String description;
     protected DayOfTheWeek day;
     public AbstractEventOrTask(){}
-    public AbstractEventOrTask(StateOfTask state,String description){
+    public AbstractEventOrTask(StateOfTask state,String description,DayOfTheWeek day){
         this.state=state;
         this.description=description;
+        this.day=day;
     }
 
     public StateOfTask getState() {
@@ -31,25 +32,39 @@ public abstract class  AbstractEventOrTask {
         this.description = description;
     }
 
+    public DayOfTheWeek getDay() {
+        return day;
+    }
+
+    public void setDay(DayOfTheWeek day) {
+        this.day = day;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractEventOrTask that = (AbstractEventOrTask) o;
         return state == that.state &&
-                Objects.equals(description, that.description);
+                Objects.equals(description, that.description) &&
+                day == that.day;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(state, description);
+
+        return Objects.hash(state, description, day);
     }
+
     @Override
     public String toString(){
         return "state="+
                 state+
                 ","+
                 "Description="+
-                description;
+                description+
+                ", "+
+                "Day of Week="+
+                day;
     }
 }

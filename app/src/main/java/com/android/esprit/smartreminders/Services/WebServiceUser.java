@@ -30,7 +30,7 @@ public class WebServiceUser extends WebServiceConsumer<User> {
 
     @Override
     public int update(User user) {
-        String localUrl = url +user.getId() + "/edit";
+        String localUrl = url +"edit";
         Consume(localUrl, user);
         return 200;
     }
