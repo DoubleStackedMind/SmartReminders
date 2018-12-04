@@ -15,11 +15,6 @@ import com.android.esprit.smartreminders.R;
 public class TaskFragment extends Fragment {
 
 
-    public TaskFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

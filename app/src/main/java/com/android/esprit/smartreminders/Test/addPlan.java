@@ -20,6 +20,12 @@ public class addPlan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        frag = new EventFragment();
+        FragmentManager fme = getFragmentManager();
+        FragmentTransaction fte = fme.beginTransaction();
+        fte.replace(R.id.fragmentPlace,frag);
+        fte.commit();
+
         setContentView(R.layout.activity_add_plan);
         Spinner sp = findViewById(R.id.spinnerType);
 
@@ -28,19 +34,22 @@ public class addPlan extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                // Toast.makeText(adapterView.getContext(),""+sp.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+
                 switch (sp.getSelectedItem().toString()) {
-                    case "Event" :
-                       frag = new TaskFragment();
-                       FragmentManager fm = getFragmentManager();
+                    case "Task" :
+                        frag = new TaskFragment();
+                        FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
                         ft.replace(R.id.fragmentPlace,frag);
                         ft.commit();
-                    case "Task" :
+                        break;
+                    case "Event" :
                         frag = new EventFragment();
                         FragmentManager fme = getFragmentManager();
                         FragmentTransaction fte = fme.beginTransaction();
                         fte.replace(R.id.fragmentPlace,frag);
                         fte.commit();
+                        break;
                 }
             }
 

@@ -15,11 +15,6 @@ import com.android.esprit.smartreminders.R;
 public class EventFragment extends Fragment {
 
 
-    public EventFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
