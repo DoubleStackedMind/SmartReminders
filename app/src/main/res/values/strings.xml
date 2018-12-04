@@ -9,6 +9,8 @@
     <string name="login_now_btn_label">Login Now</string>
     <string name="signup_now_label">Signup Now</string>
     <string name="forgot_password_label">Forgot Password?</string>
+    <string name="plan_title">Plan title</string>
+    <string name="plan_description">Description ..</string>
     <string name="email_address_hind">Email Address</string>
     <string name="password_for_account_hint">password for account</string>
     <string name="wrong_credentials">wrong credentials</string>
@@ -95,6 +97,12 @@
         <item>F</item>
         <item>S</item>
         <item>S</item>
+    </string-array>
+
+    <string name="plan_prompt">Choose a plan type</string>
+    <string-array name="plan_type">
+        <item>Task</item>
+        <item>Event</item>
     </string-array>
 
 
