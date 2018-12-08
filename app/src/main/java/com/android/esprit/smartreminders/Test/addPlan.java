@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.esprit.smartreminders.Fragments.EventFragment;
 import com.android.esprit.smartreminders.Fragments.TaskFragment;
@@ -20,13 +19,13 @@ public class addPlan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        frag = new EventFragment();
+      /*  frag = new EventFragment();
         FragmentManager fme = getFragmentManager();
         FragmentTransaction fte = fme.beginTransaction();
         fte.replace(R.id.fragmentPlace,frag);
         fte.commit();
 
-        setContentView(R.layout.activity_add_plan);
+        setContentView(R.layout.fragment_form_timetask);
         Spinner sp = findViewById(R.id.spinnerType);
 
 
@@ -36,7 +35,7 @@ public class addPlan extends AppCompatActivity {
                // Toast.makeText(adapterView.getContext(),""+sp.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
 
                 switch (sp.getSelectedItem().toString()) {
-                    case "Task" :
+                    case "TriggerTask" :
                         frag = new TaskFragment();
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
@@ -57,6 +56,6 @@ public class addPlan extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
     }
 }

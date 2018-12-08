@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_margin="8dp"
+    android:background="@drawable/rounded_edges">
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Check Home"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/Timing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/Reminder"
+        app:layout_constraintTop_toBottomOf="@id/titleView">
+
+        <TextView
+            android:id="@+id/FromView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="At :"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/StartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="15:30"
+            android:textSize="24dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Days"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Reminder">
+
+        <TextView
+            android:id="@+id/mondayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Mon" />
+
+        <TextView
+            android:id="@+id/TuesdayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Tue" />
+
+        <TextView
+            android:id="@+id/wednesdayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Wen" />
+
+        <TextView
+            android:id="@+id/thursdayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Thu" />
+
+        <TextView
+            android:id="@+id/fridayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Fri" />
+
+        <TextView
+            android:id="@+id/saturdayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Sat" />
+
+        <TextView
+            android:id="@+id/sundayToggle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center"
+            android:text="Sun" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Timing">
+        <TextView
+            android:id="@+id/ActionView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="12dp"
+            android:text="Actions:"
+            android:textSize="24dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ActionsLinearlayout"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Reminder"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="1dp">
+
+        <Button
+            android:id="@+id/deletePlan_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_action_delete" />
+        <Button
+            android:id="@+id/updatePlan_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_action_edit" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

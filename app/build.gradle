@@ -39,7 +39,7 @@ dependencies {
     implementation "com.android.support:design:$supportVer"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'junit:junit:4.12'
-
+    implementation 'com.android.support:recyclerview-v7:27.0.0'
 
 
 }

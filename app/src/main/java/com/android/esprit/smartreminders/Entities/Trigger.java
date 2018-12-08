@@ -1,12 +1,9 @@
 package com.android.esprit.smartreminders.Entities;
 
-import android.content.Entity;
-
-public class Action {
+public class Trigger {
     protected String name;
     protected int icon;
-    public Action(String name,int icon)
-    {
+    public Trigger(String name,int icon){
         this.name=name;
         this.icon=icon;
     }
@@ -27,4 +24,3 @@ public class Action {
         this.icon = icon;
     }
 }
-

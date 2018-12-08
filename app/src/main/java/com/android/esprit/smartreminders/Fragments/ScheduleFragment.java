@@ -35,8 +35,8 @@ public class ScheduleFragment extends FragmentChild {
         plansHolder = (ListView) this.getParentActivity().findViewById(R.id.todays_schedule_lv);
         ArrayList<AbstractEventOrTask> lista = new ArrayList<>();
       //  lista.add(new Event(StateOfTask.CANCELED, "This is a second test", new Time(19, 30, 00), new Time(20, 30, 00)));
-      //  lista.add(  new Task(StateOfTask.PENDING, " This is a Test", new Time(15, 30, 0)));
-      //  lista.add(  new Task(StateOfTask.PENDING, " This is a Test", new Time(15, 30, 0)));
+      //  lista.add(  new TriggerTask(StateOfTask.PENDING, " This is a Test", new Time(15, 30, 0)));
+      //  lista.add(  new TriggerTask(StateOfTask.PENDING, " This is a Test", new Time(15, 30, 0)));
 
         plansHolder.setAdapter(new DailyScheduleAdapter(this.getParentActivity().getApplicationContext(), lista));
     }

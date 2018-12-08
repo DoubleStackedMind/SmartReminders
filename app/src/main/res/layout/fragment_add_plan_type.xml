@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:weightSum="3"
+    android:background="@drawable/grad_bg"
+    >
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/TimeTaskBtnSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time Task"
+        android:layout_weight="1"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="sans-serif-medium"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+         />
+
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/TriggerTaskBtnSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Trigger Task"
+        android:background="@drawable/btn_bg"
+        android:fontFamily="sans-serif-medium"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/EventBtnSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Event "
+        android:background="@drawable/btn_bg"
+        android:fontFamily="sans-serif-medium"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+         />
+</LinearLayout>
