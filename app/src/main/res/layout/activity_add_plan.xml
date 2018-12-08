@@ -12,6 +12,7 @@
     android:paddingTop="20dp">
 
     <EditText
+    android:id="@+id/Title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Title"
@@ -19,6 +20,7 @@
     android:textAlignment="center"
     android:textColorHint="@color/white"/>
     <EditText
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="desscription"
@@ -126,6 +128,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
+        />
+
+    <Button
+        android:id="@+id/AddPlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Plan"
+        android:textColor="@color/white"
         />
 
 </LinearLayout>
