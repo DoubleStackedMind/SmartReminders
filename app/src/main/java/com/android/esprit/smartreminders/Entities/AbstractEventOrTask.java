@@ -3,17 +3,19 @@ package com.android.esprit.smartreminders.Entities;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class  AbstractEventOrTask {
     protected StateOfTask state;
     protected String description;
-    protected DayOfTheWeek day;
+    protected Set<DayOfTheWeek> days;
     public AbstractEventOrTask(){}
-    public AbstractEventOrTask(StateOfTask state,String description,DayOfTheWeek day){
+    public AbstractEventOrTask(StateOfTask state,String description,Set<DayOfTheWeek> days){
         this.state=state;
         this.description=description;
-        this.day=day;
+        this.days=days;
     }
 
     public StateOfTask getState() {
@@ -32,12 +34,12 @@ public abstract class  AbstractEventOrTask {
         this.description = description;
     }
 
-    public DayOfTheWeek getDay() {
-        return day;
+    public Set<DayOfTheWeek> getDays() {
+        return days;
     }
 
-    public void setDay(DayOfTheWeek day) {
-        this.day = day;
+    public void setDay(Set<DayOfTheWeek> days) {
+        this.days = days;
     }
 
     @Override
@@ -47,13 +49,13 @@ public abstract class  AbstractEventOrTask {
         AbstractEventOrTask that = (AbstractEventOrTask) o;
         return state == that.state &&
                 Objects.equals(description, that.description) &&
-                day == that.day;
+                days == that.days;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(state, description, day);
+        return Objects.hash(state, description, days);
     }
 
     @Override
@@ -65,6 +67,6 @@ public abstract class  AbstractEventOrTask {
                 description+
                 ", "+
                 "Day of Week="+
-                day;
+                days;
     }
 }

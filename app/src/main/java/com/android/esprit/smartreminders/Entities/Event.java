@@ -4,7 +4,9 @@ import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 
 import java.sql.Time;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Event extends AbstractEventOrTask {
     protected Time StartTime ;
@@ -12,8 +14,8 @@ public class Event extends AbstractEventOrTask {
 
 
     public Event() {super();}
-    public Event(StateOfTask state, String description, DayOfTheWeek day, Time StartTime, Time EndTime) {
-        super(state,description,day);
+    public Event(StateOfTask state, String description, Set<DayOfTheWeek> days, Time StartTime, Time EndTime) {
+        super(state,description,days);
         this.StartTime = StartTime;
         this.EndTime = EndTime;
     }

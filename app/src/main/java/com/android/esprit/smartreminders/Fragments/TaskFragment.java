@@ -1,6 +1,7 @@
 package com.android.esprit.smartreminders.Fragments;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TimePicker;
 import android.text.format.DateFormat;
 
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.activities.MainFrame;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -24,9 +26,10 @@ import java.util.Calendar;
 public class TaskFragment extends Fragment implements TimePickerDialog.OnTimeSetListener, View.OnClickListener {
 
     int hour,minute;
-    int hourFinal, minuteFinal;
+    public int hourFinal, minuteFinal;
     Button Timebtn;
-
+    public static int hours ;
+    public static  int mins ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,10 +40,11 @@ public class TaskFragment extends Fragment implements TimePickerDialog.OnTimeSet
         return view;
     }
 
-
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         Timebtn.setText(hourOfDay + ":" +minute);
+        hours = hourOfDay;
+        mins = minute;
     }
 
     @Override

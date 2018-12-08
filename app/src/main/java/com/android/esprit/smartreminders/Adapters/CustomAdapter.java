@@ -1,6 +1,6 @@
 package com.android.esprit.smartreminders.Adapters;
 
-import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,9 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import com.android.esprit.smartreminders.R;
 
 import java.util.ArrayList;
 
@@ -34,18 +31,14 @@ public abstract class CustomAdapter<T> extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         assert inflater != null;
         this.position=position;
-        final View rowView = inflater.inflate(SingleLayOut, null, true);
+        final View rowView=inflateView(inflater);
         //this code gets references to objects in the listview_row.xml file
-        System.out.println("position "+position);
         InflateInputs(rowView);
         return rowView;
     }
-    private void next(){
-        if(Array.size()-1>position)position++;
+    public View inflateView(LayoutInflater inflater){
+        return inflater.inflate(SingleLayOut,null,true);
     }
-
-
-
     public abstract void InflateInputs(View convertView);// must define a behaviour for each inflater
 
 }

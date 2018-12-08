@@ -7,7 +7,7 @@ import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.appcommons.fragment.AppCommonsFragment;
 
 public abstract class FragmentChild extends AppCommonsFragment {
-    protected Activity ParentActivity;
+    protected MainFrame ParentActivity;
 
     public Activity getParentActivity() {
         return ParentActivity;
@@ -17,7 +17,5 @@ public abstract class FragmentChild extends AppCommonsFragment {
         super.onCreate(savedInstanceState);
         this.ParentActivity=((MainFrame)getActivity());
     }
-
-
-
+    
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".Test.addPlan"
+    >
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Days: "
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+        <Button
+            android:id="@+id/pushb_sunday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="S" />
+
+        <Button
+            android:id="@+id/pushb_monday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="M" />
+
+        <Button
+            android:id="@+id/pushb_tuesday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="T" />
+
+        <Button
+            android:id="@+id/pushb_wednesday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="W" />
+
+        <Button
+            android:id="@+id/pushb_thursday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="T" />
+
+        <Button
+            android:id="@+id/pushb_friday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="F" />
+
+        <Button
+            android:id="@+id/pushb_saturday"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+
+            android:background="@drawable/roundbutton"
+            android:padding="15dp"
+            android:text="S" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Tasks: "
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        />
+    <Spinner
+        android:id="@+id/spinnerTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/plan_type"
+        android:prompt="@string/plan_prompt"
+        android:layout_marginTop="30dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Execution Time: "
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        />
+    <EditText
+        android:id="@+id/executionTimePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:hint="HH:MM"/>
+
+</LinearLayout>

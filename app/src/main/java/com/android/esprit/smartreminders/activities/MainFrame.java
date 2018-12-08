@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.esprit.smartreminders.Fragments.BrowseTasksFragment;
 import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
+import com.android.esprit.smartreminders.Fragments.FragmentChild;
 import com.android.esprit.smartreminders.Fragments.HomeFragment;
 import com.android.esprit.smartreminders.Fragments.PlansFragment;
 import com.android.esprit.smartreminders.Fragments.ProfileFragment;
@@ -175,6 +176,11 @@ public class MainFrame extends AppCommonsActivity
     private void goToProfileFragment(){
         switchFragmentsAddToBackStack(R.id.fragment_container, new ProfileFragment());
         Log.d("Fragments Behavour", "goToProfileFragments: fragment changed !");
+    }
+    public void goToUnStackedFragment(FragmentChild Child)
+    {
+        switchFragments(R.id.fragment_container,Child);
+        Log.d("Fragments Behavour", "goToUnStackedFragment: fragment changed !");
     }
 
 }
