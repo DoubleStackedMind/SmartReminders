@@ -93,12 +93,11 @@ public class addPlan extends AppCompatActivity {
                    for(int i=0; i<7;i++) {
                        System.out.println("Day : " + Days[i]);
                        if (Days[i] != null) {
-                           setAlarm(i, fragment.hours, fragment.mins, 0);
-                           SendNotification(((EditText)findViewById(R.id.Title)).getText().toString(), ((EditText)findViewById(R.id.description)).getText().toString());
+                           setAlarm(i+1, fragment.hours, fragment.mins, 0);
+     //                      SendNotification(((EditText)findViewById(R.id.Title)).getText().toString(), ((EditText)findViewById(R.id.description)).getText().toString());
                            Toast.makeText(addPlan.this, "Plan added", Toast.LENGTH_LONG).show();
                        }
                    }
-
             }
 
         });
@@ -172,7 +171,6 @@ public class addPlan extends AppCompatActivity {
     }
 
     public void setAlarm(int dayOfWeek, int AlarmHrsInInt, int AlarmMinsInInt,int amorpm) {
-        // Add this day of the week line to your existing code
         Calendar alarmCalendar = Calendar.getInstance();
         alarmCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
@@ -182,12 +180,14 @@ public class addPlan extends AppCompatActivity {
         alarmCalendar.set(Calendar.AM_PM, amorpm);
 
         Long alarmTime = alarmCalendar.getTimeInMillis();
-        //Also change the time to 24 hours.
+
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(),Notification_reciever.class);
+        intent.putExtra("title",((EditText)findViewById(R.id.Title)).getText().toString());
+        intent.putExtra("description",((EditText)findViewById(R.id.description)).getText().toString());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
-        am.setExact(AlarmManager.RTC_WAKEUP,alarmCalendar.getTimeInMillis(),pendingIntent);
-        //am.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, 24 * 60 * 60 * 1000 , pendingIntent);
+        am.setExact(AlarmManager.RTC_WAKEUP,alarmTime,pendingIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, 24 * 60 * 60 * 1000 , pendingIntent);
     }
 
     public  void cancelAlarm() {
