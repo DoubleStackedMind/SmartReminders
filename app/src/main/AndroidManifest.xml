@@ -6,7 +6,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.premission.CAMERA"/>
+    <uses-permission android:name="android.premission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:name=".appcommons.App"
@@ -29,14 +37,14 @@
         <activity
             android:name=".activities.Profile"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MainFrame"
             android:label="@string/title_activity_main_frame"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.Singup"></activity>
-        
-        <receiver android:name=".Test.Notification_reciever"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.Singup" />
+
+        <receiver android:name=".Test.Notification_reciever" />
 
     </application>
 
