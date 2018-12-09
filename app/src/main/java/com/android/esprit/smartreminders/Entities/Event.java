@@ -1,23 +1,35 @@
 package com.android.esprit.smartreminders.Entities;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.Time;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class Event extends AbstractEventOrTask {
-    protected Time StartTime ;
-    protected Time EndTime ;
+public class Event extends AbstractEventOrTask implements Entity {
+    protected Time StartTime;
+    protected Time EndTime;
+    protected int Reminder;
 
 
-    public Event() {super();}
-    public Event(StateOfTask state, String description, Set<DayOfTheWeek> days, Time StartTime, Time EndTime) {
-        super(state,description,days);
+    public Event() {
+        super();
+    }
+
+    public Event(StateOfTask state, String description, Set<DayOfTheWeek> days, Time StartTime, Time EndTime, int Reminder) {
+        super(state, description, days);
         this.StartTime = StartTime;
         this.EndTime = EndTime;
+        this.Reminder = Reminder;
     }
 
     public Time getStartTime() {
@@ -34,6 +46,14 @@ public class Event extends AbstractEventOrTask {
 
     public void setEndTime(Time endTime) {
         EndTime = endTime;
+    }
+
+    public int getReminder() {
+        return Reminder;
+    }
+
+    public void setReminder(int reminder) {
+        Reminder = reminder;
     }
 
     @Override
@@ -54,9 +74,49 @@ public class Event extends AbstractEventOrTask {
     @Override
     public String toString() {
         return "Event{" +
-                super.toString()+
+                super.toString() +
                 "StartTime=" + StartTime +
                 ", EndTime=" + EndTime +
                 '}';
+    }
+
+
+    @Override
+    public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
+        super.FromJsonObject(ja);
+        String seconds;
+        String minutes;
+        String hours;
+        String StringArray[];
+
+        StringArray = ja.get("starttime").toString().split(":");
+        hours = StringArray[0];
+        minutes = StringArray[1];
+        seconds = StringArray[2];
+        this.StartTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes), Integer.valueOf(seconds));
+
+        StringArray = ja.get("endtime").toString().split(":");
+        hours = StringArray[0];
+        minutes = StringArray[1];
+        seconds = StringArray[2];
+        this.EndTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes), Integer.valueOf(seconds));
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public JSONObject ToJsonObject() throws JSONException {
+        return super.ToJsonObject()
+                .put("starttime", this.StartTime)
+                .put("endtime", this.EndTime);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public Map<String, String> ToPostMap() {
+        Map<String, String> res = super.ToPostMap();
+        res.put("starttime", this.StartTime.toString());
+        res.put("endtime", this.EndTime.toString());
+        return res;
     }
 }

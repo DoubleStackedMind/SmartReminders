@@ -78,7 +78,7 @@ public class User implements Entity {
                 ", password='" + password + '\'' +
                 '}';
     }
-
+    @Override
     public void FromJsonObject(JSONObject ja) throws JSONException {
 
                 this.id=ja.getInt("id");
@@ -88,7 +88,7 @@ public class User implements Entity {
 
     }
 
-
+    @Override
     public JSONObject ToJsonObject() throws JSONException {
         return
                 new JSONObject()
@@ -98,7 +98,7 @@ public class User implements Entity {
                         .put("name",this.name);
     }
 
-
+    @Override
     public Map<String, String> ToPostMap() {
         Map<String, String> res = new HashMap<>();
         res.put("email", this.email);

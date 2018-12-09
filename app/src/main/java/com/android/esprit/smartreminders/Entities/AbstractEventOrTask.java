@@ -1,13 +1,26 @@
 package com.android.esprit.smartreminders.Entities;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class  AbstractEventOrTask {
+public abstract class  AbstractEventOrTask implements Entity {
+    protected int id;
     protected StateOfTask state;
     protected String description;
     protected Set<DayOfTheWeek> days;
@@ -16,6 +29,18 @@ public abstract class  AbstractEventOrTask {
         this.state=state;
         this.description=description;
         this.days=days;
+    }
+
+    public void setDays(Set<DayOfTheWeek> days) {
+        this.days = days;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public StateOfTask getState() {
@@ -68,5 +93,54 @@ public abstract class  AbstractEventOrTask {
                 ", "+
                 "Day of Week="+
                 days;
+    }
+    @Override
+    public void FromJsonObject(JSONObject ja) throws JSONException ,NotAValidStateOfTask {
+        this.id=ja.getInt("id");
+        this.state=StateOfTask.fromString(ja.getString("state"));
+        this.description=ja.getString("description");
+        Set<DayOfTheWeek>days = new HashSet<>();
+        JSONArray jsa=(JSONArray)ja.get("days");
+        for(int i=0;i<jsa.length();i++) {
+            days.add(DayOfTheWeek.valueOf(((JSONObject)jsa.get(i)).get("day").toString()));
+        }
+        this.days.addAll(days);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public JSONObject ToJsonObject() throws JSONException {
+        JSONArray days= new JSONArray();
+        this.days.forEach((d)->{
+            try {
+                days.put(new JSONObject().put("day",d.toString()));
+            }catch (JSONException j){
+                Log.d("Entity :EventOrTask", "ToJsonObject: "+j.getMessage());
+            }
+        });
+        return
+                new JSONObject()
+                        .put("id", this.id)
+                        .put("state", this.state.toString())
+                        .put("days", days);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public Map<String, String> ToPostMap() {
+        Map<String, String> res = new HashMap<>();
+        res.put("description", this.description);
+        res.put("id", this.id +"");
+        res.put("state", this.state.toString());
+        JSONArray days= new JSONArray();
+        this.days.forEach((d)->{
+            try {
+                days.put(new JSONObject().put("day",d.toString()));
+            }catch (JSONException j){
+                Log.d("Entity :EventOrTask", "ToJsonObject: "+j.getMessage());
+            }
+        });
+        res.put("days",days.toString());
+        return res;
     }
 }

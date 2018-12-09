@@ -58,7 +58,7 @@ public class PlansFragment extends FragmentChild {
         Days.add(DayOfTheWeek.Thursday);
 
         TimeTask p = new TimeTask(StateOfTask.IN_PROGRESS, "Send Sms to Mah", Days, new Time(16, 30, 0));
-        Event e = new Event(StateOfTask.IN_PROGRESS, "Quality Of Service", Days, new Time(17, 30, 0), new Time(19, 0, 0));
+        Event e = new Event(StateOfTask.IN_PROGRESS, "Quality Of Service", Days, new Time(17, 30, 0), new Time(19, 0, 0),7);
         Set<Trigger> triggers = new HashSet<>();
         triggers.add(new Trigger("Wifi Off", R.drawable.cellularon));
         triggers.add(new Trigger("cloud base", R.drawable.daily_plan));

@@ -1,10 +1,18 @@
 package com.android.esprit.smartreminders.Entities;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,17 +65,45 @@ public class TriggerTask extends Task implements Entity{
     }
 
     @Override
-    public void FromJsonObject(JSONObject ja) throws JSONException {
-
+    public void FromJsonObject(JSONObject ja) throws JSONException,NotAValidStateOfTask {
+        super.FromJsonObject(ja);
+        Set<Action> actions = new HashSet<>();
+        JSONArray jsa = (JSONArray) ja.get("actions");
+        for (int i = 0; i < jsa.length(); i++) {
+            Action a=new Action();
+            a.FromJsonObject((JSONObject) jsa.get(i));
+            actions.add(a);
+        }
+        this.actions.addAll(actions);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public JSONObject ToJsonObject() throws JSONException {
-        return null;
+        JSONArray triggers = new JSONArray();
+        this.actions.forEach((t) -> {
+            try {
+                triggers.put(t.ToJsonObject());
+            } catch (JSONException j) {
+                Log.d("Entity :TriggerTask", "ToJsonObject: " + j.getMessage());
+            }
+        });
+        return super.ToJsonObject().put("triggers", triggers);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
-        return null;
+        Map<String, String> res=super.ToPostMap();
+        JSONArray triggers = new JSONArray();
+        this.triggers.forEach((t) -> {
+            try {
+                triggers.put(t.ToJsonObject());
+            } catch (JSONException j) {
+                Log.d("Entity :TriggerTask", "ToJsonObject: " + j.getMessage());
+            }
+        });
+        res.put("triggers", triggers.toString());
+        return res;
     }
 }

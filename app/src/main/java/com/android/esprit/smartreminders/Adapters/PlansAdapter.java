@@ -33,12 +33,13 @@ public class PlansAdapter extends CustomAdapter<AbstractEventOrTask> {
     @Override
     public View inflateView(LayoutInflater inflater) {
 
-        if (Array.get(position) instanceof TimeTask) {
+        AbstractEventOrTask instance = Array.get(position);
+        if (instance instanceof TimeTask) {
             this.SingleLayOut = R.layout.single_timetask_layout;
-        } else if (Array.get(position) instanceof TriggerTask) {
+        } else if (instance instanceof TriggerTask) {
             this.SingleLayOut = R.layout.single_triggertask_layout;
 
-        } else if (Array.get(position) instanceof Event) {
+        } else if (instance instanceof Event) {
             this.SingleLayOut = R.layout.single_event_layout;
         }
         return super.inflateView(inflater);
@@ -129,11 +130,10 @@ public class PlansAdapter extends CustomAdapter<AbstractEventOrTask> {
             Event ev = (Event) Array.get(position);
             TextView StartTime = convertView.findViewById(R.id.StartTime);
             TextView EndTime = convertView.findViewById(R.id.EndTime);
-
+            TextView Reminder= convertView.findViewById(R.id.reminderMinutesCount);
             StartTime.setText(ev.getStartTime().toString());
             EndTime.setText(ev.getEndTime().toString());
-
-
+            Reminder.setText(ev.getReminder() + "");
         }
 
     }

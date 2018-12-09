@@ -1,7 +1,11 @@
 package com.android.esprit.smartreminders.Entities;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class TimeTask extends Task implements Entity{
+public class TimeTask extends Task implements Entity {
     protected Time executionTime;
 
     public TimeTask(Time executionTime) {
@@ -58,17 +62,32 @@ public class TimeTask extends Task implements Entity{
     }
 
     @Override
-    public void FromJsonObject(JSONObject ja) throws JSONException {
+    public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
+        super.FromJsonObject(ja);
+        String seconds;
+        String minutes;
+        String hours;
+        String StringArray[];
+
+        StringArray = ja.get("executiontime").toString().split(":");
+        hours = StringArray[0];
+        minutes = StringArray[1];
+        seconds = StringArray[2];
+        this.executionTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes), Integer.valueOf(seconds));
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public JSONObject ToJsonObject() throws JSONException {
-        return null;
+        return super.ToJsonObject().put("executiontime", this.executionTime);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
-        return null;
+        Map<String, String> res = super.ToPostMap();
+        res.put("executiontime", this.executionTime.toString());
+        return res;
     }
 }
