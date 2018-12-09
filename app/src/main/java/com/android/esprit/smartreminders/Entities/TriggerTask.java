@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class TriggerTask extends Task implements Entity{
+public class TriggerTask extends Task implements Entity {
     protected Set<Trigger> triggers;
 
     public TriggerTask(Set<Trigger> triggers) {
@@ -28,6 +28,9 @@ public class TriggerTask extends Task implements Entity{
     public TriggerTask(StateOfTask state, String description, Set<DayOfTheWeek> days, Set<Trigger> triggers) {
         super(state, description, days);
         this.triggers = triggers;
+    }
+
+    public TriggerTask() {
     }
 
     public Set<Trigger> getTriggers() {
@@ -65,12 +68,12 @@ public class TriggerTask extends Task implements Entity{
     }
 
     @Override
-    public void FromJsonObject(JSONObject ja) throws JSONException,NotAValidStateOfTask {
+    public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
         super.FromJsonObject(ja);
         Set<Action> actions = new HashSet<>();
         JSONArray jsa = (JSONArray) ja.get("actions");
         for (int i = 0; i < jsa.length(); i++) {
-            Action a=new Action();
+            Action a = new Action();
             a.FromJsonObject((JSONObject) jsa.get(i));
             actions.add(a);
         }
@@ -94,7 +97,7 @@ public class TriggerTask extends Task implements Entity{
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
-        Map<String, String> res=super.ToPostMap();
+        Map<String, String> res = super.ToPostMap();
         JSONArray triggers = new JSONArray();
         this.triggers.forEach((t) -> {
             try {

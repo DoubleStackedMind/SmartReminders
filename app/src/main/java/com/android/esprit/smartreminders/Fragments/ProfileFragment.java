@@ -197,7 +197,11 @@ public class ProfileFragment extends FragmentChild {
         Map<String, String> myMap = new HashMap<>();
         myMap.put("email", data.substring(0, data.indexOf("\n")));
         myMap.put("password", data.substring(data.indexOf("\n") + 1, data.length()));
-        WS.findBy(myMap);
+        try {
+            WS.findBy(myMap);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
