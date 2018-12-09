@@ -35,6 +35,9 @@
             android:label="@string/title_activity_main_frame"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.Singup"></activity>
+        
+        <receiver android:name=".Test.Notification_reciever"/>
+
     </application>
 
 </manifest>

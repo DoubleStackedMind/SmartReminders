@@ -50,7 +50,6 @@ public class FragmentFormEvent extends FragmentChild {
           pushBSaturday=this.ParentActivity.findViewById(R.id.pushb_saturday);
           title=this.ParentActivity.findViewById(R.id.title);
           tasks=this.ParentActivity.findViewById(R.id.spinnerTask);
-          executionTime=this.ParentActivity.findViewById(R.id.executionTimePicker);
     }
     private void defineBehaviour() {
     }

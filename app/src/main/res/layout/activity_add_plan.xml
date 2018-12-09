@@ -12,13 +12,13 @@
     android:paddingTop="20dp">
 
     <EditText
-    android:id="@+id/Title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Title"
-    android:textColor="@color/white"
-    android:textAlignment="center"
-    android:textColorHint="@color/white"/>
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textColorHint="@color/white"/>
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
