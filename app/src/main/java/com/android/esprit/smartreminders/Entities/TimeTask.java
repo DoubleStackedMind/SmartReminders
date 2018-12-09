@@ -27,6 +27,9 @@ public class TimeTask extends Task implements Entity {
         this.executionTime = executionTime;
     }
 
+    public TimeTask() {
+    }
+
     public Time getExecutionTime() {
         return executionTime;
     }

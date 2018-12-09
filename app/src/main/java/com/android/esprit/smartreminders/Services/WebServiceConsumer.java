@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.esprit.smartreminders.Entities.Entity;
+import com.android.esprit.smartreminders.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -24,34 +25,72 @@ public abstract class WebServiceConsumer<T extends Entity> {
     protected Activity parentActivity;//where the webService was called Essential to Extract Context
     protected List<T> entities;
     protected CallBackWSConsumer<T> Behaviour;
+    protected String url;
     public void SetBehaviour(CallBackWSConsumer<T> callBack ){
         this.Behaviour=callBack;
     }
     public void setParentActivity(Activity parentActivity) {
         this.parentActivity = parentActivity;
 
-    }
 
+    }
     public List<T> getEntities() {
         return entities;
     }
 
-    public abstract int insert(T t);
+    public  int insert(T t){
+        String localUrl = url + "new";
+        Consume(localUrl, t);
+        return 200;
+    }
 
-    public abstract int update(T t);
+    public  int update(T t) {
+        String localUrl = url + "edit";
+        Consume(localUrl, t);
+        return 200;
+    }
 
-    public abstract int remove(T t);
+    public int remove(T t) {
+        String localUrl = url + "delete";
+        Consume(localUrl, t);
+        return 200;
+    }
 
-    public abstract void findBy(Map<String, String> columnAndValue) throws InterruptedException;
+    public  void findBy(Map<String, String> columnAndValue) throws InterruptedException {
+        StringBuilder localUrl = new StringBuilder(url);
+        for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
+            if (localUrl.toString().endsWith("/"))// beginning of the get attributes
+            {
+                localUrl.append("?").append(one.getKey()).append("=").append(one.getValue());
+            } else // after adding the first attribue you pass an &
+            {
+                localUrl.append("&").append(one.getKey()).append("=").append(one.getValue());
+            }
+        }
+        ConsumeAndWait(localUrl.toString(), Request.Method.GET);
+    }
 
-    public abstract void fetch(Map<String, String> columnAndValue) throws InterruptedException;// arguments can null
+    public  void fetch(Map<String, String> columnAndValue) throws InterruptedException {// arguments can null
 
+        StringBuilder localUrl = new StringBuilder(url + "all/");
+        for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
+            if (localUrl.toString().endsWith("/"))// beginning of the get attributes
+            {
+                localUrl.append("?").append(one.getKey()).append("=").append(one.getValue());
+            } else // after adding the first attribue you pass an &
+            {
+                localUrl.append("&").append(one.getKey()).append("=").append(one.getValue());
+            }
+        }
+        ConsumeAndWait(localUrl.toString(), Request.Method.GET);
+    }
     public abstract void ResponseBody(String response);
 
 
     public WebServiceConsumer(Activity parentActivity, CallBackWSConsumer<T> Behaviour) {
         this.parentActivity = parentActivity;
         this.Behaviour = Behaviour;
+        url = this.parentActivity.getString(R.string.url_root);
     }
 
 

@@ -179,7 +179,11 @@ public class Login extends AppCompatActivity {
         Map<String, String> myMap = new HashMap<>();
         myMap.put("email", usernameTextView.getText().toString());
         myMap.put("password", passwordTextView.getText().toString());
-        ws.findBy(myMap);
+        try {
+            ws.findBy(myMap);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
     }
