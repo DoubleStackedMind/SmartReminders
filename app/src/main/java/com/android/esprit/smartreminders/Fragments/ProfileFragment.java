@@ -167,8 +167,6 @@ public class ProfileFragment extends FragmentChild {
         name = this.getParentActivity().findViewById(R.id.Name_editText);
         updateProfile = this.getParentActivity().findViewById(R.id.updateProfile);
         setEnabledInputs(false);
-
-
         WS = new WebServiceUser(this.getParentActivity(), new CallBackWSConsumer<User>() {
 
             @Override

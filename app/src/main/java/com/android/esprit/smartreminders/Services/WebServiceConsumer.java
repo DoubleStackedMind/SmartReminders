@@ -22,7 +22,7 @@ import java.util.Map;
 
 public abstract class WebServiceConsumer<T extends Entity> {
 
-    protected Activity parentActivity;//where the webService was called Essential to Extract Context
+    protected Context parentActivity;//where the webService was called Essential to Extract Context
     protected List<T> entities;
     protected CallBackWSConsumer<T> Behaviour;
     protected String url;
@@ -87,7 +87,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
     public abstract void ResponseBody(String response);
 
 
-    public WebServiceConsumer(Activity parentActivity, CallBackWSConsumer<T> Behaviour) {
+    public WebServiceConsumer(Context parentActivity, CallBackWSConsumer<T> Behaviour) {
         this.parentActivity = parentActivity;
         this.Behaviour = Behaviour;
         url = this.parentActivity.getString(R.string.url_root);
@@ -127,6 +127,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
         };
         RequestQueue queue = Volley.newRequestQueue(parentActivity);
         queue.add(postRequest);
+
     }
 
     public void ConsumeAndWait(String url, int method) {

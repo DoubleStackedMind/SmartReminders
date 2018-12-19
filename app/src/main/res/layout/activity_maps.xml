@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".activities.MapsActivity" />
+
+
+
+    <View
+        android:id="@+id/helperView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/eDitfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible"
+        android:hapticFeedbackEnabled="true"
+        app:useCompatPadding="true"
+        android:src="@drawable/ic_action_edit" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/dEletefab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="75dp"
+        app:useCompatPadding="true"
+        android:visibility="invisible"
+        android:hapticFeedbackEnabled="true"
+        android:src="@drawable/ic_action_delete" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/aDdfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="75dp"
+        app:useCompatPadding="true"
+        android:visibility="invisible"
+        android:hapticFeedbackEnabled="true"
+        android:src="@drawable/add_new" />
+
+    <ProgressBar
+        android:id="@+id/loadingOverLay"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="242dp"
+        android:layout_height="234dp"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
+</FrameLayout>
