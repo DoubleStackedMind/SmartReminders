@@ -1,10 +1,15 @@
 package com.android.esprit.smartreminders.Fragments;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -22,7 +27,6 @@ import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Test.NotificationHelper;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
 
-import java.sql.Time;
 import java.util.Calendar;
 
 public class FragmentFormTimeTask extends FragmentChild implements TimePickerDialog.OnTimeSetListener, View.OnClickListener{
@@ -30,7 +34,6 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
     int hour,minute;
     public int hourFinal, minuteFinal;
     Button Timebtn;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +171,8 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
             });
         }
 
-        public void setAlarm(int dayOfWeek, int AlarmHrsInInt, int AlarmMinsInInt,int amorpm) {
+        @TargetApi(Build.VERSION_CODES.M)
+        public void setAlarm(int dayOfWeek, int AlarmHrsInInt, int AlarmMinsInInt, int amorpm) {
             Calendar alarmCalendar = Calendar.getInstance();
             alarmCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
@@ -184,6 +188,14 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this.ParentActivity.getApplicationContext(), 1, intent, 0);
             am.setExact(AlarmManager.RTC_WAKEUP,alarmTime,pendingIntent);
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, 24 * 60 * 60 * 1000 , pendingIntent);
+            NotificationManager n = (NotificationManager) this.getParentActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if(n.isNotificationPolicyAccessGranted()) {
+                AudioManager audioManager = (AudioManager) this.getParentActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            }else{
+                Intent intent2 = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                startActivity(intent2);
+            }
         }
 
         public  void cancelAlarm() {
