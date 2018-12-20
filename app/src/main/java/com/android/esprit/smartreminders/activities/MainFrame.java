@@ -1,6 +1,8 @@
 package com.android.esprit.smartreminders.activities;
 
-import android.app.FragmentManager;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +28,13 @@ import com.android.esprit.smartreminders.Fragments.ScheduleFragment;
 import com.android.esprit.smartreminders.Fragments.SettingsFragment;
 import com.android.esprit.smartreminders.Fragments.ShareTasksFragment;
 import com.android.esprit.smartreminders.Fragments.TasksFragment;
+import com.android.esprit.smartreminders.Fragments.ZonesFragment;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.appcommons.activity.AppCommonsActivity;
+import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
 
 public class MainFrame extends AppCommonsActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,23 +57,32 @@ public class MainFrame extends AppCommonsActivity
         this.setTitle(R.string.app_name);
         this.switchFragments(R.id.fragment_container, new HomeFragment());
         new Handler().postDelayed(this::init_Layout_data, 500);
+        registerBroadCastReciver();
     }
-    private void init_Layout_data(){
+
+    private void registerBroadCastReciver() {
+        IntentFilter filter = new IntentFilter(WifiManager.RSSI_CHANGED_ACTION);
+        registerReceiver(new WifiStateReceiver(),filter);
+    }
+
+    private void init_Layout_data() {
         SharedPreferences sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
         String data = sharedPref.getString("Logged_user_data", "User name or data missing");
-        TextView f=((TextView)findViewById(R.id.tvusername));
+        TextView f = ((TextView) findViewById(R.id.tvusername));
         f.setText(data.substring(0, data.indexOf("\n")));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+
     }
 
     @Override
@@ -91,9 +103,7 @@ public class MainFrame extends AppCommonsActivity
         if (id == R.id.action_settings) {
             goToSettingsFragment();
             return true;
-        }
-        else if(id== R.id.action_profile)
-        {
+        } else if (id == R.id.action_profile) {
             goToProfileFragment();
             return true;
         }
@@ -119,6 +129,8 @@ public class MainFrame extends AppCommonsActivity
             goToShareTasksFragment();
         } else if (id == R.id.nav_browse) {
             goToBrowseTasksFragment();
+        }else if(id==R.id.nav_zones){
+            goToZonesFragment();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -173,14 +185,21 @@ public class MainFrame extends AppCommonsActivity
         switchFragmentsAddToBackStack(R.id.fragment_container, new SettingsFragment());
         Log.d("Fragments Behavour", "goToSettingsFragment: fragment changed !");
     }
-    private void goToProfileFragment(){
+
+    private void goToProfileFragment() {
         switchFragmentsAddToBackStack(R.id.fragment_container, new ProfileFragment());
         Log.d("Fragments Behavour", "goToProfileFragments: fragment changed !");
     }
-    public void goToUnStackedFragment(FragmentChild Child)
-    {
-        switchFragments(R.id.fragment_container,Child);
+
+    public void goToUnStackedFragment(FragmentChild Child) {
+        switchFragments(R.id.fragment_container, Child);
         Log.d("Fragments Behavour", "goToUnStackedFragment: fragment changed !");
     }
+    public void goToZonesFragment(){
+        switchFragments(R.id.fragment_container,new ZonesFragment());
+        Log.d("Fragments Behavour", "goToZonesFragment: fragment changed !");
+
+    }
+
 
 }

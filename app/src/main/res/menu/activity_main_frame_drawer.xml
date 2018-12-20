@@ -17,6 +17,10 @@
             android:icon="@drawable/daily_plan"
             android:title="@string/daily_plans" />
         <item
+            android:id="@+id/nav_zones"
+            android:icon="@drawable/ic_zone_pin"
+            android:title="@string/zones" />
+        <item
             android:id="@+id/nav_tasks"
             android:icon="@drawable/settings_2"
             android:title="@string/tasks" />

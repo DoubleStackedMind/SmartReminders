@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "353772912970",
+    "firebase_url": "https://smartreminders-3a3f6.firebaseio.com",
+    "project_id": "smartreminders-3a3f6",
+    "storage_bucket": "smartreminders-3a3f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353772912970:android:1575f190b3234268",
+        "android_client_info": {
+          "package_name": "com.android.esprit.smartreminders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353772912970-u25r134n9t98lfut01hsks2bpas5hpcd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.esprit.smartreminders",
+            "certificate_hash": "854f0be8018a8244c8889b62d0506a2ea3d8b794"
+          }
+        },
+        {
+          "client_id": "353772912970-dac71tamthhab6r622eu5mp31653i66e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Uqr3BbCI9B5v09gDAjDX3ZFcXvFN-Sk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353772912970-dac71tamthhab6r622eu5mp31653i66e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

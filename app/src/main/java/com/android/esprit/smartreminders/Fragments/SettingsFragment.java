@@ -57,7 +57,8 @@ public class SettingsFragment extends FragmentChild {
     }
 
     @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.M)
-    public void Open_Close_Flash() {
+    private void Open_Close_Flash() {
+
         CameraManager cmanager = (CameraManager) ParentActivity.getSystemService(Context.CAMERA_SERVICE);
         try {
             String cameraId = cmanager.getCameraIdList()[1];
