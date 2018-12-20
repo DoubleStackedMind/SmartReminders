@@ -105,13 +105,15 @@
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
         />
+
     <Spinner
         android:id="@+id/spinnerTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccent"
         android:entries="@array/plan_type"
-        android:prompt="@string/plan_prompt"
-        android:layout_marginTop="30dp"/>
+        android:prompt="@string/plan_prompt" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,11 +123,20 @@
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
         />
-    <EditText
-        android:id="@+id/executionTimePicker"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/TimeBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="HH:MM"/>
+        android:layout_gravity="center"
+        android:text="Set Time" />
+
+
+    <Button
+        android:id="@+id/AddPlan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Add Plan"
+        android:textColor="@color/white" />
 
 </LinearLayout>
