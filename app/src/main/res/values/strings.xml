@@ -100,9 +100,10 @@
     </string-array>
 
     <string name="plan_prompt">Choose a plan type</string>
+    <string name="remind_prompt">Remind me on..</string>
     <string name="Trigger">trigger</string>
     <string-array name="plan_type">
-        <item>Task</item>
+        <item>Mute Phone</item>
         <item>Event</item>
     </string-array>
 
