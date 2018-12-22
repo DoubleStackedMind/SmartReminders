@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/roun_rect_white"
+        android:background="@drawable/roun_rect_green"
         android:text="Set Time"
         android:textColor="@color/white" />
 
@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="80sp"
-        android:background="@drawable/roun_rect_white"
+        android:background="@drawable/roun_rect_green"
         android:text="Add Plan"
         android:textColor="@color/white" />
 

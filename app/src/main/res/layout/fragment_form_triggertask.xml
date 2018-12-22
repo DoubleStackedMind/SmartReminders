@@ -137,7 +137,7 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="Add Plan"
-        android:background="@drawable/roun_rect_white"
+        android:background="@drawable/roun_rect_green"
         android:textColor="@color/white"
         />
 
