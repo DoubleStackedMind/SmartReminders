@@ -12,6 +12,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:background="@drawable/roun_rect_green"
             android:text="open/close">
         </Button>
 </RelativeLayout>

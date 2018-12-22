@@ -29,8 +29,8 @@
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/input_name"
                 android:layout_width="match_parent"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
                 android:hint="Name" />
@@ -46,8 +46,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:hint="Email" />
         </android.support.design.widget.TextInputLayout>
 
@@ -61,8 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:hint="Password"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -77,7 +77,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:background="@color/white"
+            android:background="#fff"
             android:textColor="@color/colorPrimary"
             android:text="Create Account"/>
 
@@ -85,8 +85,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary"
             android:text="Already a member? Login"
+            android:background="#fff"
             android:gravity="center"
             android:textSize="16dip"/>
 

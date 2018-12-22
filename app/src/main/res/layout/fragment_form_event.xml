@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     tools:context=".Test.addPlan"
     >
 
@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:hint="Title"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/colorGray"
+        android:textColorHint="@color/colorGray" />
 
     <TextView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:textAlignment="center"
         android:text="Days: "
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorGray"
         android:layout_marginTop="15dp"
         />
 
@@ -38,63 +38,59 @@
         >
         <Button
             android:id="@+id/pushb_sunday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="S" />
+            android:textColor="@color/white"
+            android:text="Sun" />
 
         <Button
             android:id="@+id/pushb_monday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="M" />
+            android:textColor="@color/white"
+            android:text="Mon" />
 
         <Button
             android:id="@+id/pushb_tuesday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="T" />
+            android:textColor="@color/white"
+            android:text="Tue" />
 
         <Button
             android:id="@+id/pushb_wednesday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="W" />
+            android:textColor="@color/white"
+            android:text="Wed" />
 
         <Button
             android:id="@+id/pushb_thursday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="T" />
+            android:textColor="@color/white"
+            android:text="Thu" />
 
         <Button
             android:id="@+id/pushb_friday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="F" />
+            android:textColor="@color/white"
+            android:text="Fri" />
 
         <Button
             android:id="@+id/pushb_saturday"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="S" />
+            android:textColor="@color/white"
+            android:text="Sat" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -102,7 +98,7 @@
         android:textAlignment="center"
         android:text="Tasks: "
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorGray"
         android:layout_marginTop="15dp"
         />
 
@@ -113,7 +109,7 @@
         android:textAlignment="center"
         android:text="Start Time: "
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorGray"
         android:layout_marginTop="15dp"
         />
 
@@ -122,6 +118,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/roun_rect_green"
+        android:textColor="@color/white"
         android:text="Set Time" />
 
 
@@ -131,7 +129,7 @@
         android:textAlignment="center"
         android:text="End Time Time: "
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorGray"
         android:layout_marginTop="15dp"
         />
     <Button
@@ -139,15 +137,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/roun_rect_green"
+        android:textColor="@color/white"
         android:text="Set Time" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center">
     <Button
         android:id="@+id/RemindMeOn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
         android:text="REMIND ME ON"
-        android:textColor="@color/black" />
+        android:backgroundTint="@drawable/shadow"
+        android:layout_marginTop="20dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/pruple_button" />
 
     <Button
         android:id="@+id/AddPlan"
@@ -155,6 +165,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Add plan"
-        android:textColor="@color/black" />
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/roun_rect_pruple"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white" />
+    </LinearLayout>
 
 </LinearLayout>

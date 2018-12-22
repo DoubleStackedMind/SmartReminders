@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     tools:context=".Test.addPlan"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
@@ -16,24 +16,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Title"
-    android:textColor="@color/white"
+    android:textColor="@color/colorGray"
     android:textAlignment="center"
-    android:textColorHint="@color/white"/>
+    android:textColorHint="@color/colorGray"/>
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="desscription"
-        android:textColor="@color/white"
+        android:hint="Desscription"
+        android:textColor="@color/colorGray"
         android:textAlignment="center"
         android:layout_marginTop="15dp"
-        android:textColorHint="@color/white"/>
+        android:textColorHint="@color/colorGray"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Days: "
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorGray"
         android:layout_marginTop="15dp"
         />
 
@@ -54,65 +54,66 @@
         <Button
             android:id="@+id/pushb_sunday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="S" />
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:text="Sun" />
 
         <Button
             android:id="@+id/pushb_monday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="M" />
+            android:textColor="@color/white"
+            android:text="Mon" />
 
         <Button
             android:id="@+id/pushb_tuesday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="T" />
+            android:textColor="@color/white"
+            android:text="Tue" />
 
         <Button
             android:id="@+id/pushb_wednesday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="W" />
+            android:textColor="@color/white"
+            android:text="Wed" />
 
         <Button
             android:id="@+id/pushb_thursday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="T" />
+            android:textColor="@color/white"
+            android:text="Thu" />
 
         <Button
             android:id="@+id/pushb_friday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="F" />
+            android:textColor="@color/white"
+            android:text="FRI" />
 
         <Button
             android:id="@+id/pushb_saturday"
             android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="10"
             android:background="@drawable/roundbutton"
-            android:padding="15dp"
-            android:text="S" />
+            android:textColor="@color/white"
+            android:text="Sat" />
     </LinearLayout>
 
     <Spinner
@@ -132,9 +133,11 @@
 
     <Button
         android:id="@+id/AddPlan"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="Add Plan"
+        android:background="@drawable/roun_rect_green"
         android:textColor="@color/white"
         />
 

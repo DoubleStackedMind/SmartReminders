@@ -109,6 +109,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_maps2">Map</string>
     <string name="zones">Zones</string>
+    <string name="todo">TODO</string>
+    <string name="math_course_and_preparing_for_the_exam">Math course and preparing for the exam</string>
+    <string name="_15_30_17_15">15:30-17:15</string>
 
 
 </resources>
