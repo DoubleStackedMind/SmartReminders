@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -142,5 +143,10 @@ public abstract class  AbstractEventOrTask implements Entity {
         });
         res.put("days",days.toString());
         return res;
+    }
+    public boolean isMemberOfToday(){
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        return days.contains(DayOfTheWeek.DayOfWeekForID(day));
     }
 }

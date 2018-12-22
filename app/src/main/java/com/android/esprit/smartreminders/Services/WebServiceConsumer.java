@@ -84,6 +84,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
         }
         ConsumeAndWait(localUrl.toString(), Request.Method.GET);
     }
+
     public abstract void ResponseBody(String response);
 
 

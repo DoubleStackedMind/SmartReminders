@@ -12,11 +12,14 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name=" android.hardware.location.network" />
+
     <application
         android:name=".appcommons.App"
         android:allowBackup="true"
@@ -47,6 +50,7 @@
         <activity android:name=".activities.MapsActivity"/>
         <activity android:name=".activities.Singup" />
         <receiver android:name=".Test.Notification_reciever" />
+        <receiver android:name=".broadcastrecivers.WifiStateReceiver" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

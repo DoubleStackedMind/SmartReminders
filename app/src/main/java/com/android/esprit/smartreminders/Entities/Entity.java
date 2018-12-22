@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public interface Entity {
-    public  void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask;
-    public JSONObject ToJsonObject() throws JSONException;
-    public Map<String,String> ToPostMap();
+      void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask;
+     JSONObject ToJsonObject() throws JSONException;
+     Map<String,String> ToPostMap();
 }

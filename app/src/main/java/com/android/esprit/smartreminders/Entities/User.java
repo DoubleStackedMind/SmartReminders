@@ -1,17 +1,19 @@
 package com.android.esprit.smartreminders.Entities;
 
-import org.json.JSONArray;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class User implements Entity {
+public  class User implements Entity {
     private int id;
     private String email;
     private String name;
     private String password;
+    private DailyPlan dailyplan;
     public User(){}
     public User(int id, String email, String password,String name) {
         this.id = id;
@@ -52,6 +54,7 @@ public class User implements Entity {
         this.name = name;
     }
 
+    public DailyPlan getDailyplan(){ return this.dailyplan;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,13 +81,15 @@ public class User implements Entity {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+
     @Override
     public void FromJsonObject(JSONObject ja) throws JSONException {
 
-                this.id=ja.getInt("id");
-                this.email=ja.getString("email");
-                this.password=ja.getString("password");
-                this.name=ja.getString("name");
+        this.id=ja.getInt("id");
+        this.email=ja.getString("email");
+        this.password=ja.getString("password");
+        this.name=ja.getString("name");
 
     }
 
@@ -107,6 +112,5 @@ public class User implements Entity {
         res.put("name",this.name);
         return res;
     }
-
 
 }

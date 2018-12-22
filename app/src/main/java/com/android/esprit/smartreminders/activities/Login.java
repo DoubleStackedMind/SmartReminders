@@ -74,7 +74,6 @@ public class Login extends AppCompatActivity {
             String data = sharedPref.getString("Logged_user_data", "User name or data missing");
             this.usernameTextView.setText(data.substring(0, data.indexOf("\n")));
             this.passwordTextView.setText(data.substring(data.indexOf("\n") + 1, data.length()));
-            System.out.println("ppppppppppppppppppppppppppppp +" + data.substring(data.indexOf("\n") + 1, data.length()));
             new Handler().postDelayed(()->{
             if (checkInputs()) login();},
         2030);

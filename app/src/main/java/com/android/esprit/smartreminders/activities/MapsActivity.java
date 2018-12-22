@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.android.esprit.smartreminders.Entities.Zone;
 import com.android.esprit.smartreminders.Jobs.GpsJobService;
 import com.android.esprit.smartreminders.R;
@@ -88,19 +87,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         editMode = false;
         radiusInMeters = 5f;
         currentMarker = null;
-        p = new PermissionHandler(this);
-        if (p.isLocationPermission()) {
-            ComponentName comp = new ComponentName(this, GpsJobService.class);
-            JobInfo info = new JobInfo.Builder(9767, comp).setPersisted(true).setPeriodic(15 * 60 * 1000).build();
-            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-            int resultCode = scheduler.schedule(info);
-            if (resultCode == JobScheduler.RESULT_SUCCESS)
-                System.out.println("Sechduled with success");
-            else {
-                System.out.println("Sechduled with failure");
-            }
-
-        }
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MapsActivity.this, R.style.AlertDialogCustom);
         input = new EditText(MapsActivity.this);

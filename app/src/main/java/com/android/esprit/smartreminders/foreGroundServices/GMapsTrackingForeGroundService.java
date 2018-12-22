@@ -5,7 +5,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -13,7 +20,11 @@ import android.util.Log;
 
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.activities.MainFrame;
+import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
+import com.android.esprit.smartreminders.customControllers.CameraController;
+import com.android.esprit.smartreminders.listeners.AmbientLightListener;
 import com.android.esprit.smartreminders.listeners.LocationListener;
+import com.android.esprit.smartreminders.listeners.ProximityListener;
 
 import static com.android.esprit.smartreminders.appcommons.App.CHANNEL_ID;
 import static com.android.volley.VolleyLog.TAG;
@@ -22,13 +33,22 @@ public class GMapsTrackingForeGroundService extends Service {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 200; //0.2 seconds
     private static final float LOCATION_DISTANCE = 0.5f;// 2.5 meters
+    private SensorManager mSensorManager;
+    private Sensor mProximity;
+    private Sensor mLight;
+    private boolean TriggerOn;
 
 
-    private LocationListener[] mLocationListeners ;
+    private LocationListener[] mLocationListeners;
 
     @Override
     public void onCreate() {
-       super.onCreate();
+        super.onCreate();
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        assert mSensorManager != null;
+        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        registerBroadCastReciver();
     }
 
     @Override
@@ -57,6 +77,44 @@ public class GMapsTrackingForeGroundService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
         startForeground(1, notification);
+        registerSensorListeners();
+    }
+
+    private void invokeBahaviour() {
+        System.out.println("light will be on");
+    }
+
+    private void registerSensorListeners() {
+        mSensorManager.registerListener(new ProximityListener() {
+            @Override
+            public void somethingInfrontSensor(boolean result) {
+                TriggerOn = !result;
+                new Handler().postDelayed(() -> {
+                            if (TriggerOn) {
+                                invokeBahaviour();
+                            }
+
+                        },
+                        1000);
+            }
+        }, mProximity, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+
+        mSensorManager.registerListener(new AmbientLightListener() {
+            @Override
+            public void howDimIsTheLight(int result) {
+                switch (result) {
+                    case AmbientLightListener.EXTREMELY_DIM: {
+                    }
+                    case AmbientLightListener.NOT_DIM: {
+                    }
+                    case AmbientLightListener.VERY_DIM: {
+                    }
+                    case AmbientLightListener.NO_LIGHT: {
+                        TriggerOn = false;
+                    }
+                }
+            }
+        }, mLight, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
     }
 
     private void StartServiceLogic() { // thread Repeating Task
@@ -78,7 +136,7 @@ public class GMapsTrackingForeGroundService extends Service {
 
     private void serviceLogic() {
 
-        mLocationListeners= new LocationListener[]{
+        mLocationListeners = new LocationListener[]{
                 new LocationListener(LocationManager.GPS_PROVIDER),
                 new LocationListener(LocationManager.NETWORK_PROVIDER)
         };
@@ -103,10 +161,18 @@ public class GMapsTrackingForeGroundService extends Service {
             Log.d(TAG, "gps provider does not exist " + ex.getMessage());
         }
     }
+
     private void initializeLocationManager() {
         Log.e(TAG, "initializeLocationManager");
         if (mLocationManager == null) {
             mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         }
     }
+
+    private void registerBroadCastReciver() {
+        IntentFilter filter = new IntentFilter(WifiManager.RSSI_CHANGED_ACTION);
+        registerReceiver(new WifiStateReceiver(), filter);
+    }
+
+
 }

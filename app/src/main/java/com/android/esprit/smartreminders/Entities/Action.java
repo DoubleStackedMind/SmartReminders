@@ -1,6 +1,6 @@
 package com.android.esprit.smartreminders.Entities;
 
-import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class Action implements Entity {
     }
 
     @Override
-    public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
+    public void FromJsonObject(JSONObject ja) throws JSONException {
         this.id=ja.getInt("id");
         this.name= ja.getString("name");
         this.icon=ja.getInt("icon");

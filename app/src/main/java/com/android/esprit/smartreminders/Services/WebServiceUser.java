@@ -1,16 +1,13 @@
 package com.android.esprit.smartreminders.Services;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import com.android.esprit.smartreminders.Entities.User;
-import com.android.esprit.smartreminders.R;
-import com.android.volley.Request;
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
-import java.util.Map;
+
 
 public class WebServiceUser extends WebServiceConsumer<User> {
 

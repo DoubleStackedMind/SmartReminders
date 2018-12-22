@@ -1,7 +1,12 @@
 package com.android.esprit.smartreminders.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -32,9 +37,12 @@ import com.android.esprit.smartreminders.Fragments.ZonesFragment;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.appcommons.activity.AppCommonsActivity;
 import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
+import com.android.esprit.smartreminders.customControllers.CameraController;
 
 public class MainFrame extends AppCommonsActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,7 +51,6 @@ public class MainFrame extends AppCommonsActivity
         setContentView(R.layout.activity_main_frame);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -57,13 +64,10 @@ public class MainFrame extends AppCommonsActivity
         this.setTitle(R.string.app_name);
         this.switchFragments(R.id.fragment_container, new HomeFragment());
         new Handler().postDelayed(this::init_Layout_data, 500);
-        registerBroadCastReciver();
+
     }
 
-    private void registerBroadCastReciver() {
-        IntentFilter filter = new IntentFilter(WifiManager.RSSI_CHANGED_ACTION);
-        registerReceiver(new WifiStateReceiver(),filter);
-    }
+
 
     private void init_Layout_data() {
         SharedPreferences sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
@@ -200,6 +204,7 @@ public class MainFrame extends AppCommonsActivity
         Log.d("Fragments Behavour", "goToZonesFragment: fragment changed !");
 
     }
+
 
 
 }
