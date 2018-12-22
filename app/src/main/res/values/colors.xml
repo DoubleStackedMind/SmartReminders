@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6746AF</color>
-    <color name="colorPrimaryDark">#6746AF</color>
-    <color name="colorAccent">#FFFFFF</color>
-    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#00B873</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorGray">#495C67</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorOrange">#F68159</color>
+    <color name="colorLightGray">#a6abae</color>
+    <color name="white">#fff</color>
     <color name="transparent">#00000000</color>
-    <color name="gradStart">#6746AF</color>
-    <color name="gradStop">#6746AF</color>
+    <color name="colorBackroundWhite">#f0f2ea</color>
     <color name="info_bg_color">#BDE5F8</color>
     <color name="info_fg_color">#00529B</color>
     <color name="success_fg_color">#4F8A10</color>

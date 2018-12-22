@@ -15,6 +15,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_weight="1"
+        android:textColor="@color/colorGray"
         android:text="Home :" />
 
     <LinearLayout
@@ -32,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/colorGray"
                 android:text="Adress :" />
 
             <TextView
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/colorGray"
                 android:text="rue amilcar " />
         </LinearLayout>
 
@@ -51,6 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
                 android:text="City       :" />
 
             <TextView
@@ -58,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/colorGray"
                 android:text="Ariana , Tunis" />
         </LinearLayout>
 
@@ -69,6 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
                 android:text="Radius  :" />
 
             <TextView
@@ -76,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/colorGray"
                 android:text="29.5 meters" />
         </LinearLayout>
     </LinearLayout>
@@ -93,7 +99,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/ic_action_delete" />
+            android:background="@drawable/ic_delete_green" />
         <Button
             android:id="@+id/updateZone"
             android:layout_width="30dp"
@@ -101,6 +107,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/ic_action_edit" />
+            android:background="@drawable/ic_edit_green" />
     </LinearLayout>
 </LinearLayout>

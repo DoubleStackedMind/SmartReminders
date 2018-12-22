@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,12 +8,13 @@
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:background="@drawable/rounded_edges">
-
+<!--
     <TextView
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textColor="@color/colorGray"
         android:text="Pick Up Kids"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent" />
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="From :"
             android:textSize="24dp" />
 
@@ -40,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="15:30"
             android:textSize="24dp" />
 
@@ -58,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="To :"
             android:textSize="24dp" />
         <TextView
@@ -65,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="16:00"
             android:textSize="24dp" />
     </LinearLayout>
@@ -88,6 +93,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Mon" />
 
         <TextView
@@ -96,6 +102,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Tue" />
 
         <TextView
@@ -104,6 +111,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Wen" />
 
         <TextView
@@ -112,6 +120,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Thu" />
 
         <TextView
@@ -120,6 +129,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Fri" />
 
         <TextView
@@ -128,6 +138,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Sat" />
 
         <TextView
@@ -136,6 +147,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#fff"
             android:text="Sun" />
 
     </LinearLayout>
@@ -153,18 +165,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
             android:text="Remind Me " />
 
         <TextView
             android:id="@+id/reminderMinutesCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
             android:text="5"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
             android:text=" Minutes In Advance " />
     </LinearLayout>
 
@@ -183,11 +198,211 @@
             android:id="@+id/deletePlan_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_action_delete" />
+            android:background="@drawable/ic_delete_green" />
         <Button
             android:id="@+id/updatePlan_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_action_edit" />
+            android:background="@drawable/ic_edit_green" />
     </LinearLayout>
+    -->
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="4dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="1dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/cardview_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <Button
+                        android:id="@+id/deletePlan_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_delete_green" />
+                    <Button
+                        android:id="@+id/updatePlan_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_edit_green" />
+                </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Pick up Kids"
+                    android:textColor="@color/colorGray"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/linear2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text2"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="From : 15:30 pm"
+                        android:textColor="@color/colorLightGray"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="To : 16:00 pm"
+                        android:textColor="@color/colorLightGray"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linear2"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/Days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="55dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/mondayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Mon"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/TuesdayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Tue"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/wednesdayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Wen"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/thursdayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Thu"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/fridayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Fri"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/saturdayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Sat"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/sundayToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/roundbutton"
+                            android:gravity="center"
+                            android:text="Sun"
+                            android:textColor="#fff" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/roun_rect_lightgray"
+                        android:gravity="center"
+                        android:text="Remind me 5 Minutes in advance"
+                        android:textColor="@color/colorGray"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

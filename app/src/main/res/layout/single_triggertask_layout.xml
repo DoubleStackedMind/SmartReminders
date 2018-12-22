@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textColor="@color/colorGray"
         android:text="Leaving Esprit"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="Triggers:"
             android:textSize="24dp" />
         <LinearLayout
@@ -62,6 +64,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Mon" />
 
         <TextView
@@ -70,6 +73,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Tue" />
 
         <TextView
@@ -78,6 +82,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Wen" />
 
         <TextView
@@ -86,6 +91,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Thu" />
 
         <TextView
@@ -94,6 +100,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Fri" />
 
         <TextView
@@ -102,6 +109,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Sat" />
 
         <TextView
@@ -110,6 +118,7 @@
             android:layout_height="40dp"
             android:background="@drawable/roundbutton"
             android:gravity="center"
+            android:textColor="#ffffff"
             android:text="Sun" />
 
     </LinearLayout>
@@ -130,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textColor="@color/colorGray"
             android:text="Actions:"
             android:textSize="24dp" />
         <LinearLayout
@@ -155,11 +165,11 @@
             android:id="@+id/deletePlan_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_action_delete" />
+            android:background="@drawable/ic_delete_green" />
         <Button
             android:id="@+id/updatePlan_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_action_edit" />
+            android:background="@drawable/ic_edit_green" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

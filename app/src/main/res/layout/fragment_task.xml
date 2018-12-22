@@ -9,8 +9,10 @@
     <!-- TODO: Update blank fragment layout -->
     <Button
         android:id="@+id/TimeBtn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/roun_rect_white"
+        android:textColor="@color/white"
         android:text="Set Time" />
 
 </FrameLayout>
