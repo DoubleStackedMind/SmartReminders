@@ -9,6 +9,11 @@ import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 // add your premission Requests Here
 
 public class PermissionHandler {
@@ -19,41 +24,35 @@ public class PermissionHandler {
     private boolean ChangeWifiStatePermission;
     private boolean AccessWifiStatePermission;
     private List<String> Permissions;
+    private Activity activity;
 
     public PermissionHandler(Activity activity) {
+        this.activity=activity;
         updatePermissions(activity);
-        RequestCameraPermission();
-        RequestLocationPermission();
-        RequestChangeWifiStatePermission();
-        RequestAccessWifiStatePermission();
-        System.out.println(Permissions);
-        AskForPermission(activity);
     }
 
     private void updatePermissions(Activity activity) {
         LocationPermission = (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-        CameraPermission = (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity,Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED);
+        CameraPermission = (ActivityCompat.checkSelfPermission(activity, CAMERA) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED);
         ChangeWifiStatePermission = (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CHANGE_WIFI_STATE) == PackageManager.PERMISSION_GRANTED);
         AccessWifiStatePermission = (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED);
-        System.out.println("Permission" +"Location:"+this.LocationPermission+",Camera:"+CameraPermission+",ChangeWifiState:"+ChangeWifiStatePermission+",AcessWifiState:"+AccessWifiStatePermission);
     }
     private void AskForPermission(Activity activity){
         if(Permissions.size()>0)
             ActivityCompat.requestPermissions(activity, Permissions.toArray(new String[Permissions.size()]),1);
     }
 
-    private void RequestLocationPermission() {
+    public void RequestLocationPermission() {
         if (!LocationPermission) {
-           pushBackPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
+            ActivityCompat.requestPermissions(activity,(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}),1);
         } else {
             LocationPermission = true;
         }
     }
 
-    private void RequestCameraPermission() {
+    public void RequestCameraPermission() {
         if (!CameraPermission) {
-            System.out.println("asking for permission for Camera");
-            pushBackPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE});
+            ActivityCompat.requestPermissions(activity,(new String[]{CAMERA,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}),1);
         } else {
             CameraPermission = true;
         }

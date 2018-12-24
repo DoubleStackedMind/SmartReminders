@@ -1,6 +1,10 @@
 package com.android.esprit.smartreminders.Entities;
 
 
+import android.content.Context;
+
+import com.android.esprit.smartreminders.customControllers.MainController;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -57,6 +61,11 @@ public class Action implements Entity {
         res.put("id", this.id +"");
         res.put("icon",this.icon+"");
         return res;
+    }
+    public void  invokeActionByName(Context context){
+        MainController m=MainController.getInstance(context);
+
+
     }
 }
 

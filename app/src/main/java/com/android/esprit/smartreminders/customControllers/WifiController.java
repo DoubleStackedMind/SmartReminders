@@ -23,7 +23,6 @@ public class WifiController {
         KnownWifiSSID.addAll(wifimanager.getConfiguredNetworks().stream().map(x -> x.SSID).collect(Collectors.toSet()));
         wifiInfo = wifimanager.getConnectionInfo();
         currentSSID = wifiInfo.getSSID();
-
     }
 
     public void enableWifi() {

@@ -154,8 +154,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="REMIND ME ON"
-        android:backgroundTint="@drawable/shadow"
-        android:layout_marginTop="20dp"
+        android:backgroundTint="@drawable/shadow"        android:layout_marginTop="20dp"
         android:paddingRight="10dp"
         android:textColor="@color/pruple_button" />
 

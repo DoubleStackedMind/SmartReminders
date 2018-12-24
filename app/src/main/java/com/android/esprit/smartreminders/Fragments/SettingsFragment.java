@@ -20,17 +20,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.permissionHandlers.PermissionHandler;
 
 import java.util.List;
 
 import static com.android.esprit.smartreminders.appcommons.AppCommons.getApplication;
 
 public class SettingsFragment extends FragmentChild {
-    private Button btnFlash;
-    private boolean flashOn;
-    private static final int CAMERA_REQUEST = 50;
+    private Switch cameraPermission;
+    private Switch locationPermission;
+
+
+    private PermissionHandler p;
+
 
 
     @Override
@@ -46,36 +51,40 @@ public class SettingsFragment extends FragmentChild {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    private void setBhaviour() {
-        btnFlash = this.ParentActivity.findViewById(R.id.flash_open_close);
-        flashOn = false;
-        ActivityCompat.requestPermissions(ParentActivity, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
-        btnFlash.setOnClickListener((view) -> {
-            Open_Close_Flash();
-        });
-    }
-
-    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.M)
-    private void Open_Close_Flash() {
-
-        CameraManager cmanager = (CameraManager) ParentActivity.getSystemService(Context.CAMERA_SERVICE);
-        try {
-            String cameraId = cmanager.getCameraIdList()[1];
-            flashOn = !flashOn;
-            cmanager.setTorchMode(cameraId, flashOn);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initViews();
         setBhaviour();
-        WifiSignalCalculator();
     }
-    private void WifiSignalCalculator()
+    private void setBhaviour() {
+     locationPermission.setOnCheckedChangeListener((btnView,isChecked)->{
+         if(isChecked){
+          p.RequestLocationPermission();
+
+         }else{
+             locationPermission.setChecked(true);
+         }
+     });
+     cameraPermission.setOnCheckedChangeListener((btnView,isChecked)->{
+         if(isChecked){
+             p.RequestCameraPermission();
+
+         }else{
+          cameraPermission.setChecked(true);
+         }
+     });
+
+    }
+
+    private void initViews(){
+        p= new PermissionHandler(this.ParentActivity);
+        cameraPermission= this.ParentActivity.findViewById(R.id.cameraPermissionSwitch);
+        locationPermission= this.ParentActivity.findViewById(R.id.locationInformationSwitch);
+        locationPermission.setChecked(p.isLocationPermission());
+        cameraPermission.setChecked(p.isCameraPermission());
+    }
+ /*   private void WifiSignalCalculator()
     {
         Thread t =new Thread(()->{
             ConnectivityManager cm = (ConnectivityManager) SettingsFragment.this.ParentActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -103,5 +112,6 @@ public class SettingsFragment extends FragmentChild {
             }
         });
         t.run();
-    }
+    }*/
 }
+
