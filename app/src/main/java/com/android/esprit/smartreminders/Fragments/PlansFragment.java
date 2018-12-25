@@ -20,6 +20,7 @@ import com.android.esprit.smartreminders.Entities.TriggerTask;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.customControllers.ActionPool;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -64,8 +65,8 @@ public class PlansFragment extends FragmentChild {
         triggers.add(new Trigger("cloud base", R.drawable.daily_plan));
         TriggerTask tt = new TriggerTask(StateOfTask.IN_PROGRESS, "Send Sms to Mah", Days, triggers);
         Set<Action> x = new HashSet<>();
-        Action a = new Action("Send sms", R.drawable.ic_menu_share);
-        Action d = new Action("Open flash", R.drawable.ic_menu_camera);
+        Action a = ActionPool.getInstance(this.getParentActivity()).getActions()[0];
+        Action d = ActionPool.getInstance(this.getParentActivity()).getActions()[1];
         x.add(a);
         x.add(d);
         p.setActions(x);

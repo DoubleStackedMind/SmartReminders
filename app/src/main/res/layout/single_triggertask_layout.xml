@@ -1,175 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    android:background="@drawable/rounded_edges">
-
-    <TextView
-        android:id="@+id/titleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/colorGray"
-        android:text="Leaving Esprit"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent" />
+    android:layout_margin="8dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="15dp"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="4dp">
 
     <LinearLayout
-        android:id="@+id/Timing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleView">
+        android:background="@drawable/cardview_bg"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/FromView"
+            android:id="@+id/titleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Leaving Esprit"
+            android:textColor="@color/colorGray"
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/Timing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/colorGray"
-            android:text="Triggers:"
-            android:textSize="24dp" />
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleView">
+
+            <TextView
+                android:id="@+id/FromView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:text="Triggers:"
+                android:textColor="@color/colorGray"
+                android:textSize="24dp" />
+
+            <LinearLayout
+                android:id="@+id/triggerLinearlayout"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/triggerLinearlayout"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content" />
+            android:id="@+id/Days"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Reminder">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/mondayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Mon"
+                android:textColor="#ffffff" />
 
-    <LinearLayout
-        android:id="@+id/Days"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Reminder">
+            <TextView
+                android:id="@+id/TuesdayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Tue"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/mondayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Mon" />
+            <TextView
+                android:id="@+id/wednesdayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Wen"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/TuesdayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Tue" />
+            <TextView
+                android:id="@+id/thursdayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Thu"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/wednesdayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Wen" />
+            <TextView
+                android:id="@+id/fridayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Fri"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/thursdayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Thu" />
+            <TextView
+                android:id="@+id/saturdayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Sat"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/fridayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Fri" />
+            <TextView
+                android:id="@+id/sundayToggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundbutton"
+                android:gravity="center"
+                android:text="Sun"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/saturdayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Sat" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/sundayToggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundbutton"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:text="Sun" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/Reminder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Timing">
-        <TextView
-            android:id="@+id/ActionView"
-            android:layout_gravity="center_vertical"
+        <LinearLayout
+            android:id="@+id/Reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/colorGray"
-            android:text="Actions:"
-            android:textSize="24dp" />
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Timing">
+
+            <TextView
+                android:id="@+id/ActionView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:text="Actions:"
+                android:textColor="@color/colorGray"
+                android:textSize="24dp" />
+
+            <LinearLayout
+                android:id="@+id/ActionsLinearlayout"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:id="@+id/ActionsLinearlayout"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Timing"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="1dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Timing"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="1dp">
+            <Button
+                android:id="@+id/deletePlan_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_delete_green" />
 
-        <Button
-            android:id="@+id/deletePlan_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_delete_green" />
-        <Button
-            android:id="@+id/updatePlan_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_edit_green" />
+            <Button
+                android:id="@+id/updatePlan_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_edit_green" />
+        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

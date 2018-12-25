@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment"
-    android:id="@+id/fragment_home">
-<ListView
-    android:id="@+id/list_zone"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    tools:context=".Fragments.HomeFragment">
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/list_zone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:smoothScrollbar="true"
+      />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addZonefab"
         android:layout_width="wrap_content"
@@ -16,14 +25,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:hapticFeedbackEnabled="true"
+        android:fadingEdge="vertical"
         android:src="@drawable/add_new" />
-    <ProgressBar
-        android:id="@+id/loadingOverLay"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="242dp"
-        android:layout_height="234dp"
-        android:indeterminateTint="@color/black"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        android:indeterminate="true" />
-</FrameLayout>
+  </FrameLayout>

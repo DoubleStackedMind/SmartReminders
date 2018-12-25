@@ -1,196 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="15dp"
+    card_view:cardCornerRadius="2dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:layout_margin="8dp"
-    android:background="@drawable/rounded_edges">
+    card_view:cardElevation="4dp"
+    >
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="15dp"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="4dp">
+        android:background="@drawable/cardview_bg"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/cardview_bg"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
 
-            <View
-                android:layout_width="5dp"
-                android:layout_height="130dp"
-                android:background="@color/colorPrimary"></View>
+            <Button
+                android:id="@+id/deletePlan_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="7dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/ic_delete_green" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp">
+            <Button
+                android:id="@+id/updatePlan_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="7dp"
+                android:layout_marginTop="33dp"
+                android:background="@drawable/ic_edit_green" />
 
-
-                <Button
-                    android:id="@+id/deletePlan_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="7dp"
-                    android:background="@drawable/ic_delete_green" />
-
-                <Button
-                    android:id="@+id/updatePlan_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="33dp"
-                    android:layout_marginEnd="7dp"
-                    android:background="@drawable/ic_edit_green" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/Reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.037"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/Timing">
+                    app:layout_constraintTop_toTopOf="parent">
 
-
-                <TextView
-                    android:id="@+id/text2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="Check Home"
-                    android:textColor="@color/colorGray"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-
-                <LinearLayout
-                    android:id="@+id/linear2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/text2"
-                    android:layout_marginTop="3dp"
-                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/titleView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="At 15:30 pm"
-                        android:textColor="@color/colorLightGray"
-                        android:textSize="13dp"
+                        android:text="Check Home"
+                        android:textColor="@color/colorGray"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
 
+
+                    <LinearLayout
+                        android:id="@+id/Timing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text2"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id=""
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="At 15:30 pm"
+                            android:textColor="@color/colorLightGray"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Actions"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.491"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Reminder"
+                    >
+
+                    <TextView
+                        android:id="@+id/ActionView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:layout_marginEnd="12dp"
+                        android:text="Actions:"
+                        android:textColor="@color/colorGray"
+                        android:textSize="24dp" />
+
+                    <LinearLayout
+                        android:id="@+id/ActionsLinearlayout"
+                        android:layout_width="190dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/Days"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="-1dp"
-                    android:orientation="horizontal">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Actions">
 
-                    <LinearLayout
-                        android:id="@+id/Days"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="9dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="20dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/Reminder">
+                    <TextView
+                        android:id="@+id/mondayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Mon"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/mondayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Mon"
-                            android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/TuesdayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Tue"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/TuesdayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Tue"
-                            android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/wednesdayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Wen"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/wednesdayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Wen"
-                            android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/thursdayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Thu"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/thursdayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Thu"
-                            android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/fridayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Fri"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/fridayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Fri"
-                            android:textColor="#fff" />
+                    <TextView
+                        android:id="@+id/saturdayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Sat"
+                        android:textColor="#fff" />
 
-                        <TextView
-                            android:id="@+id/saturdayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Sat"
-                            android:textColor="#fff" />
-
-                        <TextView
-                            android:id="@+id/sundayToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/roundbutton"
-                            android:gravity="center"
-                            android:text="Sun"
-                            android:textColor="#fff" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/sundayToggle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/roundbutton"
+                        android:gravity="center"
+                        android:text="Sun"
+                        android:textColor="#fff" />
 
                 </LinearLayout>
-            </RelativeLayout>
 
-        </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
 
 
-</android.support.constraint.ConstraintLayout>
+

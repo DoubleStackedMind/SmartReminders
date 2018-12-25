@@ -3,23 +3,29 @@ package com.android.esprit.smartreminders.Entities;
 
 import android.content.Context;
 
+import com.android.esprit.smartreminders.customControllers.ExecutableAction;
 import com.android.esprit.smartreminders.customControllers.MainController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class Action implements Entity {
+public abstract class Action implements Entity, ExecutableAction {
     protected int id;
     protected String name;
     protected int icon;
-    public Action(){}
-    public Action(String name,int icon)
-    {
-        this.name=name;
-        this.icon=icon;
+
+    public Action() {
+    }
+
+    public Action(int id, String name, int icon) {
+        this.id = id;
+        this.name = name;
+        this.icon = icon;
     }
 
     public String getName() {
@@ -40,9 +46,9 @@ public class Action implements Entity {
 
     @Override
     public void FromJsonObject(JSONObject ja) throws JSONException {
-        this.id=ja.getInt("id");
-        this.name= ja.getString("name");
-        this.icon=ja.getInt("icon");
+        this.id = ja.getInt("id");
+        this.name = ja.getString("name");
+        this.icon = ja.getInt("icon");
     }
 
     @Override
@@ -50,7 +56,7 @@ public class Action implements Entity {
         return
                 new JSONObject()
                         .put("id", this.id)
-                        .put("name",this.name)
+                        .put("name", this.name)
                         .put("icon", icon);
     }
 
@@ -58,14 +64,11 @@ public class Action implements Entity {
     public Map<String, String> ToPostMap() {
         Map<String, String> res = new HashMap<>();
         res.put("name", this.name);
-        res.put("id", this.id +"");
-        res.put("icon",this.icon+"");
+        res.put("id", this.id + "");
+        res.put("icon", this.icon + "");
         return res;
     }
-    public void  invokeActionByName(Context context){
-        MainController m=MainController.getInstance(context);
 
-
-    }
+    public abstract void executeAction();// must be defined in Action pool when instanciating This class instance
 }
 

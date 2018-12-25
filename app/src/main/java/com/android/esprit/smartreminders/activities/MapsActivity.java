@@ -30,6 +30,7 @@ import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredIn
 import com.android.esprit.smartreminders.listeners.PinchCallBack;
 import com.android.esprit.smartreminders.listeners.ToucheListener;
 import com.android.esprit.smartreminders.permissionHandlers.PermissionHandler;
+import com.android.esprit.smartreminders.sessions.Session;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -244,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-        Zone z= new Zone(MapsActivity.this.zonename,currentMarker.getPosition().longitude,currentMarker.getPosition().latitude,mCircle.getRadius(), App.sessionUser);
+        Zone z= new Zone(MapsActivity.this.zonename,currentMarker.getPosition().longitude,currentMarker.getPosition().latitude,mCircle.getRadius(), Session.getSession(this).getSessionUser());
         WZ.insert(z);
     }
 

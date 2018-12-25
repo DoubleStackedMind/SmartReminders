@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.android.esprit.smartreminders.Services.CallBackWSConsumerGET;
 import com.android.esprit.smartreminders.Services.WebServiceZone;
 import com.android.esprit.smartreminders.activities.MapsActivity;
 import com.android.esprit.smartreminders.appcommons.App;
+import com.android.esprit.smartreminders.sessions.Session;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +34,7 @@ public class ZonesFragment extends FragmentChild {
     private FloatingActionButton addFab;
     private ArrayList<Zone> zones;
     private User sessionUser;
-    private ProgressBar progressBar;
+    private SwipeRefreshLayout srl;
 
 
     @Override
@@ -58,8 +61,9 @@ public class ZonesFragment extends FragmentChild {
     private void initViews() {
         this.zonelist = this.ParentActivity.findViewById(R.id.list_zone);
         this.addFab = this.ParentActivity.findViewById(R.id.addZonefab);
-        sessionUser = App.sessionUser;
-        progressBar=this.ParentActivity.findViewById(R.id.loadingOverLay);
+        sessionUser = Session.getSession(this.getParentActivity()).getSessionUser();
+        srl = this.ParentActivity.findViewById(R.id.swiperefresh);
+        srl.setOnRefreshListener(this::initData);
 
     }
 
@@ -68,10 +72,15 @@ public class ZonesFragment extends FragmentChild {
             Intent intent = new Intent(ZonesFragment.this.ParentActivity, MapsActivity.class);
             ZonesFragment.this.ParentActivity.startActivity(intent);
         });
+        zonelist.setOverscrollHeader(this.getParentActivity().getDrawable(R.drawable.blue));
+        zonelist.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+        zonelist.setVerticalFadingEdgeEnabled(true);
+
+
     }
 
     private void initData() {
-        progressBar.setVisibility(View.VISIBLE);
+        srl.setRefreshing(true);
         zones = new ArrayList<>();
         WebServiceZone WZ = new WebServiceZone(this.ParentActivity, new CallBackWSConsumerGET<Zone>() {
             @Override
@@ -79,13 +88,13 @@ public class ZonesFragment extends FragmentChild {
                 zones = (ArrayList<Zone>) results;
                 ZonesAdapter adapter = new ZonesAdapter(ZonesFragment.this.ParentActivity, zones, R.layout.single_zone_layout);
                 ZonesFragment.this.zonelist.setAdapter(adapter);
-                progressBar.setVisibility(View.INVISIBLE);
+                srl.setRefreshing(false);
 
             }
 
             @Override
             public void OnHostUnreachable() {
-                progressBar.setVisibility(View.INVISIBLE);
+
                 CharSequence text = "Server is Down Try Again Later";
 
                 int duration = Toast.LENGTH_SHORT;
@@ -93,7 +102,7 @@ public class ZonesFragment extends FragmentChild {
                 Toast toast = Toast.makeText(ZonesFragment.this.getParentActivity().getApplicationContext(), text, duration);
 
                 toast.show();
-
+                srl.setRefreshing(false);
             }
         });
         Map<String, String> map = new HashMap<>();

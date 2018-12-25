@@ -41,43 +41,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-        refrechsessionUser();
-    }
 
-    public static void refrechsessionUser() {
-        if (sessionUser == null) {
-            WebServiceUser WS;
-            WS = new WebServiceUser(base, new CallBackWSConsumer<User>() {
-
-                @Override
-                public void OnResultPresent(List<User> result) {
-                    sessionUser = result.get(0);
-                }
-
-                @Override
-                public void OnHostUnreachable() {
-                    CharSequence text = "Server is Down Try Again Later";
-
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(base, text, duration);
-
-                    toast.show();
-                }
-            });
-            SharedPreferences sharedPref = base.getSharedPreferences("Myprefs", MODE_PRIVATE);
-            String data = sharedPref.getString("Logged_user_data", "User name or data missing");
-            if (!data.equals("User name or data missing")) {
-                Map<String, String> myMap = new HashMap<>();
-                myMap.put("email", data.substring(0, data.indexOf("\n")));
-                myMap.put("password", data.substring(data.indexOf("\n") + 1, data.length()));
-                try {
-                    WS.findBy(myMap);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     private void createNotificationChannel() {
@@ -95,14 +59,15 @@ public class App extends Application {
         ComponentName comp = new ComponentName(this, GpsJobService.class);
         JobInfo info = new JobInfo.Builder(9767, comp).setPersisted(true).setPeriodic(15 * 60 * 1000).build();
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-        if (resultCode == JobScheduler.RESULT_SUCCESS)
+        scheduler.schedule(info);
+        //int resultCode = scheduler.schedule(info);
+        /*if (resultCode == JobScheduler.RESULT_SUCCESS)
             System.out.println("Sechduled with success");
         else {
             System.out.println("Sechduled with failure");
-        }
-//}
-
+            */
     }
 
 }
+
+

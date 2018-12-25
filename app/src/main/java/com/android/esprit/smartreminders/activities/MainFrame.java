@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Fragments.BrowseTasksFragment;
 import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
 import com.android.esprit.smartreminders.Fragments.FragmentChild;
@@ -38,10 +39,12 @@ import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.appcommons.activity.AppCommonsActivity;
 import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
 import com.android.esprit.smartreminders.customControllers.CameraController;
+import com.android.esprit.smartreminders.sessions.Session;
 
-public class MainFrame extends AppCommonsActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainFrame extends AppCommonsActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private User sessionUser;
+    private Class<? extends FragmentChild> visibleFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +71,13 @@ public class MainFrame extends AppCommonsActivity
     }
 
 
-
     private void init_Layout_data() {
-        SharedPreferences sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
-        String data = sharedPref.getString("Logged_user_data", "User name or data missing");
+
+        sessionUser = Session.getSession(this).getSessionUser();
+        System.out.println(sessionUser);
         TextView f = ((TextView) findViewById(R.id.tvusername));
-        f.setText(data.substring(0, data.indexOf("\n")));
+        f.setText(sessionUser.getEmail());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -106,9 +110,11 @@ public class MainFrame extends AppCommonsActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             goToSettingsFragment();
+            this.visibleFragment=SettingsFragment.class;
             return true;
         } else if (id == R.id.action_profile) {
             goToProfileFragment();
+            this.visibleFragment=ProfileFragment.class;
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -121,20 +127,30 @@ public class MainFrame extends AppCommonsActivity
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             goToHomeFragment();
+            visibleFragment = HomeFragment.class;
         } else if (id == R.id.nav_schedule) {
             goToScheduleFragment();
+            visibleFragment = ScheduleFragment.class;
         } else if (id == R.id.nav_daily) {
             goToPlansFragment();
+            visibleFragment = PlansFragment.class;
         } else if (id == R.id.nav_tasks) {
             goToTasksFragment();
+            visibleFragment = TasksFragment.class;
         } else if (id == R.id.nav_events) {
             goToEventndMeetingsFragment();
+            visibleFragment = EventsndMettingsFragment.class;
         } else if (id == R.id.nav_share) {
             goToShareTasksFragment();
+            visibleFragment = ShareTasksFragment.class;
         } else if (id == R.id.nav_browse) {
             goToBrowseTasksFragment();
-        }else if(id==R.id.nav_zones){
+            visibleFragment = BrowseTasksFragment.class;
+        } else if (id == R.id.nav_zones) {
             goToZonesFragment();
+            visibleFragment = ZonesFragment.class;
+        } else if (id == R.id.action_logout) {
+            logOut();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -143,68 +159,81 @@ public class MainFrame extends AppCommonsActivity
 
     private void goToHomeFragment() {
 
-        this.switchFragments(R.id.fragment_container, new HomeFragment());
-
-        Log.d("Fragments Behavour", "goToHomeFragment: fragment changed !");
+        if (!HomeFragment.class.equals(visibleFragment))
+            this.switchFragments(R.id.fragment_container, new HomeFragment());
     }
 
     private void goToScheduleFragment() {
-
+        if (!ScheduleFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new ScheduleFragment());
-        Log.d("Fragments Behavour", "goToScheduleFragment: fragment changed !");
+
     }
 
     private void goToPlansFragment() {
-
+        if (!PlansFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new PlansFragment());
-        Log.d("Fragments Behavour", "goToPlansFragment: fragment changed !");
+
     }
 
     private void goToTasksFragment() {
-
+        if (!TasksFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new TasksFragment());
-        Log.d("Fragments Behavour", "goToTasksFragment: fragment changed !");
+
     }
 
     private void goToEventndMeetingsFragment() {
-
+        if (!EventsndMettingsFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new EventsndMettingsFragment());
-        Log.d("Fragments Behavour", "goToEventndMeetingsFragment: fragment changed !");
+
     }
 
     private void goToShareTasksFragment() {
-
+        if (!ShareTasksFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new ShareTasksFragment());
-        Log.d("Fragments Behavour", "goToShareTasksFragment: fragment changed !");
+
     }
 
     private void goToBrowseTasksFragment() {
-
+        if (!BrowseTasksFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new BrowseTasksFragment());
-        Log.d("Fragments Behavour", "goToBrowseTasksFragment: fragment changed !");
+
     }
 
     private void goToSettingsFragment() {
-
+        if (!SettingsFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new SettingsFragment());
-        Log.d("Fragments Behavour", "goToSettingsFragment: fragment changed !");
+
     }
 
     private void goToProfileFragment() {
+        if (!ProfileFragment.class.equals(visibleFragment))
         switchFragmentsAddToBackStack(R.id.fragment_container, new ProfileFragment());
-        Log.d("Fragments Behavour", "goToProfileFragments: fragment changed !");
+
     }
 
     public void goToUnStackedFragment(FragmentChild Child) {
+        if(!Child.getClass().equals(visibleFragment))
         switchFragments(R.id.fragment_container, Child);
-        Log.d("Fragments Behavour", "goToUnStackedFragment: fragment changed !");
+
     }
-    public void goToZonesFragment(){
-        switchFragments(R.id.fragment_container,new ZonesFragment());
+
+    public void goToZonesFragment() {
+        if (!ZonesFragment.class.equals(visibleFragment))
+        switchFragments(R.id.fragment_container, new ZonesFragment());
         Log.d("Fragments Behavour", "goToZonesFragment: fragment changed !");
 
     }
 
+    public void logOut() {
+        SharedPreferences sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear().apply();
+        startActivity(new Intent(MainFrame.this, Login.class));
+    }
+
+    private void updateHihlightedDrawer() {
+
+    }
 
 
 }
