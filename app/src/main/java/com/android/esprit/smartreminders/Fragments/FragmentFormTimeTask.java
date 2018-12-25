@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Adapters.myDbAdapter;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Test.NotificationHelper;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
@@ -33,6 +34,8 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
 
     int hour,minute;
     public int hourFinal, minuteFinal;
+    myDbAdapter helper;
+
     Button Timebtn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
                         System.out.println("Day : " + Days[i]);
                         if (Days[i] != null) {
                             setAlarm(i+1, hourFinal, minuteFinal, 0);
-                            //                      SendNotification(((EditText)findViewById(R.id.Title)).getText().toString(), ((EditText)findViewById(R.id.description)).getText().toString());
+                            long id = helper.insertData(((EditText)getActivity().getParent().findViewById(R.id.Title)).getText().toString(),((EditText)getActivity().getParent().findViewById(R.id.description)).getText().toString(),hourFinal+":"+minuteFinal);
                             Toast.makeText(getParentActivity(), "Plan added", Toast.LENGTH_LONG).show();
                         }
                     }
