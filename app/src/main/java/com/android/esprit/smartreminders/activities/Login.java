@@ -22,6 +22,9 @@ import com.android.esprit.smartreminders.Services.WebServiceUser;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextEmailValidator;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
+import com.android.esprit.smartreminders.sessions.Session;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,23 +41,24 @@ public class Login extends AppCompatActivity {
     private EditText passwordTextView;
     private EditText usernameTextView;
     private Button SignupButton;
-    //private Button
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private Handler handler;
     private Runnable runnable;
+    private User sessionUser;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         runDelayedStartup();
+        if(!isThisDeviceAlreadyLoggedIn())
         defineBehaviour();
     }
 
     private boolean isThisDeviceAlreadyLoggedIn() {
         sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
+        sessionUser=Session.getSession(this).getSessionUser();
         return sharedPref.getAll().size() != 0;
 
     }
@@ -69,35 +73,24 @@ public class Login extends AppCompatActivity {
         LoginButton.setOnClickListener((view) -> {
             if (checkInputs()) login();
         });
-        if (isThisDeviceAlreadyLoggedIn()) {
-            sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
-            String data = sharedPref.getString("Logged_user_data", "User name or data missing");
-            this.usernameTextView.setText(data.substring(0, data.indexOf("\n")));
-            this.passwordTextView.setText(data.substring(data.indexOf("\n") + 1, data.length()));
-            new Handler().postDelayed(()->{
-            if (checkInputs()) login();},
-        2030);
-        }
-
-        SignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Login.this,Singup.class));
-            }
-        });
+        SignupButton.setOnClickListener(view -> startActivity(new Intent(Login.this,Singup.class)));
     }
 
     private void runDelayedStartup() {
         handler = new Handler();
         runnable = () -> {
-            rellay1.setVisibility(View.VISIBLE);
-            rellay2.setVisibility(View.VISIBLE);
+            if(isThisDeviceAlreadyLoggedIn()) {
+                startActivity(new Intent(Login.this,MainFrame.class));
+            }
+            else {
+                rellay1.setVisibility(View.VISIBLE);
+                rellay2.setVisibility(View.VISIBLE);
+            }
         };
         rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
         rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
         handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
     }
-
     public boolean checkInputs() {
         return !EditTextUtils.isInValid(
                 new EditTextRequiredInputValidator(this.usernameTextView),
@@ -112,11 +105,7 @@ public class Login extends AppCompatActivity {
         WebServiceUser ws = new WebServiceUser(Login.this, new CallBackWSConsumer<User>() {
             @Override
             public void OnResultPresent(List<User> Users) {
-
-                setProgressBarIndeterminateVisibility(false);
-                System.out.println("problem nop");
                 LoginButton.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                System.out.println("problem nop ended");
                 CharSequence text = getString(R.string.sucessful_login);
 
                 int duration = Toast.LENGTH_SHORT;
@@ -124,17 +113,21 @@ public class Login extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), text, duration);
 
                 toast.show();
-                System.out.println("problem nop ended");
-                new Handler().postDelayed(
 
+                new Handler().postDelayed(
                         () -> {
-                            System.out.println("start of handler");
                             sharedPref = getSharedPreferences("Myprefs", MODE_PRIVATE);
                             editor = sharedPref.edit();
-                            editor.putString("Logged_user_data", Login.this.usernameTextView.getText() + "\n" + Login.this.passwordTextView.getText());
+                            try {
+                                editor.putString("Logged_user_data", Users.get(0).ToJsonObject().toString());
+                               } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             editor.apply();
+                            sessionUser=Users.get(0);
+                            Session.getSession(Login.this).setSessionUser(Users.get(0));
+                            System.out.println(Users.get(0));
                             startActivity(new Intent(Login.this, MainFrame.class));
-                            System.out.println("end of handler");
                         },
                         2000
                 );

@@ -42,5 +42,9 @@
                 android:title="@string/browse_for_tasks" />
         </menu>
     </item>
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/logout_action" />
 
 </menu>

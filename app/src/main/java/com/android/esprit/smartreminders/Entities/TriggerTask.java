@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
+import com.android.esprit.smartreminders.customControllers.ActionPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +74,13 @@ public class TriggerTask extends Task implements Entity {
         Set<Action> actions = new HashSet<>();
         JSONArray jsa = (JSONArray) ja.get("actions");
         for (int i = 0; i < jsa.length(); i++) {
-            Action a = new Action();
+            Action a = new Action(){
+
+                @Override
+                public void executeAction() {
+
+                }
+            };
             a.FromJsonObject((JSONObject) jsa.get(i));
             actions.add(a);
         }

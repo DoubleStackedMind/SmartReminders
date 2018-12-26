@@ -68,7 +68,12 @@ public abstract class Task extends AbstractEventOrTask implements Entity {
         Set<Action> actions = new HashSet<>();
         JSONArray jsa = (JSONArray) ja.get("actions");
         for (int i = 0; i < jsa.length(); i++) {
-            Action a=new Action();
+             Action a=new Action(){
+                 @Override
+                 public void executeAction() {
+
+                 }
+             };
             a.FromJsonObject((JSONObject) jsa.get(i));
             actions.add(a);
         }

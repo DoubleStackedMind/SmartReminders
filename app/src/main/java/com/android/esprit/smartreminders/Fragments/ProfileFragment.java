@@ -29,6 +29,9 @@ import com.android.esprit.smartreminders.activities.Profile;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextEmailValidator;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
+import com.android.esprit.smartreminders.sessions.Session;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +72,7 @@ public class ProfileFragment extends FragmentChild {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setBehaviour();
+        insertProfileData();
         ButtonBehaviour();
 
 
@@ -114,45 +118,35 @@ public class ProfileFragment extends FragmentChild {
 
     private void InputsBehaviour() {
 
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                System.out.println("changed focus!");
+        email.setOnFocusChangeListener((v, hasFocus) -> {
+            System.out.println("changed focus!");
 
-                    if (SomethingChanged())
-                        enableSyncMode();
+            if (SomethingChanged())
+                enableSyncMode();
 
 
-            }
         });
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                System.out.println("changed focus!");
+        password.setOnFocusChangeListener((v, hasFocus) -> {
+            System.out.println("changed focus!");
 
-                    if (SomethingChanged())
-                        enableSyncMode();
+            if (SomethingChanged())
+                enableSyncMode();
 
 
-            }
         });
-        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                System.out.println("changed focus!");
+        name.setOnFocusChangeListener((v, hasFocus) -> {
+            System.out.println("changed focus!");
 
-                    if (SomethingChanged())
-                        enableSyncMode();
+            if (SomethingChanged())
+                enableSyncMode();
 
 
-            }
         });
     }
 
 
     private boolean SomethingChanged() {
-        System.out.println(email.getText()+"  "+name.getText()+"  "+password.getText());
-        return !(curr_email.equals(email.getText().toString())&& curr_name.equals(name.getText().toString()) && curr_password.equals(password.getText().toString()));
+        return !(curr_email.equals(email.getText().toString()) && curr_name.equals(name.getText().toString()) && curr_password.equals(password.getText().toString()));
     }
 
     private void setEnabledInputs(boolean mode) {
@@ -167,44 +161,12 @@ public class ProfileFragment extends FragmentChild {
         name = this.getParentActivity().findViewById(R.id.Name_editText);
         updateProfile = this.getParentActivity().findViewById(R.id.updateProfile);
         setEnabledInputs(false);
-        WS = new WebServiceUser(this.getParentActivity(), new CallBackWSConsumer<User>() {
-
-            @Override
-            public void OnResultPresent(List<User> result) {
-                sessionUser = result.get(0);
-                System.out.println(sessionUser);
-                insertProfileData();
-            }
-
-            @Override
-            public void OnHostUnreachable() {
-                CharSequence text = "Server is Down Try Again Later";
-
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(ProfileFragment.this.getParentActivity().getApplicationContext(), text, duration);
-
-                toast.show();
-            }
-        });
-
-        sharedPref = this.getParentActivity().getSharedPreferences("Myprefs", MODE_PRIVATE);
-        String data = sharedPref.getString("Logged_user_data", "User name or data missing");
-
-
-        Map<String, String> myMap = new HashMap<>();
-        myMap.put("email", data.substring(0, data.indexOf("\n")));
-        myMap.put("password", data.substring(data.indexOf("\n") + 1, data.length()));
-        try {
-            WS.findBy(myMap);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
     }
 
     private void insertProfileData() {
-
+        WS = new WebServiceUser(this.ParentActivity, null);
+        this.sessionUser = Session.getSession(this.ParentActivity).getSessionUser();
         this.curr_password = sessionUser.getPassword();
         this.curr_name = sessionUser.getName();
         this.curr_email = sessionUser.getEmail();
@@ -230,49 +192,58 @@ public class ProfileFragment extends FragmentChild {
             public void OnResultPresent() {
 
                 ProfileFragment.this.updateProfile.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                CharSequence text ="Updated!";
+                CharSequence text = "Updated!";
 
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(ProfileFragment.this.getParentActivity().getApplicationContext(), text, duration);
 
                 toast.show();
-                new Handler().postDelayed(()->{
+                new Handler().postDelayed(() -> {
                     ProfileFragment.this.updateProfile.revertAnimation();
-                } , 2000   );
+                    ProfileFragment.this.updateProfile.callOnClick();
+                    Session.getSession(ProfileFragment.this.ParentActivity).setSessionUser(ProfileFragment.this.sessionUser);
+                    SharedPreferences sharedPref = ProfileFragment.this.getParentActivity().getSharedPreferences("Myprefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    try {
+                        editor.putString("Logged_user_data", ProfileFragment.this.sessionUser.ToJsonObject().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    editor.apply();
+                }, 2000);
             }
 
             @Override
             public void OnResultNull() {
                 ProfileFragment.this.updateProfile.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_error_button));
-                CharSequence text ="Server under maintenance";
+                CharSequence text = "Server under maintenance";
 
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(ProfileFragment.this.getParentActivity().getApplicationContext(), text, duration);
 
                 toast.show();
-                new Handler().postDelayed(()->{
+                new Handler().postDelayed(() -> {
                     ProfileFragment.this.updateProfile.revertAnimation();
-                } , 2000   );
+                    ProfileFragment.this.updateProfile.callOnClick();
+                }, 2000);
             }
 
             @Override
             public void OnHostUnreachable() {
                 ProfileFragment.this.updateProfile.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_error_button));
-                CharSequence text ="Host Unreachable";
-
+                CharSequence text = "Host Unreachable";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(ProfileFragment.this.getParentActivity().getApplicationContext(), text, duration);
 
                 toast.show();
-                new Handler().postDelayed(()->{
+                new Handler().postDelayed(() -> {
                     ProfileFragment.this.updateProfile.revertAnimation();
-                } , 2000   );
+                    ProfileFragment.this.updateProfile.callOnClick();
+                }, 2000);
             }
-
-
 
 
         });
