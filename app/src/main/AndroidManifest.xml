@@ -30,7 +30,7 @@
         <service android:name=".backGroundServices.LocationService" />
 
         <activity
-            android:name=".Test.addPlan"
+            android:name=".activities.Login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
