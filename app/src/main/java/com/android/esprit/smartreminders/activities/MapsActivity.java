@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,7 @@ import com.android.esprit.smartreminders.Services.WebServiceZone;
 import com.android.esprit.smartreminders.appcommons.App;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
+import com.android.esprit.smartreminders.customControllers.CameraController;
 import com.android.esprit.smartreminders.listeners.PinchCallBack;
 import com.android.esprit.smartreminders.listeners.ToucheListener;
 import com.android.esprit.smartreminders.permissionHandlers.PermissionHandler;
@@ -40,6 +42,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 
 import static android.os.SystemClock.sleep;
@@ -64,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String zonename;
     private AlertDialog dialog;
     private EditText input;
+    private boolean updateMode;
 
 
     @Override
@@ -74,8 +81,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         initViews();
         defineBehaviour();
+
 
     }
 
@@ -172,6 +181,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.setOnMapLongClickListener(this);
+        Intent intent = getIntent();
+        if (intent.hasExtra("zone")) {
+            updateMode = true;
+            Zone z = new Zone();
+            try {
+                z.FromJsonObject(new JSONObject(intent.getExtras().get("zone").toString()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            currentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(z.getLat(), z.getLng())).title("Zone Home : Radius = 5 m"));
+
+            radiusInMeters = z.getRadius();
+            zonename = z.getName();
+            updateZoneInfo();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentMarker.getPosition(), 20));
+            mMap.setOnInfoWindowLongClickListener(marker -> promptDialog("Change"));
+            int strokeColor = 0xffff0000; //red outline
+            int shadeColor = 0x44ff0000; //opaque red fill
+            zone = new CircleOptions().center(currentMarker.getPosition()).radius(radiusInMeters).fillColor(shadeColor).strokeColor(strokeColor).strokeWidth(8);
+            mCircle = mMap.addCircle(zone);
+            EditFab.setVisibility(View.VISIBLE);
+            AddFab.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
@@ -179,9 +212,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentMarker == null) {
             EditFab.setVisibility(View.VISIBLE);
             AddFab.setVisibility(View.VISIBLE);
-        } else
+        } else{
             mMap.clear();
-        drawMarkerWithCircle(latLng);
+            drawMarkerWithCircle(latLng);
+        }
     }
 
     private void drawMarkerWithCircle(LatLng position) {
@@ -193,8 +227,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         zone = new CircleOptions().center(position).radius(radiusInMeters).fillColor(shadeColor).strokeColor(strokeColor).strokeWidth(8);
         mCircle = mMap.addCircle(zone);
         mMap.animateCamera(CameraUpdateFactory.newLatLng(position));
-
-        promptDialog("Set");
+        if (!updateMode)
+            promptDialog("Set");
     }
 
     private void promptDialog(String action) {
@@ -214,23 +248,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentMarker.setTitle(zonename + " : Radius = " + df2.format(radiusInMeters) + " m");
         currentMarker.showInfoWindow();
     }
+
     private void updateDataBase() {
 
         ProgressBar bar = findViewById(R.id.loadingOverLay);
         bar.setVisibility(View.VISIBLE);
         AddFab.setEnabled(false);
         EditFab.setEnabled(false);
-        WebServiceZone WZ= new WebServiceZone(this,new CallBackWSConsumerSend<Zone>() {
+        WebServiceZone WZ = new WebServiceZone(this, new CallBackWSConsumerSend<Zone>() {
             @Override
             public void OnResultPresent() {
-                Toast.makeText(MapsActivity.this,"Zone Added !",Toast.LENGTH_LONG).show();
+                Toast.makeText(MapsActivity.this, "Zone Added !", Toast.LENGTH_LONG).show();
                 bar.setVisibility(View.INVISIBLE);
-                new Thread(()->{sleep(1000);onBackPressed();}).run();
+                new Thread(() -> {
+                    sleep(1000);
+                    onBackPressed();
+                }).run();
             }
 
             @Override
             public void OnResultNull() {
-                Toast.makeText(MapsActivity.this,"Something Went Wrong !",Toast.LENGTH_LONG).show();
+                Toast.makeText(MapsActivity.this, "Something Went Wrong !", Toast.LENGTH_LONG).show();
                 AddFab.setEnabled(true);
                 EditFab.setEnabled(true);
                 bar.setVisibility(View.INVISIBLE);
@@ -238,15 +276,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void OnHostUnreachable() {
-                Toast.makeText(MapsActivity.this,"Host unreachable!",Toast.LENGTH_LONG).show();
+                Toast.makeText(MapsActivity.this, "Host unreachable!", Toast.LENGTH_LONG).show();
                 AddFab.setEnabled(true);
                 EditFab.setEnabled(true);
                 bar.setVisibility(View.INVISIBLE);
 
             }
         });
-        Zone z= new Zone(MapsActivity.this.zonename,currentMarker.getPosition().longitude,currentMarker.getPosition().latitude,mCircle.getRadius(), Session.getSession(this).getSessionUser());
-        WZ.insert(z);
+        Zone z = new Zone(MapsActivity.this.zonename, currentMarker.getPosition().longitude, currentMarker.getPosition().latitude, mCircle.getRadius(), Session.getSession(this).getSessionUser());
+        if (!updateMode)
+            WZ.insert(z);
+        else
+            WZ.update(z);
     }
 
 }

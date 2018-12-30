@@ -160,6 +160,7 @@ public class GMapsTrackingForeGroundService extends Service {
         } catch (IllegalArgumentException ex) {
             Log.d(TAG, "gps provider does not exist " + ex.getMessage());
         }
+
     }
 
     private void initializeLocationManager() {

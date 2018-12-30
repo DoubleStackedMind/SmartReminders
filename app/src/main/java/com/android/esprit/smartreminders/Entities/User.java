@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public  class User implements Entity {
     private int id;
@@ -14,6 +15,8 @@ public  class User implements Entity {
     private String name;
     private String password;
     private DailyPlan dailyplan;
+    private Set<AbstractEventOrTask>Plans;
+    private Set<Zone> zones;
     public User(){}
     public User(int id, String email, String password,String name) {
         this.id = id;
@@ -64,6 +67,26 @@ public  class User implements Entity {
                 Objects.equals(email, user.email) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(password, user.password);
+    }
+
+    public void setDailyplan(DailyPlan dailyplan) {
+        this.dailyplan = dailyplan;
+    }
+
+    public Set<AbstractEventOrTask> getPlans() {
+        return Plans;
+    }
+
+    public void setPlans(Set<AbstractEventOrTask> plans) {
+        Plans = plans;
+    }
+
+    public Set<Zone> getZones() {
+        return zones;
+    }
+
+    public void setZones(Set<Zone> zones) {
+        this.zones = zones;
     }
 
     @Override

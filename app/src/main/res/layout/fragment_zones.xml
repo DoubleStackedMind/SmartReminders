@@ -26,5 +26,5 @@
         android:layout_margin="16dp"
         android:hapticFeedbackEnabled="true"
         android:fadingEdge="vertical"
-        android:src="@drawable/add_new" />
+        android:src="@drawable/ic_add_new_24dp" />
   </FrameLayout>

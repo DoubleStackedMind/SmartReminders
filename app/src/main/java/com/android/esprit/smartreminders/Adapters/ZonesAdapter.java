@@ -3,6 +3,7 @@ package com.android.esprit.smartreminders.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -25,6 +26,7 @@ import com.android.esprit.smartreminders.Services.WebServiceZone;
 import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.activities.MapsActivity;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -60,10 +62,10 @@ public class ZonesAdapter extends CustomAdapter<Zone> {
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         String city = addresses.get(0).getLocality();
-        String state = addresses.get(0).getAdminArea();
+       /* String state = addresses.get(0).getAdminArea();
         String country = addresses.get(0).getCountryName();
         String postalCode = addresses.get(0).getPostalCode();
-        String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+        String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL */
         DecimalFormat  df2 = new DecimalFormat(".##");
 
         TextView city_v = convertView.findViewById(R.id.city_zone);
@@ -83,7 +85,13 @@ public class ZonesAdapter extends CustomAdapter<Zone> {
             confirmAndDelete();
         });
         editBtn.setOnClickListener((v) -> {
-            // update
+            Intent intent = new Intent((MainFrame)context, MapsActivity.class);
+            try {
+                intent.putExtra("zone",Array.get(position).ToJsonObject().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ((MainFrame)context).startActivity(intent);
         });
 
 

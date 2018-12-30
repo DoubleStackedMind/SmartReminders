@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="2dp">
 
             <Button
                 android:id="@+id/deletePlan_btn"
@@ -69,16 +69,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
 
-                    <TextView
-                        android:id="@+id/titleView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="Check Home"
-                        android:textColor="@color/colorGray"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
 
                     <LinearLayout
                         android:id="@+id/Timing"
@@ -87,31 +77,27 @@
                         android:layout_below="@+id/text2"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="At"
-                            android:textColor="@color/colorLightGray"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@id/StartTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="15:30"
+                            android:layout_marginLeft="20dp"
+                            android:text="Enters"
                             android:textColor="@color/colorLightGray"
                             android:textSize="13dp"
                             android:textStyle="bold" />
+
                         <TextView
+                            android:id="@+id/titleView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:text="pm"
-                            android:textColor="@color/colorLightGray"
-                            android:textSize="13dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="Zone : Home"
+                            android:textColor="@color/colorGray"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
+
 
                     </LinearLayout>
 
