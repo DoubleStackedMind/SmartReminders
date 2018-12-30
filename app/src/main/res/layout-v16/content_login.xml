@@ -36,7 +36,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/login_label"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="30sp" />
 
             <LinearLayout
@@ -59,7 +59,7 @@
                         android:selectAllOnFocus="false"
                         android:text="@string/email_label"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15sp" />
 
                     <EditText
@@ -91,7 +91,7 @@
                         android:fontFamily="sans-serif-light"
                         android:text="@string/password_label"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15sp" />
 
                     <EditText
@@ -119,7 +119,7 @@
                 android:layout_below="@+id/linlay1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/btn_bg"
+                android:background="@drawable/roun_rect_pruple"
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
@@ -152,7 +152,7 @@
             android:fontFamily="sans-serif"
             android:text="@string/signup_now_label"
             android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
             android:fontFamily="sans-serif"
             android:text="@string/forgot_password_label"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
