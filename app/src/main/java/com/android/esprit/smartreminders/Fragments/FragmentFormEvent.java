@@ -36,8 +36,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     private Button pushBSaturday;
     private Button StartTimeBtn;
     private Button EndTimeBtn;
-    private EditText title;
-    private Spinner tasks;
     private int hour;
     private int minute;
     private int StartHour;
@@ -92,8 +90,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         pushBSaturday = this.ParentActivity.findViewById(R.id.pushb_saturday);
         pushBSaturday.setOnClickListener(this);
 
-        title = this.ParentActivity.findViewById(R.id.title);
-        tasks = this.ParentActivity.findViewById(R.id.spinnerTask);
+     //   title = this.ParentActivity.findViewById(R.id.title);
+     //   tasks = this.ParentActivity.findViewById(R.id.Actions);
 
       /*    StartTimeBtn = this.ParentActivity.findViewById(R.id.StartTimeBtn);
           StartTimeBtn.setOnClickListener(this);

@@ -55,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Circle mCircle;
-    private PermissionHandler p;
     private View HelperView;
     private Marker currentMarker;
     private View mapView;
@@ -71,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AlertDialog dialog;
     private EditText input;
     private boolean updateMode;
-
+    private int zone_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +182,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(this);
         Intent intent = getIntent();
         if (intent.hasExtra("zone")) {
+            mMap.clear();
+            System.out.println("done");
             updateMode = true;
             Zone z = new Zone();
             try {
@@ -190,6 +191,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            zone_id=z.getId();
             currentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(z.getLat(), z.getLng())).title("Zone Home : Radius = 5 m"));
 
             radiusInMeters = z.getRadius();
@@ -212,10 +214,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentMarker == null) {
             EditFab.setVisibility(View.VISIBLE);
             AddFab.setVisibility(View.VISIBLE);
-        } else{
+        } else
             mMap.clear();
             drawMarkerWithCircle(latLng);
-        }
+
     }
 
     private void drawMarkerWithCircle(LatLng position) {
@@ -258,7 +260,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         WebServiceZone WZ = new WebServiceZone(this, new CallBackWSConsumerSend<Zone>() {
             @Override
             public void OnResultPresent() {
-                Toast.makeText(MapsActivity.this, "Zone Added !", Toast.LENGTH_LONG).show();
+                String result;
+                result="Zone Added !";
+                if(updateMode)
+                    result="Zone modifed !";
+                Toast.makeText(MapsActivity.this, result, Toast.LENGTH_LONG).show();
                 bar.setVisibility(View.INVISIBLE);
                 new Thread(() -> {
                     sleep(1000);
@@ -286,8 +292,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Zone z = new Zone(MapsActivity.this.zonename, currentMarker.getPosition().longitude, currentMarker.getPosition().latitude, mCircle.getRadius(), Session.getSession(this).getSessionUser());
         if (!updateMode)
             WZ.insert(z);
-        else
+        else{
+            z.setId(zone_id);
             WZ.update(z);
+        }
+
     }
 
 }

@@ -10,7 +10,6 @@ import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -92,14 +91,12 @@ public class Event extends AbstractEventOrTask implements Entity {
         StringArray = ja.get("starttime").toString().split(":");
         hours = StringArray[0];
         minutes = StringArray[1];
-        seconds = StringArray[2];
-        this.StartTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes), Integer.valueOf(seconds));
+        this.StartTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
 
         StringArray = ja.get("endtime").toString().split(":");
         hours = StringArray[0];
         minutes = StringArray[1];
-        seconds = StringArray[2];
-        this.EndTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes), Integer.valueOf(seconds));
+        this.EndTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
 
     }
 

@@ -212,8 +212,11 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
     }
 
     public void goToUnStackedFragment(FragmentChild Child) {
-        if(!Child.getClass().equals(visibleFragment))
-        switchFragments(R.id.fragment_container, Child);
+        if(!Child.getClass().equals(visibleFragment)) {
+
+            visibleFragment=Child.getClass();
+            switchFragments(R.id.fragment_container, Child);
+        }
 
     }
 

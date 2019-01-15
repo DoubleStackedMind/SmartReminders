@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,136 +9,194 @@
     tools:context=".Test.addPlan"
     >
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
-        android:textAlignment="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorGray"
-        android:textColorHint="@color/colorGray" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="textEmailSubject"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Days: "
-        android:textSize="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorGray"
-        android:layout_marginTop="15dp"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textEmailSubject"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Execution Days: "
+        android:textAlignment="textStart"
+        android:textColor="@color/colorGray"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Actions" />
 
     <LinearLayout
         android:id="@+id/linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        >
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/TimeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <Button
             android:id="@+id/pushb_sunday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Sun" />
+            android:text="Sun"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_monday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Mon" />
+            android:text="Mon"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_tuesday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Tue" />
+            android:text="Tue"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_wednesday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Wed" />
+            android:text="Wed"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_thursday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Thu" />
+            android:text="Thu"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_friday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Fri" />
+            android:text="Fri"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_saturday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Sat" />
+            android:text="Sat"
+            android:textColor="@color/white" />
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Tasks: "
-        android:textSize="20dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="15dp"
-        />
 
-    <Spinner
-        android:id="@+id/spinnerTask"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorBackroundWhite"
-        android:entries="@array/plan_type"
-        android:prompt="@string/plan_prompt" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Execution Time: "
-        android:textSize="20dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description">
+
+        <TextView
+            android:id="@+id/actionsText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:hint="Actions"
+            android:textColor="@color/colorGray"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.design.widget.TextInputLayout>
+
+
 
     <Button
         android:id="@+id/TimeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/roun_rect_green"
         android:text="Set Time"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/AddPlan"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
         android:id="@+id/AddPlan"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/roun_rect_green"
         android:text="Add Plan"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
