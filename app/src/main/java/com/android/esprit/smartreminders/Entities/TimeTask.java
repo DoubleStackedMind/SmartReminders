@@ -22,8 +22,8 @@ public class TimeTask extends Task implements Entity {
         this.executionTime = executionTime;
     }
 
-    public TimeTask(StateOfTask state, String description, Set<DayOfTheWeek> days, Time executionTime) {
-        super(state, description, days);
+    public TimeTask(StateOfTask state, String description, Set<DayOfTheWeek> days, Time executionTime,User owner ) {
+        super(state, description, days,owner);
         this.executionTime = executionTime;
     }
 

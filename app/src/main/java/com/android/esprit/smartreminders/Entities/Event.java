@@ -24,8 +24,8 @@ public class Event extends AbstractEventOrTask implements Entity {
         super();
     }
 
-    public Event(StateOfTask state, String description, Set<DayOfTheWeek> days, Time StartTime, Time EndTime, int Reminder) {
-        super(state, description, days);
+    public Event(StateOfTask state, String description, Set<DayOfTheWeek> days, Time StartTime, Time EndTime, int Reminder,User owner) {
+        super(state, description, days ,owner);
         this.StartTime = StartTime;
         this.EndTime = EndTime;
         this.Reminder = Reminder;

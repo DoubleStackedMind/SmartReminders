@@ -1,5 +1,7 @@
 package com.android.esprit.smartreminders.Entities;
 
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
+import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.Enums.ZoneTriggerType;
 import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
@@ -8,12 +10,14 @@ import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class ZoneTask extends Task implements Entity {
     private Zone zone;
     private ZoneTriggerType triggerType;
     public ZoneTask(){super();}
-    public ZoneTask(Zone zone,ZoneTriggerType triggerType){
+    public ZoneTask(StateOfTask state, String description, Set<DayOfTheWeek> days, User owner,Zone zone, ZoneTriggerType triggerType){
+        super(state,description,days,owner);
         this.zone=zone;
         this.triggerType=triggerType;
     }

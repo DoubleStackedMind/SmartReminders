@@ -26,8 +26,8 @@ public class TriggerTask extends Task implements Entity {
         this.triggers = triggers;
     }
 
-    public TriggerTask(StateOfTask state, String description, Set<DayOfTheWeek> days, Set<Trigger> triggers) {
-        super(state, description, days);
+    public TriggerTask(StateOfTask state, String description, Set<DayOfTheWeek> days, Set<Trigger> triggers,User owner) {
+        super(state, description, days,owner);
         this.triggers = triggers;
     }
 
