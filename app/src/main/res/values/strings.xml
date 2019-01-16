@@ -113,6 +113,8 @@
     <string name="math_course_and_preparing_for_the_exam">Math course and preparing for the exam</string>
     <string name="_15_30_17_15">15:30-17:15</string>
     <string name="logout_action">logout</string>
+    <string name="Profile">Profile</string>
+    <string name="Mainmenu">Main Menu</string>
 
 
 </resources>

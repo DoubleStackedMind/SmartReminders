@@ -2,12 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
+    <item android:title="@string/Mainmenu">
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="@string/nav_home" />
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/schedules"
@@ -29,22 +25,24 @@
             android:icon="@drawable/upcoming_events"
             android:title="@string/events_meetingss" />
     </group>
+    </item>
 
-    <item android:title="@string/community">
+    <item android:title="@string/Profile">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/share"
-                android:title="@string/share_your_tasks" />
+                android:id="@+id/nav_Profle"
+                android:icon="@drawable/profile_icon"
+                android:title="@string/Profile" />
             <item
-                android:id="@+id/nav_browse"
-                android:icon="@drawable/download_schedules"
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/settings"
                 android:title="@string/browse_for_tasks" />
+            <item
+                android:id="@+id/action_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="@string/logout_action" />
         </menu>
     </item>
-    <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"
-        android:title="@string/logout_action" />
+
 
 </menu>

@@ -7,6 +7,8 @@ import android.util.Log;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
+import com.android.esprit.smartreminders.appcommons.App;
+import com.android.esprit.smartreminders.sessions.Session;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,16 +22,38 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class  AbstractEventOrTask implements Entity {
+public abstract class AbstractEventOrTask implements Entity {
     protected int id;
+    protected String title;
     protected StateOfTask state;
     protected String description;
     protected Set<DayOfTheWeek> days;
-    public AbstractEventOrTask(){}
-    public AbstractEventOrTask(StateOfTask state,String description,Set<DayOfTheWeek> days){
-        this.state=state;
-        this.description=description;
-        this.days=days;
+    protected User owner;
+
+    public AbstractEventOrTask() {
+    }
+
+    public AbstractEventOrTask(StateOfTask state, String description, Set<DayOfTheWeek> days, User owner) {
+        this.state = state;
+        this.description = description;
+        this.days = days;
+        this.owner = owner;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setDays(Set<DayOfTheWeek> days) {
@@ -85,25 +109,36 @@ public abstract class  AbstractEventOrTask implements Entity {
     }
 
     @Override
-    public String toString(){
-        return "state="+
-                state+
-                ","+
-                "Description="+
-                description+
-                ", "+
-                "Day of Week="+
-                days;
+    public String toString() {
+        return "state=" +
+                state +
+                "," +
+                "Description=" +
+                description +
+                ", " +
+                "Day of Week=" +
+                days +
+                "," +
+                "title=" +
+                title +
+                "," +
+                "owner=" +
+                owner;
     }
+
     @Override
-    public void FromJsonObject(JSONObject ja) throws JSONException ,NotAValidStateOfTask {
-        this.id=ja.getInt("id");
-        this.state=StateOfTask.fromString(ja.getString("state"));
-        this.description=ja.getString("description");
-        Set<DayOfTheWeek>days = new HashSet<>();
-        JSONArray jsa=(JSONArray)ja.get("days");
-        for(int i=0;i<jsa.length();i++) {
-            days.add(DayOfTheWeek.valueOf(((JSONObject)jsa.get(i)).get("day").toString()));
+    public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
+        this.id = ja.getInt("id");
+        this.state = StateOfTask.fromString(ja.getString("state"));
+        this.description = ja.getString("description");
+        this.title = ja.getString("title");
+        User u = new User();
+        u.FromJsonObject(new JSONObject(ja.getString("user")));
+        this.owner = u;
+        Set<DayOfTheWeek> days = new HashSet<>();
+        JSONArray jsa = (JSONArray) ja.get("days");
+        for (int i = 0; i < jsa.length(); i++) {
+            days.add(DayOfTheWeek.valueOf(((JSONObject) jsa.get(i)).get("day").toString()));
         }
         this.days.addAll(days);
     }
@@ -111,19 +146,22 @@ public abstract class  AbstractEventOrTask implements Entity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public JSONObject ToJsonObject() throws JSONException {
-        JSONArray days= new JSONArray();
-        this.days.forEach((d)->{
+        JSONArray days = new JSONArray();
+        this.days.forEach((d) -> {
             try {
-                days.put(new JSONObject().put("day",d.toString()));
-            }catch (JSONException j){
-                Log.d("Entity :EventOrTask", "ToJsonObject: "+j.getMessage());
+                days.put(new JSONObject().put("day", d.toString()));
+            } catch (JSONException j) {
+                Log.d("Entity :EventOrTask", "ToJsonObject: " + j.getMessage());
             }
         });
         return
                 new JSONObject()
                         .put("id", this.id)
+                        .put("description", this.description)
+                        .put("title", this.title)
                         .put("state", this.state.toString())
-                        .put("days", days);
+                        .put("days", days)
+                        .put("user", this.owner.getId());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -131,20 +169,23 @@ public abstract class  AbstractEventOrTask implements Entity {
     public Map<String, String> ToPostMap() {
         Map<String, String> res = new HashMap<>();
         res.put("description", this.description);
-        res.put("id", this.id +"");
+        res.put("id", this.id + "");
+        res.put("title", this.title);
         res.put("state", this.state.toString());
-        JSONArray days= new JSONArray();
-        this.days.forEach((d)->{
+        res.put("user",this.owner.getId()+"");
+        JSONArray days = new JSONArray();
+        this.days.forEach((d) -> {
             try {
-                days.put(new JSONObject().put("day",d.toString()));
-            }catch (JSONException j){
-                Log.d("Entity :EventOrTask", "ToJsonObject: "+j.getMessage());
+                days.put(new JSONObject().put("day", d.toString()));
+            } catch (JSONException j) {
+                Log.d("Entity :EventOrTask", "ToJsonObject: " + j.getMessage());
             }
         });
-        res.put("days",days.toString());
+        res.put("days", days.toString());
         return res;
     }
-    public boolean isMemberOfToday(){
+
+    public boolean isMemberOfToday() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         return days.contains(DayOfTheWeek.DayOfWeekForID(day));

@@ -25,8 +25,8 @@ public abstract class Task extends AbstractEventOrTask implements Entity {
     public Task() {
     }
 
-    public Task(StateOfTask state, String description, Set<DayOfTheWeek> days) {
-        super(state, description, days);
+    public Task(StateOfTask state, String description, Set<DayOfTheWeek> days,User owner) {
+        super(state, description, days,owner);
     }
 
     public Set<Action> getActions() {

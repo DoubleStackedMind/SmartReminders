@@ -27,7 +27,6 @@ import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Fragments.BrowseTasksFragment;
 import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
 import com.android.esprit.smartreminders.Fragments.FragmentChild;
-import com.android.esprit.smartreminders.Fragments.HomeFragment;
 import com.android.esprit.smartreminders.Fragments.PlansFragment;
 import com.android.esprit.smartreminders.Fragments.ProfileFragment;
 import com.android.esprit.smartreminders.Fragments.ScheduleFragment;
@@ -37,8 +36,6 @@ import com.android.esprit.smartreminders.Fragments.TasksFragment;
 import com.android.esprit.smartreminders.Fragments.ZonesFragment;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.appcommons.activity.AppCommonsActivity;
-import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
-import com.android.esprit.smartreminders.customControllers.CameraController;
 import com.android.esprit.smartreminders.sessions.Session;
 
 public class MainFrame extends AppCommonsActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -65,7 +62,7 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
         this.setTitle(R.string.app_name);
-        this.switchFragments(R.id.fragment_container, new HomeFragment());
+        this.switchFragments(R.id.fragment_container, new ScheduleFragment());
         new Handler().postDelayed(this::init_Layout_data, 500);
 
     }
@@ -125,10 +122,8 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            goToHomeFragment();
-            visibleFragment = HomeFragment.class;
-        } else if (id == R.id.nav_schedule) {
+
+         if (id == R.id.nav_schedule) {
             goToScheduleFragment();
             visibleFragment = ScheduleFragment.class;
         } else if (id == R.id.nav_daily) {
@@ -140,13 +135,8 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
         } else if (id == R.id.nav_events) {
             goToEventndMeetingsFragment();
             visibleFragment = EventsndMettingsFragment.class;
-        } else if (id == R.id.nav_share) {
-            goToShareTasksFragment();
-            visibleFragment = ShareTasksFragment.class;
-        } else if (id == R.id.nav_browse) {
-            goToBrowseTasksFragment();
-            visibleFragment = BrowseTasksFragment.class;
-        } else if (id == R.id.nav_zones) {
+        }
+         else if (id == R.id.nav_zones) {
             goToZonesFragment();
             visibleFragment = ZonesFragment.class;
         } else if (id == R.id.action_logout) {
@@ -157,11 +147,7 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
         return true;
     }
 
-    private void goToHomeFragment() {
 
-        if (!HomeFragment.class.equals(visibleFragment))
-            this.switchFragments(R.id.fragment_container, new HomeFragment());
-    }
 
     private void goToScheduleFragment() {
         if (!ScheduleFragment.class.equals(visibleFragment))
