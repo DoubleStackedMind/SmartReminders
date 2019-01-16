@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,166 +9,203 @@
     tools:context=".Test.addPlan"
     >
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
-        android:textAlignment="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorGray"
-        android:textColorHint="@color/colorGray" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="textEmailSubject"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Days: "
-        android:textSize="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorGray"
-        android:layout_marginTop="15dp"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textEmailSubject"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Happens On: "
+        android:textAlignment="textStart"
+        android:textColor="@color/colorGray"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Actions" />
 
     <LinearLayout
         android:id="@+id/linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        >
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/StartTimeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <Button
             android:id="@+id/pushb_sunday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Sun" />
+            android:text="Sun"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_monday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Mon" />
+            android:text="Mon"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_tuesday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Tue" />
+            android:text="Tue"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_wednesday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Wed" />
+            android:text="Wed"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_thursday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Thu" />
+            android:text="Thu"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_friday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Fri" />
+            android:text="Fri"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/pushb_saturday"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:text="Sat" />
+            android:text="Sat"
+            android:textColor="@color/white" />
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Tasks: "
-        android:textSize="20dp"
-        android:textColor="@color/colorGray"
-        android:layout_marginTop="15dp"
-        />
 
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/RemindMeOn"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Start Time: "
-        android:textSize="20dp"
-        android:textColor="@color/colorGray"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@drawable/shadow"
+        android:text="REMIND ME ON"
+        android:background="@drawable/roun_rect_green"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
+
+
 
     <Button
         android:id="@+id/StartTimeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/roun_rect_green"
+        android:text="Set Start Time"
         android:textColor="@color/white"
-        android:text="Set Time" />
+        app:layout_constraintBottom_toTopOf="@+id/EndTimeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="End Time Time: "
-        android:textSize="20dp"
-        android:textColor="@color/colorGray"
-        android:layout_marginTop="15dp"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
     <Button
         android:id="@+id/EndTimeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/roun_rect_green"
+        android:text="Set End Time"
         android:textColor="@color/white"
-        android:text="Set Time" />
+        app:layout_constraintBottom_toTopOf="@+id/AddPlan"
+        app:layout_constraintEnd_toEndOf="parent"
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center">
-    <Button
-        android:id="@+id/RemindMeOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:text="REMIND ME ON"
-        android:backgroundTint="@drawable/shadow"        android:layout_marginTop="20dp"
-        android:paddingRight="10dp"
-        android:textColor="@color/pruple_button" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <Button
         android:id="@+id/AddPlan"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Add plan"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/roun_rect_pruple"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white" />
-    </LinearLayout>
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/roun_rect_green"
+        android:text="Add Event"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

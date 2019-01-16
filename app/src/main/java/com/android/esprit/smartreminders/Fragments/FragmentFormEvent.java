@@ -90,18 +90,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         pushBSaturday = this.ParentActivity.findViewById(R.id.pushb_saturday);
         pushBSaturday.setOnClickListener(this);
 
-     //   title = this.ParentActivity.findViewById(R.id.title);
-     //   tasks = this.ParentActivity.findViewById(R.id.Actions);
-
-      /*    StartTimeBtn = this.ParentActivity.findViewById(R.id.StartTimeBtn);
-          StartTimeBtn.setOnClickListener(this);
-          EndTimeBtn = this.ParentActivity.findViewById(R.id.EndTimeBtn);
-          EndTimeBtn.setOnClickListener(this);
-
-          RemindMeOn = this.ParentActivity.findViewById(R.id.RemindMeOn);
-          RemindMeOn.setOnClickListener(this);
-          np = new NumberPicker(getActivity());
-          */
     }
 
     private void defineBehaviour() {
