@@ -72,7 +72,7 @@ public class TimeTask extends Task implements Entity {
         String hours;
         String StringArray[];
 
-        StringArray = ja.get("executiontime").toString().split(":");
+        StringArray = ja.get("executionTime").toString().split(":");
         hours = StringArray[0];
         minutes = StringArray[1];
         this.executionTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
@@ -82,14 +82,14 @@ public class TimeTask extends Task implements Entity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public JSONObject ToJsonObject() throws JSONException {
-        return super.ToJsonObject().put("executiontime", this.executionTime);
+        return super.ToJsonObject().put("executionTime", this.executionTime);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
         Map<String, String> res = super.ToPostMap();
-        res.put("executiontime", this.executionTime.toString());
+        res.put("executionTime", this.executionTime.toString());
         return res;
     }
 }
