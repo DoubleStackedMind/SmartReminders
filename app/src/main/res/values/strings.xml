@@ -112,5 +112,12 @@
     <string name="Profile">Profile</string>
     <string name="Mainmenu">Main Menu</string>
 
+    <string name="sett_reminder_header">Set a Meeting Reminder</string>
+    <string name="sett_reminder_label">Remind Me</string>
+    <string name="sett_reminder_desc">We will remind you to make entiries of your expense</string>
+    <string name="sett_start_reminder_time_label">Set Event Starting Time</string>
+    <string name="sett_end_reminder_time_label">Set Event Ending Time</string>
+    <string name="sett_reminder_time_content">8 : 00 PM</string>
+
 
 </resources>

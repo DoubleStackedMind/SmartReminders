@@ -96,6 +96,17 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
 
     public void Consume(String url, T t) {
+     /*   StringBuilder localUrl= new StringBuilder(url);
+        Map<String, String> columnAndValue= t.ToPostMap();
+        for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
+            if (localUrl.toString().endsWith("w"))// beginning of the get attributes
+            {
+                localUrl.append("?").append(one.getKey()).append("=").append(one.getValue());
+            } else // after adding the first attribue you pass an &
+            {
+                localUrl.append("&").append(one.getKey()).append("=").append(one.getValue());
+            }
+        } */
         Log.d("Url", "Consume: Url Used :" + url);
         StringRequest postRequest = new StringRequest(
                 Request.Method.POST,
