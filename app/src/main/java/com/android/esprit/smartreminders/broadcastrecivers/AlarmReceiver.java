@@ -33,7 +33,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         Log.d(TAG, "onReceive: ");
-
         //Trigger the notification
         NotificationScheduler.showNotification(context, MainFrame.class,
                 "Don't you have a meeting?", "Keep an eye on the time!");

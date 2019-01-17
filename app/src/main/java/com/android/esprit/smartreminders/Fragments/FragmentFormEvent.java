@@ -28,6 +28,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -55,15 +56,15 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
     SwitchCompat reminderSwitch;
     TextView tvTime;
+    TextView EndtvTime;
+    RelativeLayout ll_set_time, ll_end_time;
 
-    LinearLayout ll_set_time, ll_terms;
-
-    int hour=0, min=0;
+    int hour = 0, min = 0;
 
     ClipboardManager myClipboard;
 
 
-    private TextInputLayout title ;
+    private TextInputLayout title;
     private TextInputLayout description;
     private Button pushBSunday;
     private Button getPushBMonday;
@@ -78,7 +79,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     private int EndMin;
     private Button RemindMeOn;
     private Button AddPlan;
-   private Set<DayOfTheWeek> SelectedDays;
+    private Set<DayOfTheWeek> SelectedDays;
     private String[] Days = new String[7];
     int number = 0;
 
@@ -90,7 +91,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    }
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -108,8 +110,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     }
 
     private void initViews() {
-        title =  this.ParentActivity.findViewById(R.id.Title);
-        description =  this.ParentActivity.findViewById(R.id.description);
+        title = this.ParentActivity.findViewById(R.id.Title);
+        description = this.ParentActivity.findViewById(R.id.description);
         np = new NumberPicker(this.getContext());
         SelectedDays = new HashSet<>();
         pushBSunday = this.ParentActivity.findViewById(R.id.pushb_sunday);
@@ -135,9 +137,12 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
         myClipboard = (ClipboardManager) this.getParentActivity().getSystemService(this.ParentActivity.CLIPBOARD_SERVICE);
 
-        ll_set_time =  this.ParentActivity.findViewById(R.id.ll_set_time);
+        ll_set_time = this.ParentActivity.findViewById(R.id.ll_set_time);
+        ll_end_time = this.ParentActivity.findViewById(R.id.ll_end_time);
+
 
         tvTime = this.ParentActivity.findViewById(R.id.tv_start_reminder_time_desc);
+        EndtvTime = this.ParentActivity.findViewById(R.id.tv_end_reminder_time_desc);
 
         reminderSwitch = this.ParentActivity.findViewById(R.id.timerSwitch);
 
@@ -160,11 +165,10 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 localData.setReminderStatus(isChecked);
                 if (isChecked) {
                     Log.d(TAG, "onCheckedChanged: true");
-                    NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
                     ll_set_time.setAlpha(1f);
                 } else {
                     Log.d(TAG, "onCheckedChanged: false");
-                    NotificationScheduler.cancelReminder(getContext(),AlarmReceiver.class);
+                    NotificationScheduler.cancelReminder(getContext(), AlarmReceiver.class);
                     ll_set_time.setAlpha(0.4f);
                 }
             }
@@ -175,6 +179,14 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
             public void onClick(View view) {
                 if (localData.getReminderStatus())
                     showTimePickerDialog(localData.get_hour(), localData.get_min());
+            }
+        });
+
+        ll_end_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(localData.getReminderStatus())
+                    showTimePickerDialogEnd(localData.get_hour(), localData.get_min());
             }
         });
     }
@@ -294,7 +306,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
                     }
                 });
-                if(np.getParent() == null) {
+                if (np.getParent() == null) {
                     alertDialog.setView(np);
                     alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Choose", new DialogInterface.OnClickListener() {
                         @Override
@@ -305,32 +317,51 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                     if (!alertDialog.isShowing())
                         alertDialog.show();
                 } else {
-                    ((ViewGroup)np.getParent()).removeView(np);
+                    ((ViewGroup) np.getParent()).removeView(np);
                 }
                 break;
             case R.id.AddPlan:
-                for(DayOfTheWeek d : SelectedDays) {
+                if (localData.get_min() - number < 0){
+                    localData.set_hour(localData.get_hour() - 1);
+                    localData.set_min(60 - number);}
+                else
+                    localData.set_min(localData.get_min() - number);
+                for (DayOfTheWeek d : SelectedDays) {
                     switch (d) {
                         case Sunday:
-                            setAlarm(0, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            //setAlarm(0, StartHour, StartMin,1);
                             break;
                         case Monday:
-                            setAlarm(1, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            //setAlarm(1, StartHour, StartMin,1);
                             break;
                         case Tuesday:
-                            setAlarm(2, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            // setAlarm(2, StartHour, StartMin,1);
                             break;
                         case Wednesday:
-                            setAlarm(3, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            //setAlarm(3, StartHour, StartMin,1);
                             break;
                         case Thursday:
-                            setAlarm(4, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            // setAlarm(4, StartHour, StartMin,1);
                             break;
                         case Friday:
-                            setAlarm(5, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            //setAlarm(5, StartHour, StartMin,1);
                             break;
                         case Saturday:
-                            setAlarm(6, StartHour, StartMin,1);
+                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
+                            //setAlarm(6, StartHour, StartMin,1);
                             break;
                     }
                 }
@@ -339,13 +370,12 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     }
 
 
-
     public void setAlarm(int dayOfWeek, int AlarmHrsInInt, int AlarmMinsInInt, int amorpm) {
         Calendar alarmCalendar = Calendar.getInstance();
         alarmCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         alarmCalendar.set(Calendar.HOUR, AlarmHrsInInt);
         alarmCalendar.set(Calendar.MINUTE, AlarmMinsInInt);
-        System.out.println("########## Reminder SET FOR : "+AlarmHrsInInt +" : "+AlarmMinsInInt);
+        System.out.println("########## Reminder SET FOR : " + AlarmHrsInInt + " : " + AlarmMinsInInt);
         alarmCalendar.set(Calendar.SECOND, 0);
         alarmCalendar.set(Calendar.AM_PM, amorpm);
 
@@ -364,7 +394,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.timepicker_header, null);
 
-        TimePickerDialog builder = new TimePickerDialog(getContext(),R.style.DialogTheme,
+        TimePickerDialog builder = new TimePickerDialog(getContext(), R.style.DialogTheme,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
@@ -373,15 +403,35 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                         localData.set_hour(hour);
                         localData.set_min(min);
                         tvTime.setText(getFormatedTime(hour, min));
-                        NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                        //   NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
                     }
                 }, h, m, false);
 
         builder.setCustomTitle(view);
         builder.show();
-
     }
 
+    private void showTimePickerDialogEnd(int h, int m) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.timepicker_header, null);
+
+        TimePickerDialog builder = new TimePickerDialog(getContext(), R.style.DialogTheme,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                        Log.d(TAG, "onTimeSet: hour " + hour);
+                        Log.d(TAG, "onTimeSet: min " + min);
+                        localData.set_hour(hour);
+                        localData.set_min(min);
+                        EndtvTime.setText(getFormatedTime(hour, min));
+                        //   NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                    }
+                }, h, m, false);
+
+        builder.setCustomTitle(view);
+        builder.show();
+    }
 
     public String getFormatedTime(int h, int m) {
         final String OLD_FORMAT = "HH:mm";
