@@ -34,13 +34,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Entities.Event;
+import com.android.esprit.smartreminders.Entities.Time;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
+import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
+import com.android.esprit.smartreminders.Services.WebServiceEvent;
 import com.android.esprit.smartreminders.Test.LocalData;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
 import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.broadcastrecivers.AlarmReceiver;
 import com.android.esprit.smartreminders.notifications.NotificationScheduler;
+import com.android.esprit.smartreminders.sessions.Session;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -64,8 +70,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     ClipboardManager myClipboard;
 
 
-    private TextInputLayout title;
-    private TextInputLayout description;
+    private EditText title;
+    private EditText description;
     private Button pushBSunday;
     private Button getPushBMonday;
     private Button pushBTuesday;
@@ -110,8 +116,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     }
 
     private void initViews() {
-        title = this.ParentActivity.findViewById(R.id.Title);
-        description = this.ParentActivity.findViewById(R.id.description);
+        title = this.ParentActivity.findViewById(R.id.titleText);
+        description = this.ParentActivity.findViewById(R.id.descriptionText);
         np = new NumberPicker(this.getContext());
         SelectedDays = new HashSet<>();
         pushBSunday = this.ParentActivity.findViewById(R.id.pushb_sunday);
@@ -321,11 +327,37 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 }
                 break;
             case R.id.AddPlan:
+                Event event = new Event();
+                event.setDay(SelectedDays);
+                event.setEndTime(new Time(localData.get_EndHour(),localData.get_EndMin()));
+                event.setStartTime(new Time(localData.get_hour(),localData.get_min()));
+                event.setTitle(title.getText().toString());
+                event.setDescription(description.getText().toString());
+                event.setOwner(Session.getSession(this.ParentActivity).getSessionUser());
+                event.setReminder(number);
+                event.setState(StateOfTask.PENDING);
+
+                WebServiceEvent wse = new WebServiceEvent(this.ParentActivity, new CallBackWSConsumer<Event>() {
+                    @Override
+                    public void OnHostUnreachable() {
+                        CharSequence text = getString(R.string.hostunreachable);
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(FragmentFormEvent.this.ParentActivity.getApplicationContext(), text, duration);
+                        toast.show();
+                    }
+                });
+                try {
+                    wse.insert(event);
+                    System.out.println("EVENT INSERTED!!!!!!!!!!!!!!!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (localData.get_min() - number < 0){
                     localData.set_hour(localData.get_hour() - 1);
                     localData.set_min(60 - number);}
-                else
+                else {
                     localData.set_min(localData.get_min() - number);
+                }
                 for (DayOfTheWeek d : SelectedDays) {
                     switch (d) {
                         case Sunday:
@@ -398,8 +430,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                        Log.d(TAG, "onTimeSet: hour " + hour);
-                        Log.d(TAG, "onTimeSet: min " + min);
+                        Log.d(TAG, "StartTimeSet: hour " + hour);
+                        Log.d(TAG, "StartTimeSet: min " + min);
                         localData.set_hour(hour);
                         localData.set_min(min);
                         tvTime.setText(getFormatedTime(hour, min));
@@ -420,10 +452,10 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                        Log.d(TAG, "onTimeSet: hour " + hour);
-                        Log.d(TAG, "onTimeSet: min " + min);
-                        localData.set_hour(hour);
-                        localData.set_min(min);
+                        Log.d(TAG, "EndTimeSet: hour " + hour);
+                        Log.d(TAG, "EndTimeSet: min " + min);
+                        localData.set_EndHour(hour);
+                        localData.set_EndMin(min);
                         EndtvTime.setText(getFormatedTime(hour, min));
                         //   NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
                     }
