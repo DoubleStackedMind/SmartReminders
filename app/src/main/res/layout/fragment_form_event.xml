@@ -147,7 +147,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@drawable/shadow"
         android:text="REMIND ME ON"
         android:background="@drawable/roun_rect_green"
         android:textColor="@color/white"
@@ -204,8 +203,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
 
 </android.support.constraint.ConstraintLayout>

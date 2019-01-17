@@ -72,7 +72,7 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:selectAllOnFocus="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorGray"
                         android:textSize="15sp"
                         android:inputType="textEmailAddress"
                         android:hint="@string/email_address_hind"/>
@@ -103,7 +103,7 @@
                         android:fontFamily="sans-serif-light"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorGray"
                         android:textSize="15sp"
                         android:hint="@string/password_for_account_hint"
                         android:inputType="textPassword"/>

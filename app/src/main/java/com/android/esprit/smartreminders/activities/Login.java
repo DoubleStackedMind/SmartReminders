@@ -22,10 +22,12 @@ import com.android.esprit.smartreminders.Services.WebServiceUser;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextEmailValidator;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
+import com.android.esprit.smartreminders.permissionHandlers.PermissionHandler;
 import com.android.esprit.smartreminders.sessions.Session;
 
 import org.json.JSONException;
 
+import java.security.Permission;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +76,8 @@ public class Login extends AppCompatActivity {
             if (checkInputs()) login();
         });
         SignupButton.setOnClickListener(view -> startActivity(new Intent(Login.this,Singup.class)));
+        PermissionHandler p = new PermissionHandler(this);
+
     }
 
     private void runDelayedStartup() {
@@ -136,11 +140,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void OnResultNull() {
                 CharSequence text = getString(R.string.wrong_credentials);
-
                 int duration = Toast.LENGTH_SHORT;
-
                 Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-
                 toast.show();
                 passwordTextView.getText().clear();
                 LoginButton.doneLoadingAnimation(Color.parseColor("#333639"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_error_button));
@@ -148,7 +149,6 @@ public class Login extends AppCompatActivity {
                         () -> LoginButton.revertAnimation(),
                         2000
                 );
-
             }
 
             @Override

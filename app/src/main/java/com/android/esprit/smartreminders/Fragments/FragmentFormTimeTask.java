@@ -18,21 +18,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.android.esprit.smartreminders.Entities.Action;
 import com.android.esprit.smartreminders.Entities.Time;
 import com.android.esprit.smartreminders.Entities.TimeTask;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
+import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
+import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
 import com.android.esprit.smartreminders.Test.NotificationHelper;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
 import com.android.esprit.smartreminders.customControllers.ActionPool;
+import com.android.esprit.smartreminders.sessions.Session;
+
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -93,7 +103,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         timeTask = new TimeTask();
         actions = this.ParentActivity.findViewById(R.id.actionsText);
         Title = this.ParentActivity.findViewById(R.id.title);
-        Description= this.ParentActivity.findViewById(R.id.description);
+        Description = this.ParentActivity.findViewById(R.id.description);
     }
 
     private void defineBehaviour() {
@@ -138,9 +148,9 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         mBuilder.setPositiveButton("Done", (dialogInterface, which) -> {
             String value = "";
             for (Action e : SelectedActions) {
-                value += e.getName()  + "\n";
+                value += e.getName() + "\n";
             }
-            value=value.substring(0,value.length()-1);
+            value = value.substring(0, value.length() - 1);
             actions.setText(value);
 
         });
@@ -150,7 +160,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
             for (int i = 0; i < checkedItems.length; i++) {
                 checkedItems[i] = false;
             }
-            SelectedActions= new HashSet<>();
+            SelectedActions = new HashSet<>();
             actions.setText("");
 
         });
@@ -172,7 +182,41 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
             }
         });*/
         if (isFormValid()) {
+            WebServiceTimeTask ws = new WebServiceTimeTask(FragmentFormTimeTask.this.ParentActivity, new CallBackWSConsumer<TimeTask>() {
+                @Override
+                public void OnHostUnreachable() {
+                    CharSequence text = getString(R.string.hostunreachable);
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), text, duration);
+                    toast.show();
+                }
+            });
+            TimeTask t = new TimeTask();
+            t.setExecutionTime(executionTime);
+            t.setActions(SelectedActions);
+            t.setDay(SelectedDays);
+            t.setDescription(Description.getEditText().getText().toString());
+            t.setState(StateOfTask.IN_PROGRESS);
+            t.setOwner(Session.getSession(this.getParentActivity()).getSessionUser());
+            t.setTitle(Title.getEditText().getText().toString());
+            System.out.println("Time Taaaaaaaaask : " + t);
+            int x = 0;
+            x = ws.insert(t);
+         /*   if (x != 0) {
+                CharSequence text = "SAVED TO DATABASE";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), text, duration);
+                toast.show();
+                Map<String, String> myMap = new HashMap<>();
+                myMap.put("description", Description.getEditText().getText().toString());
+                try {
+                    ws.findBy(myMap);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+
+            }*/
         } else {
             updateDataBase();
         }
@@ -322,7 +366,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
     }
 
     private boolean isFormValid() {
-        return !(EditTextUtils.isInValid(new EditTextRequiredInputValidator(this.Title.getEditText()))&& (EditTextUtils.isInValid(new EditTextRequiredInputValidator(this.Description.getEditText()))&&
+        return !(EditTextUtils.isInValid(new EditTextRequiredInputValidator(this.Title.getEditText())) && (EditTextUtils.isInValid(new EditTextRequiredInputValidator(this.Description.getEditText())) &&
                 SelectedActions.size() == 0 && SelectedDays.size() == 0 && executionTime == null));
     }
 

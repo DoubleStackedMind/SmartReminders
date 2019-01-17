@@ -20,10 +20,13 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FragmentFormEvent extends FragmentChild implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
@@ -43,6 +46,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     private int EndHour;
     private int EndMin;
     private Button RemindMeOn;
+    private Button AddPlan;
+   private Set<DayOfTheWeek> SelectedDays;
     private String[] Days = new String[7];
     private EditText executionTime;
     int number = 0;
@@ -74,7 +79,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     }
 
     private void initViews() {
-
+        np = new NumberPicker(this.getContext());
+       SelectedDays = new HashSet<>();
         pushBSunday = this.ParentActivity.findViewById(R.id.pushb_sunday);
         pushBSunday.setOnClickListener(this);
         getPushBMonday = this.ParentActivity.findViewById(R.id.pushb_monday);
@@ -89,6 +95,14 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         pushBFriday.setOnClickListener(this);
         pushBSaturday = this.ParentActivity.findViewById(R.id.pushb_saturday);
         pushBSaturday.setOnClickListener(this);
+        StartTimeBtn = this.ParentActivity.findViewById(R.id.StartTimeBtn);
+        StartTimeBtn.setOnClickListener(this);
+        EndTimeBtn = this.ParentActivity.findViewById(R.id.EndTimeBtn);
+        EndTimeBtn.setOnClickListener(this);
+        RemindMeOn = this.ParentActivity.findViewById(R.id.RemindMeOn);
+        RemindMeOn.setOnClickListener(this);
+        AddPlan = this.ParentActivity.findViewById(R.id.AddPlan);
+        AddPlan.setOnClickListener(this);
 
     }
 
@@ -101,53 +115,94 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.pushb_sunday:
-                pushBSunday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBSunday.setTextColor(getResources().getColor(R.color.white));
-                Days[0] = "Sunday";
+                if (SelectedDays.contains(DayOfTheWeek.Sunday)) {
+                    pushBSunday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBSunday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Sunday);
+                } else {
+                    pushBSunday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBSunday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Sunday);
+                }
                 break;
             case R.id.pushb_monday:
-                getPushBMonday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                getPushBMonday.setTextColor(getResources().getColor(R.color.white));
-                Days[1] = "Monday";
+                if (SelectedDays.contains(DayOfTheWeek.Monday)) {
+                    getPushBMonday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    getPushBMonday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Monday);
+                } else {
+                    getPushBMonday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    getPushBMonday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Monday);
+                }
                 break;
             case R.id.pushb_friday:
-                pushBFriday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBFriday.setTextColor(getResources().getColor(R.color.white));
-                Days[5] = "Friday";
+                if (SelectedDays.contains(DayOfTheWeek.Friday)) {
+                    pushBFriday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBFriday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Friday);
+                } else {
+                    pushBFriday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBFriday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Friday);
+                }
                 break;
             case R.id.pushb_saturday:
-                pushBSaturday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBSaturday.setTextColor(getResources().getColor(R.color.white));
-                Days[6] = "Saturday";
+                if (SelectedDays.contains(DayOfTheWeek.Saturday)) {
+                    pushBSaturday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBSaturday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Saturday);
+                } else {
+                    pushBSaturday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBSaturday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Saturday);
+                }
                 break;
             case R.id.pushb_thursday:
-                pushBThursday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBThursday.setTextColor(getResources().getColor(R.color.white));
-                Days[4] = "Thursday";
+                if (SelectedDays.contains(DayOfTheWeek.Thursday)) {
+                    pushBThursday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBThursday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Thursday);
+                } else {
+                    pushBThursday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBThursday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Thursday);
+                }
                 break;
             case R.id.pushb_tuesday:
-                pushBTuesday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBTuesday.setTextColor(getResources().getColor(R.color.white));
-                Days[2] = "Tuesday";
+                if (SelectedDays.contains(DayOfTheWeek.Tuesday)) {
+                    pushBTuesday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBTuesday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Tuesday);
+                } else {
+                    pushBTuesday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBTuesday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Tuesday);
+                }
+
                 break;
             case R.id.pushb_wednesday:
-                pushBWednsday.setBackground(getResources().getDrawable(R.drawable.roundbuttonclicked));
-                pushBWednsday.setTextColor(getResources().getColor(R.color.white));
-                Days[3] = "Wednesday";
+                if (SelectedDays.contains(DayOfTheWeek.Wednesday)) {
+                    pushBWednsday.setBackground(getResources().getDrawable(R.drawable.roundbutton));
+                    pushBWednsday.setTextColor(getResources().getColor(R.color.white));
+                    SelectedDays.remove(DayOfTheWeek.Wednesday);
+                } else {
+                    pushBWednsday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+                    pushBWednsday.setTextColor(getResources().getColor(R.color.black));
+                    SelectedDays.add(DayOfTheWeek.Wednesday);
+                }
+
                 break;
             case R.id.StartTimeBtn:
-                Calendar c = Calendar.getInstance();
-                StartHour = c.get(Calendar.HOUR_OF_DAY);
-                StartMin = c.get(Calendar.MINUTE);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), FragmentFormEvent.this::onTimeSet, StartHour, StartMin, DateFormat.is24HourFormat(getActivity()));
                 timePickerDialog.show();
+                System.out.println(" ####################### Start Min : "+StartMin);
                 break;
             case R.id.EndTimeBtn:
                 Calendar c2 = Calendar.getInstance();
-                EndHour = c2.get(Calendar.HOUR_OF_DAY);
-                EndMin = c2.get(Calendar.MINUTE);
                 TimePickerDialog timePickerDialog2 = new TimePickerDialog(getActivity(), FragmentFormEvent.this::onTimeSet2, EndHour, EndMin, DateFormat.is24HourFormat(getActivity()));
                 timePickerDialog2.show();
+                System.out.println(" ######################## End Min : "+EndMin);
                 break;
             case R.id.RemindMeOn:
 //                Calendar c3 = Calendar.getInstance();
@@ -170,21 +225,44 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
                     }
                 });
-                alertDialog.setView(np);
-                alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Choose", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getActivity(), number + " Before the event", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                if (!alertDialog.isShowing())
-                    alertDialog.show();
+                if(np.getParent() == null) {
+                    alertDialog.setView(np);
+                    alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Choose", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getActivity(), number + " minutes Before the event", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    if (!alertDialog.isShowing())
+                        alertDialog.show();
+                } else {
+                    ((ViewGroup)np.getParent()).removeView(np);
+                }
                 break;
             case R.id.AddPlan:
-                for (int j = 0; j < 7; j++) {
-                    if (Days[j] != null) {
-                        System.out.println("---------------------- Day : " + Days[j]);
-                        setAlarm(j, StartHour, StartMin, 1);
+                for(DayOfTheWeek d : SelectedDays) {
+                    switch (d) {
+                        case Sunday:
+                            setAlarm(0, StartHour, StartMin,1);
+                            break;
+                        case Monday:
+                            setAlarm(1, StartHour, StartMin,1);
+                            break;
+                        case Tuesday:
+                            setAlarm(2, StartHour, StartMin,1);
+                            break;
+                        case Wednesday:
+                            setAlarm(3, StartHour, StartMin,1);
+                            break;
+                        case Thursday:
+                            setAlarm(4, StartHour, StartMin,1);
+                            break;
+                        case Friday:
+                            setAlarm(5, StartHour, StartMin,1);
+                            break;
+                        case Saturday:
+                            setAlarm(6, StartHour, StartMin,1);
+                            break;
                     }
                 }
                 break;
@@ -195,24 +273,23 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         StartTimeBtn.setText("Time set : " + i + ":" + i1);
-
-
+        StartHour = i;
+        StartMin = i1-number;
     }
 
     public void onTimeSet2(TimePicker timePicker, int i, int i1) {
         EndTimeBtn.setText("Time set : " + i + ":" + i1);
+        EndHour = i;
+        EndMin = i1;
     }
 
 
     public void setAlarm(int dayOfWeek, int AlarmHrsInInt, int AlarmMinsInInt, int amorpm) {
         Calendar alarmCalendar = Calendar.getInstance();
         alarmCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-
         alarmCalendar.set(Calendar.HOUR, AlarmHrsInInt);
-        System.out.println("########################### HOUR : " + alarmCalendar.get(Calendar.HOUR));
         alarmCalendar.set(Calendar.MINUTE, AlarmMinsInInt);
-        alarmCalendar.add(Calendar.MINUTE, -number + 2);
-        System.out.println("########################### MINUTES : " + alarmCalendar.get(Calendar.MINUTE));
+        System.out.println("########## Reminder SET FOR : "+AlarmHrsInInt +" : "+AlarmMinsInInt);
         alarmCalendar.set(Calendar.SECOND, 0);
         alarmCalendar.set(Calendar.AM_PM, amorpm);
 
