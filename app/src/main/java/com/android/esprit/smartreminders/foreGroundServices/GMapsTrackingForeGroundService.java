@@ -25,6 +25,7 @@ import com.android.esprit.smartreminders.customControllers.CameraController;
 import com.android.esprit.smartreminders.listeners.AmbientLightListener;
 import com.android.esprit.smartreminders.listeners.LocationListener;
 import com.android.esprit.smartreminders.listeners.ProximityListener;
+import com.android.esprit.smartreminders.permissionHandlers.PermissionHandler;
 
 import static com.android.esprit.smartreminders.appcommons.App.CHANNEL_ID;
 import static com.android.volley.VolleyLog.TAG;
@@ -68,6 +69,7 @@ public class GMapsTrackingForeGroundService extends Service {
     }
 
     private void StartServiceHolder() {
+
         Intent notificationbIntent = new Intent(this, MainFrame.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationbIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)

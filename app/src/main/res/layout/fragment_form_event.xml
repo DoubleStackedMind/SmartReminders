@@ -6,8 +6,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".Test.addPlan"
-    >
+    tools:context=".Test.addPlan">
+
+
+    <LinearLayout
+        android:id="@+id/LinearSwitch"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:ignore="MissingConstraints">
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <TextView
+                android:id="@+id/tv_reminder_header"
+                style="@style/settings_header"
+                android:layout_width="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="13dp"
+                android:layout_gravity="center"
+                android:text="@string/sett_reminder_header"
+                android:textColor="@color/colorPrimary" />
+
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/timerSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="14dp"
+                android:checked="false"
+                android:gravity="center_vertical"
+                android:theme="@style/switch_theme" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/title"
@@ -15,11 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="50dp"
         android:textColor="@color/colorGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <EditText
             android:layout_width="match_parent"
@@ -53,6 +95,7 @@
             android:textColorHint="@color/colorGray" />
     </android.support.design.widget.TextInputLayout>
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -74,11 +117,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/StartTimeBtn"
+        app:layout_constraintBottom_toTopOf="@+id/AddPlan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -139,7 +182,6 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-
     <Button
         android:id="@+id/RemindMeOn"
         android:layout_width="300dp"
@@ -148,7 +190,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="20dp"
         android:text="REMIND ME ON"
-        android:background="@drawable/roun_rect_green"
+        android:background="@drawable/roun_rect_edgegreen"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,37 +199,97 @@
 
 
 
-    <Button
-        android:id="@+id/StartTimeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/roun_rect_green"
-        android:text="Set Start Time"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/EndTimeBtn"
-        app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:id="@+id/llReminder"
+        app:layout_constraintTop_toBottomOf="@id/linearlayout"
+        style="@style/settings_item_layout">
 
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/EndTimeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/roun_rect_green"
-        android:text="Set End Time"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/AddPlan"
-        app:layout_constraintEnd_toEndOf="parent"
+        <LinearLayout
+            android:id="@+id/myLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        app:layout_constraintStart_toStartOf="parent" />
 
+
+            <TextView
+                android:id="@+id/tv_reminder_desc"
+                style="@style/settings_details"
+                android:paddingTop="@dimen/items_top_padding"
+                android:paddingBottom="@dimen/items_inbetween_space"
+                android:text="@string/sett_reminder_desc" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_set_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/items_inbetween_space">
+
+                <TextView
+                    android:id="@+id/tv_start_reminder_time_label"
+                    style="@style/settings_sub_header"
+                    android:text="@string/sett_start_reminder_time_label" />
+
+                <ImageView
+                    android:id="@+id/iv_start_timer"
+                    android:layout_width="@dimen/timer_icon"
+                    android:layout_height="@dimen/timer_icon"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_timer" />
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_start_reminder_time_desc"
+                style="@style/settings_details"
+                android:layout_gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:paddingTop="@dimen/items_top_padding"
+                android:paddingBottom="@dimen/items_inbetween_space"
+                android:text="@string/sett_reminder_time_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/items_inbetween_space">
+
+                <TextView
+                    android:id="@+id/tv_end_reminder_time_label"
+                    style="@style/settings_sub_header"
+                    android:text="@string/sett_end_reminder_time_label" />
+
+                <ImageView
+                    android:id="@+id/iv_end_timer"
+                    android:layout_width="@dimen/timer_icon"
+                    android:layout_height="@dimen/timer_icon"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_timer" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_end_reminder_time_desc"
+                style="@style/settings_details"
+                android:layout_gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:paddingTop="@dimen/items_top_padding"
+                android:paddingBottom="@dimen/items_inbetween_space"
+                android:text="@string/sett_reminder_time_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/AddPlan"
@@ -197,7 +299,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/roun_rect_green"
+        android:background="@drawable/roun_rect_pruple"
         android:text="Add Event"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
