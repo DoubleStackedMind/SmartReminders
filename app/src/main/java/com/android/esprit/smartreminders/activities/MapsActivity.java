@@ -183,7 +183,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         if (intent.hasExtra("zone")) {
             mMap.clear();
-            System.out.println("done");
             updateMode = true;
             Zone z = new Zone();
             try {

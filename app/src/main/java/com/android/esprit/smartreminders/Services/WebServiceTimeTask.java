@@ -1,6 +1,7 @@
 package com.android.esprit.smartreminders.Services;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.android.esprit.smartreminders.Entities.Event;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class WebServiceTimeTask extends WebServiceConsumer<TimeTask> {
-    public WebServiceTimeTask(Activity parentActivity, CallBackWSConsumer<TimeTask> Behaviour) {
+    public WebServiceTimeTask(Context parentActivity, CallBackWSConsumer<TimeTask> Behaviour) {
         super(parentActivity, Behaviour);
         url += "timetask/";
         Log.d("Constructor", "WebServiceTimeTask[url is]:" + url);
@@ -23,6 +24,7 @@ public class WebServiceTimeTask extends WebServiceConsumer<TimeTask> {
     public void ResponseBody(String response) {
         entities = new ArrayList<>();
         try {
+            System.out.println(response);
             JSONArray j = new JSONArray(response);
             for (int i = 0; i < j.length(); i++) {
                 TimeTask t = new TimeTask();

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,6 +39,16 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+
+    private Object editedObject;
+
+    public Object getEditedObject() {
+        return editedObject;
+    }
+
+    public void setEditedObject(Object editedObject) {
+        this.editedObject = editedObject;
+    }
 
     private Class<? extends FragmentChild> visibleFragment;
 
@@ -188,12 +199,15 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
 
     public void goToUnStackedFragment(FragmentChild Child) {
         if (!Child.getClass().equals(visibleFragment)) {
-
             visibleFragment = Child.getClass();
-            switchFragments(R.id.fragment_container, Child);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, Child);
+            transaction.commit();
+
         }
 
     }
+
 
     public void goToZonesFragment() {
         if (!ZonesFragment.class.equals(visibleFragment))

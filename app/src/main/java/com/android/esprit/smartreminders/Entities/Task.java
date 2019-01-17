@@ -25,8 +25,8 @@ public abstract class Task extends AbstractEventOrTask implements Entity {
     public Task() {
     }
 
-    public Task(StateOfTask state, String description, Set<DayOfTheWeek> days,User owner) {
-        super(state, description, days,owner);
+    public Task(StateOfTask state, String description, Set<DayOfTheWeek> days, User owner) {
+        super(state, description, days, owner);
     }
 
     public Set<Action> getActions() {
@@ -66,17 +66,22 @@ public abstract class Task extends AbstractEventOrTask implements Entity {
     public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
         super.FromJsonObject(ja);
         Set<Action> actions = new HashSet<>();
-        JSONArray jsa = (JSONArray) ja.get("actions");
-        for (int i = 0; i < jsa.length(); i++) {
-             Action a=new Action(){
-                 @Override
-                 public void executeAction() {
+        String stringactions = ja.get("actions").toString();
+        String res = stringactions.replaceAll("\\:", ":");
+        System.out.println(res);
 
-                 }
-             };
+        JSONArray jsa = new JSONArray(res);
+        for (int i = 0; i < jsa.length(); i++) {
+            Action a = new Action() {
+                @Override
+                public void executeAction() {
+
+                }
+            };
             a.FromJsonObject((JSONObject) jsa.get(i));
             actions.add(a);
         }
+        this.actions = new HashSet<>();
         this.actions.addAll(actions);
     }
 
@@ -97,7 +102,7 @@ public abstract class Task extends AbstractEventOrTask implements Entity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
-        Map<String, String> res=super.ToPostMap();
+        Map<String, String> res = super.ToPostMap();
         JSONArray actions = new JSONArray();
         this.actions.forEach((a) -> {
             try {

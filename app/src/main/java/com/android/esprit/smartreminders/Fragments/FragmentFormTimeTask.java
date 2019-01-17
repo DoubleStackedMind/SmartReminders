@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -28,15 +29,21 @@ import com.android.esprit.smartreminders.Entities.Time;
 import com.android.esprit.smartreminders.Entities.TimeTask;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
 import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
 import com.android.esprit.smartreminders.Test.NotificationHelper;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
+import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.appcommons.utils.EditTextUtils;
 import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredInputValidator;
 import com.android.esprit.smartreminders.customControllers.ActionPool;
+import com.android.esprit.smartreminders.notifications.Message;
 import com.android.esprit.smartreminders.sessions.Session;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -68,15 +75,21 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
     private boolean[] checkedItems;
     private AlertDialog.Builder mBuilder;
     private AlertDialog mDialog;
+    private String[] vals;
+    private boolean updateMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         return inflater.inflate(R.layout.fragment_form_timetask, container, false);
     }
 
@@ -86,6 +99,8 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         initViews();
         defineBehaviour();
         mNotificationHelper = new NotificationHelper(FragmentFormTimeTask.this.ParentActivity);
+        updateMode = false;
+        initForm();
     }
 
     private void initViews() {
@@ -104,6 +119,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         actions = this.ParentActivity.findViewById(R.id.actionsText);
         Title = this.ParentActivity.findViewById(R.id.title);
         Description = this.ParentActivity.findViewById(R.id.description);
+        vals = new String[ActionPool.getInstance(this.ParentActivity).getActions().length];
     }
 
     private void defineBehaviour() {
@@ -112,34 +128,26 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         setExecutionDaysBehaviour();
         addPlanbtn.setOnClickListener(view -> addPlan());
         actions.setOnClickListener(view -> selectActions());
-        String[] vals = new String[ActionPool.getInstance(this.ParentActivity).getActions().length];
+        vals = new String[ActionPool.getInstance(this.ParentActivity).getActions().length];
         Arrays.stream(ActionPool.getInstance(this.ParentActivity).getActions()).map(Action::getName).collect(Collectors.toList()).toArray(vals);
-
         checkedItems = new boolean[vals.length];
-
-
     }
 
     private void selectActions() {
         mBuilder = new AlertDialog.Builder(this.ParentActivity);
         mBuilder.setTitle("Select Actions you Want to Execute");
 
-        String[] vals = new String[ActionPool.getInstance(this.ParentActivity).getActions().length];
-        Arrays.stream(ActionPool.getInstance(this.ParentActivity).getActions()).map(Action::getName).collect(Collectors.toList()).toArray(vals);
 
-        //    checkedItems =new boolean[vals.length];
+        Arrays.stream(ActionPool.getInstance(this.ParentActivity).getActions()).map(Action::getName).collect(Collectors.toList()).toArray(vals);
 
         mBuilder.setMultiChoiceItems(vals, checkedItems, (DialogInterface.OnMultiChoiceClickListener) (dialogInterface, position, isChecked) -> {
             Action a = ActionPool.getInstance(FragmentFormTimeTask.this.ParentActivity).getActions()[position];
+            actions.setText("");
             if (isChecked) {
                 SelectedActions.add(a);
+                System.out.println(SelectedActions);
             } else {
                 SelectedActions.remove(a);
-                String value = "";
-                for (Action e : SelectedActions) {
-                    value += e.getName() + "\n";
-                }
-                actions.setText(value);
             }
         });
 
@@ -147,10 +155,12 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
 
         mBuilder.setPositiveButton("Done", (dialogInterface, which) -> {
             String value = "";
+            actions.setText(value);
             for (Action e : SelectedActions) {
                 value += e.getName() + "\n";
             }
-            value = value.substring(0, value.length() - 1);
+            if (value.length() != 0)
+                value = value.substring(0, value.length() - 1);
             actions.setText(value);
 
         });
@@ -171,59 +181,48 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
 
 
     private void addPlan() {
-      /*    addPlanbtn.setOnClickListener(view -> {
-          for (int i = 0; i < 7; i++) {
-                System.out.println("Day : " + Days[i]);
-                if (Days[i] != null) {
-                    setAlarm(i + 1, hourFinal, minuteFinal, 0);
-                    long id = helper.insertData(((EditText) getActivity().getParent().findViewById(R.id.Title)).getText().toString(), ((EditText) getActivity().getParent().findViewById(R.id.description)).getText().toString(), hourFinal + ":" + minuteFinal);
-                    Toast.makeText(getParentActivity(), "Plan added", Toast.LENGTH_LONG).show();
-                }
-            }
-        });*/
         if (isFormValid()) {
-            WebServiceTimeTask ws = new WebServiceTimeTask(FragmentFormTimeTask.this.ParentActivity, new CallBackWSConsumer<TimeTask>() {
-                @Override
-                public void OnHostUnreachable() {
-                    CharSequence text = getString(R.string.hostunreachable);
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), text, duration);
-                    toast.show();
-                }
-            });
-            TimeTask t = new TimeTask();
-            t.setExecutionTime(executionTime);
-            t.setActions(SelectedActions);
-            t.setDay(SelectedDays);
-            t.setDescription(Description.getEditText().getText().toString());
-            t.setState(StateOfTask.IN_PROGRESS);
-            t.setOwner(Session.getSession(this.getParentActivity()).getSessionUser());
-            t.setTitle(Title.getEditText().getText().toString());
-            System.out.println("Time Taaaaaaaaask : " + t);
-            int x = 0;
-            x = ws.insert(t);
-         /*   if (x != 0) {
-                CharSequence text = "SAVED TO DATABASE";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), text, duration);
-                toast.show();
-                Map<String, String> myMap = new HashMap<>();
-                myMap.put("description", Description.getEditText().getText().toString());
-                try {
-                    ws.findBy(myMap);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }*/
-        } else {
             updateDataBase();
+        } else {
+            if (isTitleAlreadyTaken())
+                Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), "The Time Task Name is already taken !");
+            else
+                Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), "Check your inputs please!");
         }
 
     }
 
     private void updateDataBase() {
+
+        WebServiceTimeTask ws = new WebServiceTimeTask(FragmentFormTimeTask.this.ParentActivity, new CallBackWSConsumer<TimeTask>() {
+            @Override
+            public void OnResultPresent() {
+                String msg="";
+                if (updateMode)
+                     msg = "Time Task Updated !";
+                else
+                     msg = "Time Task Added !";
+                Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), msg);
+            }
+
+            @Override
+            public void OnHostUnreachable() {
+                Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), getString(R.string.hostunreachable));
+            }
+        });
+        TimeTask t = new TimeTask();
+        t.setId(timeTask.getId());
+        t.setExecutionTime(executionTime);
+        t.setActions(SelectedActions);
+        t.setDay(SelectedDays);
+        t.setDescription(Description.getEditText().getText().toString());
+        t.setState(StateOfTask.IN_PROGRESS);
+        t.setOwner(Session.getSession(this.getParentActivity()).getSessionUser());
+        t.setTitle(Title.getEditText().getText().toString());
+        if (updateMode)
+            ws.update(t);
+        else
+            ws.insert(t);
 
     }
 
@@ -370,6 +369,82 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
                 SelectedActions.size() == 0 && SelectedDays.size() == 0 && executionTime == null));
     }
 
+
+    private boolean isTitleAlreadyTaken() {
+
+        return false;
+    }
+
+    private void initForm() {
+        this.timeTask = (TimeTask) ((MainFrame) getParentActivity()).getEditedObject();
+        if (this.timeTask != null) {
+            updateMode = true;
+            this.SelectedDays = timeTask.getDays();
+            this.SelectedActions = timeTask.getActions();
+            this.Title.getEditText().setText(timeTask.getTitle());
+            this.Description.getEditText().setText(timeTask.getDescription());
+            this.executionTime = timeTask.getExecutionTime();
+            String str = "Time set : " + timeTask.getExecutionTime().getHour() + ":" + timeTask.getExecutionTime().getMinute();
+            Timebtn.setText(str);
+
+            for (int i = 0; i < checkedItems.length; i++) {
+                for (Action e : SelectedActions)
+                    if (vals[i].equals(e.getName()))
+                        checkedItems[i] = true;
+            }
+            String value = "";
+            for (Action e : SelectedActions) {
+                value += e.getName() + "\n";
+            }
+            value = value.substring(0, value.length() - 1);
+            actions.setText(value);
+            updateDaysButtons();
+
+            this.addPlanbtn.setText("UPDATE TIME TASK");
+
+        }
+    }
+
+    private void updateDaysButtons() {
+        if (timeTask.getDays().contains(DayOfTheWeek.Monday)) {
+
+            MondayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            MondayButton.setTextColor(getResources().getColor(R.color.black));
+
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Sunday)) {
+
+            SundayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            SundayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Tuesday)) {
+
+            TuesdayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            TuesdayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Thursday)) {
+
+            ThursdayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            ThursdayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Friday)) {
+
+            FridayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            FridayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Saturday)) {
+
+            SaturdayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            SaturdayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (timeTask.getDays().contains(DayOfTheWeek.Wednesday)) {
+
+            WednesdayButton.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            WednesdayButton.setTextColor(getResources().getColor(R.color.black));
+        }
+
+
+    }
 
 }
 
