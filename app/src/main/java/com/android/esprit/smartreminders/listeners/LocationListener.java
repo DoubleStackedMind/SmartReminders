@@ -15,7 +15,6 @@ public class LocationListener implements android.location.LocationListener {
     private Location mLastLocation;
 
 
-
     public LocationListener(String provider) {
         Log.e(TAG, "LocationListener " + provider);
         mLastLocation = new Location(provider);
@@ -50,7 +49,6 @@ public class LocationListener implements android.location.LocationListener {
     }
 
     private boolean isUserOutOfGeoFence(Location location) {
-
 
 
         return true;

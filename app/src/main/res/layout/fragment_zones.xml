@@ -4,7 +4,9 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
+
+    android:orientation="vertical"
+    tools:context=".Fragments.ZonesFragment">
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
@@ -26,5 +28,13 @@
         android:layout_margin="16dp"
         android:hapticFeedbackEnabled="true"
         android:fadingEdge="vertical"
-        android:src="@drawable/ic_add_new_24dp" />
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add_black_24dp" />
+    <TextView
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:id="@+id/error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Zones has been added" />
   </FrameLayout>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.esprit.smartreminders.Adapters.ZonesAdapter;
@@ -35,6 +36,7 @@ public class ZonesFragment extends FragmentChild {
     private ArrayList<Zone> zones;
     private User sessionUser;
     private SwipeRefreshLayout srl;
+    private TextView error_msg;
 
 
     @Override
@@ -64,6 +66,7 @@ public class ZonesFragment extends FragmentChild {
         sessionUser = Session.getSession(this.getParentActivity()).getSessionUser();
         srl = this.ParentActivity.findViewById(R.id.swiperefresh);
         srl.setOnRefreshListener(this::initData);
+        error_msg= this.ParentActivity.findViewById(R.id.error_msg);
 
     }
 
@@ -79,18 +82,29 @@ public class ZonesFragment extends FragmentChild {
 
     }
 
-    private void initData() {
+    public void initData() {
         srl.setRefreshing(true);
         zones = new ArrayList<>();
         WebServiceZone WZ = new WebServiceZone(this.ParentActivity, new CallBackWSConsumerGET<Zone>() {
             @Override
             public void OnResultPresent(List<Zone> results) {
+
                 zones = (ArrayList<Zone>) results;
-                ZonesAdapter adapter = new ZonesAdapter(ZonesFragment.this.ParentActivity, zones, R.layout.single_zone_layout);
+                ZonesAdapter adapter = new ZonesAdapter(ZonesFragment.this.ParentActivity, zones, R.layout.single_zone_layout,ZonesFragment.this);
                 ZonesFragment.this.zonelist.setAdapter(adapter);
                 srl.setRefreshing(false);
+                error_msg.setVisibility(View.GONE);
 
             }
+
+            @Override
+            public void OnResultNull() {
+                srl.setRefreshing(false);
+                error_msg.setVisibility(View.VISIBLE);
+
+
+                }
+
 
             @Override
             public void OnHostUnreachable() {

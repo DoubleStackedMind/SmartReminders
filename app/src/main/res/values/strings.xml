@@ -40,22 +40,18 @@
     <string name="nav_header_subtitle">Rewind&amp;Remind</string>
     <string name="nav_header_desc">UserName</string>
     <string name="today__schedule">Today\'s Schedule</string>
-    <string name="daily_plans">Daily Plans</string>
-    <string name="tasks">Tasks</string>
-    <string name="events_meetingss"><![CDATA[Events&Meetings]]></string>
-    <string name="community">Community</string>
-    <string name="share_your_tasks">Share your Tasks</string>
-    <string name="browse_for_tasks">Browse For Tasks</string>
-    <string name="nav_home">Home</string>
+    <string name="daily_plans">Trigger Tasks</string>
+    <string name="tasks">Time Tasks</string>
+    <string name="events_meetingss">Events</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment </string>
     <!-- END: Remove or change this placeholder text -->
     <string name="home_test">Home</string>
-    <string name="daily_plans_test">Daily Plans</string>
+    <string name="daily_plans_test">Trigger Tasks</string>
     <string name="schedule_test">schedule</string>
     <string name="tasks_test">Tasks</string>
-    <string name="events_meetings_test"><![CDATA[events & meetings]]></string>
+    <string name="events_meetings_test">Events</string>
     <string name="share_tasks_test">Share tasks</string>
     <string name="browse_tasks_test">Browse Tasks</string>
     <string name="settings_test">settings</string>

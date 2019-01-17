@@ -5,6 +5,7 @@ package com.android.esprit.smartreminders.Entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -17,12 +18,17 @@ public  class User implements Entity {
     private DailyPlan dailyplan;
     private Set<AbstractEventOrTask>Plans;
     private Set<Zone> zones;
-    public User(){}
+    public User(){
+
+    }
     public User(int id, String email, String password,String name) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name=name;
+        this.dailyplan=new DailyPlan();
+        this.Plans=new HashSet<>();
+        this.zones= new HashSet<>();
     }
 
     public int getId() {
@@ -113,6 +119,7 @@ public  class User implements Entity {
         this.email=ja.getString("email");
         this.password=ja.getString("password");
         this.name=ja.getString("name");
+        this.dailyplan= new DailyPlan();
 
     }
 
@@ -124,6 +131,7 @@ public  class User implements Entity {
                         .put("email", this.email)
                         .put("password", this.password)
                         .put("name",this.name);
+                //.put("dailyplan",this.dailyplan.)
     }
 
     @Override

@@ -10,9 +10,11 @@ public class CameraController {
     private Context context;
     private String cameraId;
     private CameraManager cmanager;
+    private boolean flashOn;
 
     public CameraController(@NotNull Context context) {
         this.context = context;
+        flashOn=false;
         cmanager = (CameraManager) this.context.getSystemService(Context.CAMERA_SERVICE);
         assert cmanager != null;
         try {
@@ -23,18 +25,21 @@ public class CameraController {
     }
 
     public void enableFlash() {
-        setFlashState(true);
+
+        setFlashState(true);flashOn=true;
     }
 
     public void disableFlash() {
-        setFlashState(false);
+        setFlashState(false);flashOn=false;
     }
 
     private void setFlashState(boolean state) {
         try {
             cmanager.setTorchMode(cameraId, state);
+
         } catch (CameraAccessException e) {
             System.out.println("unable to access camera");
         }
     }
+    public boolean isFlashOn(){return flashOn;}
 }

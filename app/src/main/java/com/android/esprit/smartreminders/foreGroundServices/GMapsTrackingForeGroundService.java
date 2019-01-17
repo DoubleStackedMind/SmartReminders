@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.activities.MainFrame;
@@ -25,6 +26,7 @@ import com.android.esprit.smartreminders.customControllers.CameraController;
 import com.android.esprit.smartreminders.listeners.AmbientLightListener;
 import com.android.esprit.smartreminders.listeners.LocationListener;
 import com.android.esprit.smartreminders.listeners.ProximityListener;
+import com.android.esprit.smartreminders.listeners.ShakeDetector;
 
 import static com.android.esprit.smartreminders.appcommons.App.CHANNEL_ID;
 import static com.android.volley.VolleyLog.TAG;
@@ -34,10 +36,12 @@ public class GMapsTrackingForeGroundService extends Service {
     private static final int LOCATION_INTERVAL = 200; //0.2 seconds
     private static final float LOCATION_DISTANCE = 0.5f;// 2.5 meters
     private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
     private Sensor mProximity;
     private Sensor mLight;
+    private ShakeDetector mShakeDetector;
     private boolean TriggerOn;
-
+    private CameraController c;
 
     private LocationListener[] mLocationListeners;
 
@@ -60,7 +64,7 @@ public class GMapsTrackingForeGroundService extends Service {
                 try {
                     mLocationManager.removeUpdates(mLocationListeners[i]);
                 } catch (Exception ex) {
-                    Log.i(TAG, "fail to remove location listners, ignore", ex);
+                    Log.i(TAG, "fail to remove app listners, ignore", ex);
                 }
             }
         }
@@ -99,6 +103,8 @@ public class GMapsTrackingForeGroundService extends Service {
             }
         }, mProximity, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
+
+
         mSensorManager.registerListener(new AmbientLightListener() {
             @Override
             public void howDimIsTheLight(int result) {
@@ -115,6 +121,19 @@ public class GMapsTrackingForeGroundService extends Service {
                 }
             }
         }, mLight, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        c= new CameraController(this);
+        mShakeDetector.setOnShakeListener(count -> {
+            if (c.isFlashOn())
+                c.disableFlash();
+            else
+                c.enableFlash();
+        });
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     private void StartServiceLogic() { // thread Repeating Task

@@ -40,11 +40,12 @@ import java.util.Map;
 public class ZonesAdapter extends CustomAdapter<Zone> {
     private Geocoder geocoder;
     private List<Address> addresses;
+    private ZonesFragment z;
 
-    public ZonesAdapter(@NonNull Context context, ArrayList<Zone> Array, int SingleLayout) {
+    public ZonesAdapter(@NonNull Context context, ArrayList<Zone> Array, int SingleLayout, ZonesFragment z) {
         super(context, Array, SingleLayout);
         geocoder = new Geocoder(context, Locale.getDefault());
-
+        this.z = z;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class ZonesAdapter extends CustomAdapter<Zone> {
         String country = addresses.get(0).getCountryName();
         String postalCode = addresses.get(0).getPostalCode();
         String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL */
-        DecimalFormat  df2 = new DecimalFormat(".##");
+        DecimalFormat df2 = new DecimalFormat(".##");
 
         TextView city_v = convertView.findViewById(R.id.city_zone);
         TextView radius_v = convertView.findViewById(R.id.radius_zone);
@@ -78,49 +79,51 @@ public class ZonesAdapter extends CustomAdapter<Zone> {
         city_v.setText(city);
         street_v.setText(address);
 
-        radius_v.setText(String.valueOf(df2.format(radius))+" m");
+        radius_v.setText(String.valueOf(df2.format(radius)) + " m");
         name_v.setText(Array.get(position).getName());
 
         deleteBtn.setOnClickListener((v) -> {
             confirmAndDelete();
         });
         editBtn.setOnClickListener((v) -> {
-            Intent intent = new Intent((MainFrame)context, MapsActivity.class);
+            Intent intent = new Intent((MainFrame) context, MapsActivity.class);
             try {
-                intent.putExtra("zone",Array.get(position).ToJsonObject().toString());
+                intent.putExtra("zone", Array.get(position).ToJsonObject().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ((MainFrame)context).startActivity(intent);
+            ((MainFrame) context).startActivity(intent);
         });
 
 
     }
+
     private void confirmAndDelete() {
-        AlertDialog dialog = new  AlertDialog.Builder(context, R.style.AlertDialogCustom)
+        AlertDialog dialog = new AlertDialog.Builder(context, R.style.AlertDialogCustom)
                 .setIcon(R.drawable.ic_zone_pin)
-                .setPositiveButton("Delete",  (dialog1, which) -> {
+                .setPositiveButton("Delete", (dialog1, which) -> {
                     WebServiceZone WZ = new WebServiceZone(ZonesAdapter.this.context, new CallBackWSConsumerSend<Zone>() {
                         @Override
                         public void OnResultPresent() {
                             ZonesAdapter.this.remove(ZonesAdapter.this.getItem(position));
-                            Toast.makeText(context,"Zone Deleted !",Toast.LENGTH_LONG).show();
+                            z.initData();
+                            Toast.makeText(context, "Zone Deleted !", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void OnResultNull() {
-                            Toast.makeText(context,"Something Went Wrong !",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Something Went Wrong !", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void OnHostUnreachable() {
-                            Toast.makeText(context,"Host unreachable!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Host unreachable!", Toast.LENGTH_LONG).show();
                         }
                     });
                     WZ.remove(Array.get(position));
                 })
-                .setNegativeButton("Cancel",  (dialog1, which) -> {
-                    Toast.makeText(context,"Operation Canceled !",Toast.LENGTH_SHORT).show();
+                .setNegativeButton("Cancel", (dialog1, which) -> {
+                    Toast.makeText(context, "Operation Canceled !", Toast.LENGTH_SHORT).show();
                 })
                 .setTitle("Remove Zone").setMessage("Are you sure you wante to delete this zone ? any Plans realted to this zone will be deleted as well ! ").create();
         dialog.show();

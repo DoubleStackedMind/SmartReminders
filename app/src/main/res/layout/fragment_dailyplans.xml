@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".Fragments.PlansFragment">
     <!-- Container-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ListView
         android:nestedScrollingEnabled="true"
         android:id="@+id/PlansListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/AddNewFAB"
         android:layout_width="60dp"
@@ -20,6 +24,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
         android:background="@color/white"
-        android:src="@drawable/ic_add_new_green"
-        app:backgroundTint="@color/cardview_light_background" />
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add_black_24dp" />
 </FrameLayout>
