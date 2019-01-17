@@ -150,7 +150,7 @@
                     <LinearLayout
                         android:id="@+id/ActionsLinearlayout"
                         android:layout_width="190dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical" />
                 </LinearLayout>
 

@@ -129,17 +129,23 @@ public abstract class AbstractEventOrTask implements Entity {
     @Override
     public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
         this.id = ja.getInt("id");
+       // System.out.println("id of AbstractEvent of task="+id);
         this.state = StateOfTask.fromString(ja.getString("state"));
         this.description = ja.getString("description");
         this.title = ja.getString("title");
         User u = new User();
-        u.FromJsonObject(new JSONObject(ja.getString("user")));
+
+
         this.owner = u;
         Set<DayOfTheWeek> days = new HashSet<>();
-        JSONArray jsa = (JSONArray) ja.get("days");
+        String stringdays=ja.get("days").toString();
+       String res= stringdays.replaceAll("\\:",":");
+        System.out.println(res);
+        JSONArray jsa = new JSONArray(res);
         for (int i = 0; i < jsa.length(); i++) {
             days.add(DayOfTheWeek.valueOf(((JSONObject) jsa.get(i)).get("day").toString()));
         }
+        this.days=new HashSet<>();
         this.days.addAll(days);
     }
 

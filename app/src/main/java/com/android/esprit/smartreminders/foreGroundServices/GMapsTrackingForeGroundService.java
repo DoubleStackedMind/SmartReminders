@@ -82,6 +82,7 @@ public class GMapsTrackingForeGroundService extends Service {
                 .build();
         startForeground(1, notification);
         registerSensorListeners();
+        // sami invoke your notification listener !
     }
 
     private void invokeBahaviour() {

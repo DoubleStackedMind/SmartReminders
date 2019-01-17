@@ -67,7 +67,6 @@ public class TimeTask extends Task implements Entity {
     @Override
     public void FromJsonObject(JSONObject ja) throws JSONException, NotAValidStateOfTask {
         super.FromJsonObject(ja);
-        String seconds;
         String minutes;
         String hours;
         String StringArray[];
