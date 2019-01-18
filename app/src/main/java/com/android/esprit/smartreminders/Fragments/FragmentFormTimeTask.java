@@ -194,7 +194,6 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
                      msg = "Time Task Added !";
                 Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), msg);
             }
-
             @Override
             public void OnHostUnreachable() {
                 Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), getString(R.string.hostunreachable));
@@ -216,7 +215,6 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
 
         else
             ws.insert(t);
-
     }
 
     private void setExecutionDaysBehaviour() {
