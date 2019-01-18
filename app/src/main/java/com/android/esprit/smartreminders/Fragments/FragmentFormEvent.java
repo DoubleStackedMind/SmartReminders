@@ -35,8 +35,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Entities.Action;
 import com.android.esprit.smartreminders.Entities.Event;
 import com.android.esprit.smartreminders.Entities.Time;
+import com.android.esprit.smartreminders.Entities.TimeTask;
 import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
@@ -44,10 +46,12 @@ import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumerGET;
 import com.android.esprit.smartreminders.Services.WebServiceEvent;
+import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
 import com.android.esprit.smartreminders.Test.LocalData;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
 import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.broadcastrecivers.AlarmReceiver;
+import com.android.esprit.smartreminders.notifications.Message;
 import com.android.esprit.smartreminders.notifications.NotificationScheduler;
 import com.android.esprit.smartreminders.sessions.Session;
 
@@ -67,7 +71,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     String TAG = "RemindMe";
     LocalData localData;
 
-
     SwitchCompat reminderSwitch;
     TextView tvTime;
     TextView EndtvTime;
@@ -76,6 +79,9 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     int hour = 0, min = 0;
 
     ClipboardManager myClipboard;
+
+    private boolean updateMode;
+    private Event event;
     private EditText title;
     private EditText description;
     private Button pushBSunday;
@@ -114,9 +120,11 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
         initViews();
         defineBehaviour();
+        initForm();
     }
 
     private void initViews() {
+        updateMode = false;
         title = this.ParentActivity.findViewById(R.id.titleText);
         description = this.ParentActivity.findViewById(R.id.descriptionText);
         np = new NumberPicker(this.getContext());
@@ -141,6 +149,10 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         AddPlan.setOnClickListener(this);
 
         localData = new LocalData(this.getParentActivity().getApplicationContext());
+        localData.set_min(0);
+        localData.set_hour(0);
+        localData.set_EndHour(0);
+        localData.set_EndMin(0);
 
         myClipboard = (ClipboardManager) this.getParentActivity().getSystemService(this.ParentActivity.CLIPBOARD_SERVICE);
 
@@ -294,14 +306,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 System.out.println(" ######################## End Min : "+EndMin);
                 break; */
             case R.id.RemindMeOn:
-//                Calendar c3 = Calendar.getInstance();
-//                hour = c3.get(Calendar.HOUR_OF_DAY);
-//                minute = c3.get(Calendar.MINUTE);
-//                TimePickerDialog timePickerDialog3 = new TimePickerDialog(getActivity(), FragmentFormEvent.this::onTimeSet2, hour, minute, DateFormat.is24HourFormat(getActivity()));
-//                timePickerDialog3.show();
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Remind Me Before");
-
                 np.setMinValue(0);
                 np.setMaxValue(59);
                 np.setWrapSelectorWheel(true);
@@ -310,7 +316,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                         number = 0;
                         number = i1;
-
                     }
                 });
                 if (np.getParent() == null) {
@@ -328,6 +333,32 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 }
                 break;
             case R.id.AddPlan:
+                if (title.getText().toString().equals("")) {
+                    title.setBackgroundResource(R.drawable.backtext);
+                    Toast.makeText(getActivity(), "Title should not be empty!", Toast.LENGTH_SHORT).show();
+                    break;
+                } else title.setBackgroundResource(R.color.white);
+                if (description.getText().toString().equals("")) {
+                    description.setBackgroundResource(R.drawable.backtext);
+                    Toast.makeText(getActivity(), "Description should not be empty!", Toast.LENGTH_SHORT).show();
+                    break;
+                } else description.setBackgroundResource(R.color.white);
+                if (number == 0) {
+                    Toast.makeText(getActivity(), "Don't forget the Remind Me On button!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (SelectedDays.isEmpty()) {
+                    Toast.makeText(getActivity(), "Don't forget to pick the Day!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (localData.get_hour() == 0 && localData.get_min() == 0) {
+                    Toast.makeText(getActivity(), "Don't forget to pick when the Event starts!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (localData.get_EndHour() == 0 && localData.get_EndMin() == 0) {
+                    Toast.makeText(getActivity(), "Don't forget to pick when the Event ends!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 if ((localData.get_min() - number) < 0) {
                     localData.set_hour(localData.get_hour() - 1);
                     localData.set_min(60 - number);
@@ -355,8 +386,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                     }
                 });
                 try {
-                    wse.insert(event);
-                    System.out.println("EVENT INSERTED!!!!!!!!!!!!!!!");
+                    updateDataBase();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -368,9 +398,15 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                             System.out.println("I'M INSIDE THE 3rd SCOOP");
                             System.out.println("EVENT NAME : " + title + " EVENT HOUR : " + localData.get_hour() + ":" + localData.get_min());
                             NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                            Toast.makeText(getActivity(), "Event added!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), MainFrame.class);
+                            startActivity(intent);
                         }
                     } else {
                         NotificationScheduler.setInExactReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
+                        Toast.makeText(getActivity(), "Event added!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), MainFrame.class);
+                        startActivity(intent);
                     }
                 }
         }
@@ -466,6 +502,102 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
             //noinspection deprecation
             return getResources().getConfiguration().locale;
         }
+    }
+
+    private void initForm() {
+        this.event = (Event) ((MainFrame) getParentActivity()).getEditedObject();
+        if (this.event != null) {
+            updateMode = true;
+            localData.set_hour(event.getStartTime().getHour());
+            localData.set_min(event.getStartTime().getMinute());
+            localData.set_EndHour(event.getEndTime().getHour());
+            localData.set_EndMin(event.getEndTime().getMinute());
+            this.SelectedDays = event.getDays();
+            this.title.setText(event.getTitle());
+            this.description.setText(event.getDescription());
+            this.tvTime.setText(event.getStartTime().toString());
+            this.EndtvTime.setText(event.getEndTime().toString());
+            this.number = event.getReminder();
+            updateDaysButtons();
+            this.AddPlan.setText("UPDATE TIME TASK");
+        }
+    }
+
+    private void updateDataBase() {
+
+        WebServiceEvent ws = new WebServiceEvent(FragmentFormEvent.this.ParentActivity, new CallBackWSConsumer<Event>() {
+            @Override
+            public void OnResultPresent() {
+                String msg = "";
+                if (updateMode)
+                    msg = "Event Updated !";
+                else
+                    msg = "Event added!";
+            }
+
+            @Override
+            public void OnHostUnreachable() {
+                Message.message(FragmentFormEvent.this.ParentActivity.getApplicationContext(), getString(R.string.hostunreachable));
+            }
+        });
+        Event t = new Event();
+        t.setDay(SelectedDays);
+        t.setStartTime(new Time(localData.get_hour(), localData.get_min()));
+        t.setEndTime(new Time(localData.get_EndHour(), localData.get_EndMin()));
+        t.setReminder(number);
+        t.setDescription(description.getText().toString());
+        t.setState(StateOfTask.IN_PROGRESS);
+        System.out.println("YOUSEEEEER : "+Session.getSession(this.ParentActivity).getSessionUser());
+        t.setOwner(Session.getSession(this.ParentActivity).getSessionUser());
+        t.setTitle(title.getText().toString());
+        if (updateMode) {
+            System.out.println(t);
+            t.setId(event.getId());
+            t.setOwner(Session.getSession(this.ParentActivity).getSessionUser());
+            ws.update(t); }
+        else
+            ws.insert(t);
+    }
+
+    private void updateDaysButtons() {
+        if (event.getDays().contains(DayOfTheWeek.Monday)) {
+
+            getPushBMonday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            getPushBMonday.setTextColor(getResources().getColor(R.color.black));
+
+        }
+        if (event.getDays().contains(DayOfTheWeek.Sunday)) {
+
+            pushBSunday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBSunday.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (event.getDays().contains(DayOfTheWeek.Tuesday)) {
+
+            pushBTuesday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBTuesday.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (event.getDays().contains(DayOfTheWeek.Thursday)) {
+
+            pushBThursday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBThursday.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (event.getDays().contains(DayOfTheWeek.Friday)) {
+
+            pushBFriday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBFriday.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (event.getDays().contains(DayOfTheWeek.Saturday)) {
+
+            pushBSaturday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBSaturday.setTextColor(getResources().getColor(R.color.black));
+        }
+        if (event.getDays().contains(DayOfTheWeek.Wednesday)) {
+
+            pushBWednsday.setBackground(getResources().getDrawable(R.drawable.roundbutton_active));
+            pushBWednsday.setTextColor(getResources().getColor(R.color.black));
+        }
+
+
     }
 
 }

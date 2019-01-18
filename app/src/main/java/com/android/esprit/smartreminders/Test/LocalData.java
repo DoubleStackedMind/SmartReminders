@@ -12,8 +12,8 @@ public class LocalData {
     private static final String reminderStatus="reminderStatus";
     private static final String hour="hour";
     private static final String min="min";
-    private static final String EndHour="hour";
-    private static final String EndMin="hour";
+    private static final String EndHour="Endhour";
+    private static final String EndMin="Endmin";
 
     public LocalData(Context context)
     {
