@@ -16,19 +16,29 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Entities.Event;
+import com.android.esprit.smartreminders.Fragments.FragmentFormEvent;
 import com.android.esprit.smartreminders.R;
+import com.android.esprit.smartreminders.Services.WebServiceEvent;
 import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
 import com.android.esprit.smartreminders.customControllers.CameraController;
+import com.android.esprit.smartreminders.customControllers.EventCustomController;
 import com.android.esprit.smartreminders.listeners.AmbientLightListener;
 import com.android.esprit.smartreminders.listeners.LocationListener;
 import com.android.esprit.smartreminders.listeners.ProximityListener;
 import com.android.esprit.smartreminders.listeners.ShakeDetector;
+import com.android.esprit.smartreminders.sessions.Session;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.android.esprit.smartreminders.appcommons.App.CHANNEL_ID;
+import static com.android.esprit.smartreminders.appcommons.App.sessionUser;
 import static com.android.volley.VolleyLog.TAG;
 
 public class GMapsTrackingForeGroundService extends Service {
@@ -42,11 +52,12 @@ public class GMapsTrackingForeGroundService extends Service {
     private ShakeDetector mShakeDetector;
     private boolean TriggerOn;
     private CameraController c;
-
+    private EventCustomController ecc;
     private LocationListener[] mLocationListeners;
 
     @Override
     public void onCreate() {
+        ecc = new EventCustomController();
         super.onCreate();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         assert mSensorManager != null;
@@ -82,6 +93,8 @@ public class GMapsTrackingForeGroundService extends Service {
                 .build();
         startForeground(1, notification);
         registerSensorListeners();
+        ecc.TriggerAlarm(this);
+        System.out.println("LOGGED USER : TRUE ");
         // sami invoke your notification listener !
     }
 
@@ -105,7 +118,6 @@ public class GMapsTrackingForeGroundService extends Service {
         }, mProximity, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
 
-
         mSensorManager.registerListener(new AmbientLightListener() {
             @Override
             public void howDimIsTheLight(int result) {
@@ -127,7 +139,7 @@ public class GMapsTrackingForeGroundService extends Service {
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
-        c= new CameraController(this);
+        c = new CameraController(this);
         mShakeDetector.setOnShakeListener(count -> {
             if (c.isFlashOn())
                 c.disableFlash();
@@ -194,6 +206,4 @@ public class GMapsTrackingForeGroundService extends Service {
         IntentFilter filter = new IntentFilter(WifiManager.RSSI_CHANGED_ACTION);
         registerReceiver(new WifiStateReceiver(), filter);
     }
-
-
 }

@@ -67,7 +67,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     String TAG = "RemindMe";
     LocalData localData;
 
-    List<Event> myEvents = new ArrayList<>();
 
     SwitchCompat reminderSwitch;
     TextView tvTime;
@@ -77,9 +76,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     int hour = 0, min = 0;
 
     ClipboardManager myClipboard;
-    private User sessionUser;
-
-
     private EditText title;
     private EditText description;
     private Button pushBSunday;
@@ -118,7 +114,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
         initViews();
         defineBehaviour();
-
     }
 
     private void initViews() {
@@ -197,7 +192,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         ll_end_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(localData.getReminderStatus())
+                if (localData.getReminderStatus())
                     showTimePickerDialogEnd(localData.get_hour(), localData.get_min());
             }
         });
@@ -333,18 +328,18 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 }
                 break;
             case R.id.AddPlan:
-                if ((localData.get_min() - number) < 0){
+                if ((localData.get_min() - number) < 0) {
                     localData.set_hour(localData.get_hour() - 1);
-                    localData.set_min(60 - number);}
-                else {
+                    localData.set_min(60 - number);
+                } else {
                     localData.set_min(localData.get_min() - number);
                 }
                 Event event = new Event();
                 event.setDay(SelectedDays);
-                event.setEndTime(new Time(localData.get_EndHour(),localData.get_EndMin()));
-                event.setStartTime(new Time(localData.get_hour(),localData.get_min()));
-                System.out.println("Start Hour "+localData.get_hour() +" Start Min : "+ localData.get_min());
-                System.out.println("End Hour "+localData.get_EndHour() +" End Min : "+ localData.get_EndMin());
+                event.setEndTime(new Time(localData.get_EndHour(), localData.get_EndMin()));
+                event.setStartTime(new Time(localData.get_hour(), localData.get_min()));
+                System.out.println("Start Hour " + localData.get_hour() + " Start Min : " + localData.get_min());
+                System.out.println("End Hour " + localData.get_EndHour() + " End Min : " + localData.get_EndMin());
                 event.setTitle(title.getText().toString());
                 event.setDescription(description.getText().toString());
                 event.setOwner(Session.getSession(this.ParentActivity).getSessionUser());
@@ -365,47 +360,19 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-           /*     for (DayOfTheWeek d : SelectedDays) {
-                    switch (d) {
-                        case Sunday:
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_WEEK);
+                for (DayOfTheWeek d : SelectedDays) {
+                    if (d == DayOfTheWeek.DayOfWeekForID(day)) {
+                        if (calendar.getTime().getHours() <= localData.get_hour() && calendar.getTime().getMinutes() <= localData.get_min()) {
+                            System.out.println("I'M INSIDE THE 3rd SCOOP");
+                            System.out.println("EVENT NAME : " + title + " EVENT HOUR : " + localData.get_hour() + ":" + localData.get_min());
                             NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            //setAlarm(0, StartHour, StartMin,1);
-                            break;
-                        case Monday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            //setAlarm(1, StartHour, StartMin,1);
-                            break;
-                        case Tuesday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            // setAlarm(2, StartHour, StartMin,1);
-                            break;
-                        case Wednesday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            //setAlarm(3, StartHour, StartMin,1);
-                            break;
-                        case Thursday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            // setAlarm(4, StartHour, StartMin,1);
-                            break;
-                        case Friday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            //setAlarm(5, StartHour, StartMin,1);
-                            break;
-                        case Saturday:
-                            NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                            Toast.makeText(getActivity(), "Notification Activated", Toast.LENGTH_SHORT).show();
-                            //setAlarm(6, StartHour, StartMin,1);
-                            break;
+                        }
+                    } else {
+                        NotificationScheduler.setInExactReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
                     }
-                } */
-                break;
+                }
         }
     }
 
@@ -501,32 +468,4 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         }
     }
 
-    public void TriggerAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        WebServiceEvent ws = new WebServiceEvent(this.ParentActivity, new CallBackWSConsumerGET<Event>() {
-            @Override
-            public void OnResultPresent(List<Event> results) {
-                myEvents = (ArrayList<Event>) results;
-                for(Event e : myEvents) {
-                    for(DayOfTheWeek d : e.getDays()) {
-                        if(d == DayOfTheWeek.DayOfWeekForID(day)) {
-                            NotificationScheduler.setReminder( getContext(),AlarmReceiver.class, e.getStartTime().getHour(),e.getStartTime().getHour());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void OnHostUnreachable() {
-            }
-        });
-        Map<String, String> map = new HashMap<>();
-        map.put("user", sessionUser.getId() + "");
-        try {
-            ws.findBy(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
