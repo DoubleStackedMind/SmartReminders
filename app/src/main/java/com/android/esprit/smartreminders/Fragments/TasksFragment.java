@@ -70,6 +70,7 @@ public class TasksFragment extends FragmentChild {
         timetasks_list.setOverscrollHeader(this.getParentActivity().getDrawable(R.drawable.blue));
         timetasks_list.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         timetasks_list.setVerticalFadingEdgeEnabled(true);
+        addNewTimeTask.setOnClickListener((view)->this.ParentActivity.goToUnStackedFragment(new FragmentFormTimeTask()));
     }
 
     public void initData() {

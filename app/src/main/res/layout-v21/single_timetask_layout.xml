@@ -78,6 +78,15 @@
                         android:textColor="@color/colorGray"
                         android:textSize="20dp"
                         android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/descriptionView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Check Home"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
 
                     <LinearLayout

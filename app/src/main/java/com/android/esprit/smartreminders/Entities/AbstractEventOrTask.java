@@ -139,7 +139,7 @@ public abstract class AbstractEventOrTask implements Entity {
         this.owner = u;
         Set<DayOfTheWeek> days = new HashSet<>();
         String stringdays=ja.get("days").toString();
-       String res= stringdays.replaceAll("\\:",":");
+        String res= stringdays.replaceAll("\\:",":");
         System.out.println(res);
         JSONArray jsa = new JSONArray(res);
         for (int i = 0; i < jsa.length(); i++) {

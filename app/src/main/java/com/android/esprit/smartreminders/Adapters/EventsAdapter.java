@@ -2,55 +2,51 @@ package com.android.esprit.smartreminders.Adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.esprit.smartreminders.Entities.Time;
+import com.android.esprit.smartreminders.Entities.Event;
 import com.android.esprit.smartreminders.Entities.TimeTask;
-import com.android.esprit.smartreminders.Entities.Zone;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
-import com.android.esprit.smartreminders.Fragments.FragmentChild;
+import com.android.esprit.smartreminders.Fragments.EventsndMettingsFragment;
+import com.android.esprit.smartreminders.Fragments.FragmentFormEvent;
 import com.android.esprit.smartreminders.Fragments.FragmentFormTimeTask;
-import com.android.esprit.smartreminders.Fragments.TasksFragment;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumerSend;
+import com.android.esprit.smartreminders.Services.WebServiceEvent;
 import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
-import com.android.esprit.smartreminders.Services.WebServiceZone;
 import com.android.esprit.smartreminders.activities.MainFrame;
 
-
-import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class TimeTaskAdapater extends CustomAdapter<TimeTask> {
-    private TasksFragment t;
 
-    public TimeTaskAdapater(@NonNull Context context, ArrayList<TimeTask> Array, int SingleLayout, TasksFragment t) {
+public class EventsAdapter extends CustomAdapter<Event> {
+    private EventsndMettingsFragment e;
+
+
+    public EventsAdapter(@NonNull Context context, ArrayList<Event> Array, int SingleLayout ,EventsndMettingsFragment e) {
         super(context, Array, SingleLayout);
-        this.t = t;
+        this.e = e;
     }
 
-    @Override
     public View inflateView(LayoutInflater inflater) {
-        this.SingleLayOut = R.layout.single_timetask_layout;
+
+
+        this.SingleLayOut = R.layout.single_event_layout;
+
         return super.inflateView(inflater);
     }
 
     @Override
     public void InflateInputs(View convertView) {
-
-        TimeTask tt = Array.get(position);
-        TextView ExecutionTime = convertView.findViewById(R.id.StartTime);
-        ExecutionTime.setText(tt.getExecutionTime().toString());
+        Event ev = Array.get(position);
         TextView Description = convertView.findViewById(R.id.descriptionView);
         TextView Title= convertView.findViewById(R.id.titleView);
         TextView Mon = convertView.findViewById(R.id.mondayToggle);
@@ -60,14 +56,21 @@ public class TimeTaskAdapater extends CustomAdapter<TimeTask> {
         TextView Fri = convertView.findViewById(R.id.fridayToggle);
         TextView Sat = convertView.findViewById(R.id.saturdayToggle);
         TextView Sun = convertView.findViewById(R.id.sundayToggle);
+        TextView startTime=convertView.findViewById(R.id.StartTime);
+        TextView endtime=convertView.findViewById(R.id.EndTime);
+        TextView reminderETA=convertView.findViewById(R.id.reminderMinutesCount);
 
-        Set<DayOfTheWeek> Days = tt.getDays();
-        Description.setText(tt.getDescription());
-        Title.setText(tt.getTitle());
+        reminderETA.setText("Remind me "+ev.getReminder()+" Minutes in advance");
+        Set<DayOfTheWeek> Days = ev.getDays();
+        Description.setText(ev.getDescription());
+        Title.setText(ev.getTitle());
+        startTime.setText("From "+ev.getStartTime().toString());
+        endtime.setText(" To"+ev.getEndTime());
+
+
 
         Button updateBtn = convertView.findViewById(R.id.updatePlan_btn);
         Button deleteBtn = convertView.findViewById(R.id.deletePlan_btn);
-
 
         if (Days.contains(DayOfTheWeek.Monday)) {
             Mon.setBackground(convertView.getResources().getDrawable(R.drawable.roundbutton_active));
@@ -91,23 +94,10 @@ public class TimeTaskAdapater extends CustomAdapter<TimeTask> {
             Sun.setBackground(convertView.getResources().getDrawable(R.drawable.roundbutton_active));
         }
 
-        LinearLayout ActionLinearLayout = convertView.findViewById(R.id.ActionsLinearlayout);
-        tt.getActions().forEach((a) -> {
-            System.out.println(a);
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = inflater.inflate(R.layout.single_action_layout, null, true);
-            ImageView icon = v.findViewById(R.id.icon_action);
-            TextView name = v.findViewById(R.id.actionName);
-            icon.setImageResource(a.getIcon());
-            name.setText(a.getName());
-            ActionLinearLayout.addView(v);
-        });
-
-
         updateBtn.setOnClickListener((view) -> {
-                    ((MainFrame) this.context).setEditedObject(tt);
-                    ((MainFrame) this.context).goToUnStackedFragment(new FragmentFormTimeTask());
-                });
+            ((MainFrame) this.context).setEditedObject(ev);
+            ((MainFrame) this.context).goToUnStackedFragment(new FragmentFormEvent());
+        });
         deleteBtn.setOnClickListener((view) -> {
             confirmAndDelete();
         });
@@ -118,12 +108,12 @@ public class TimeTaskAdapater extends CustomAdapter<TimeTask> {
         AlertDialog dialog = new AlertDialog.Builder(context, R.style.AlertDialogCustom)
                 .setIcon(R.drawable.icon_settings)
                 .setPositiveButton("Delete", (dialog1, which) -> {
-                    WebServiceTimeTask WT = new WebServiceTimeTask(TimeTaskAdapater.this.context, new CallBackWSConsumerSend<TimeTask>() {
+                    WebServiceEvent WE = new WebServiceEvent(EventsAdapter.this.context, new CallBackWSConsumerSend<Event>() {
                         @Override
                         public void OnResultPresent() {
-                            TimeTaskAdapater.this.remove(TimeTaskAdapater.this.getItem(position));
-                            t.initData();
-                            Toast.makeText(context, "Time Task Deleted !", Toast.LENGTH_LONG).show();
+                            EventsAdapter.this.remove(EventsAdapter.this.getItem(position));
+                        //    e.initData();
+                            Toast.makeText(context, "Event Deleted !", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -136,14 +126,15 @@ public class TimeTaskAdapater extends CustomAdapter<TimeTask> {
                             Toast.makeText(context, "Host unreachable!", Toast.LENGTH_LONG).show();
                         }
                     });
-                    WT.remove(Array.get(position));
+                    WE.remove(Array.get(position));
                 })
                 .setNegativeButton("Cancel", (dialog1, which) -> {
                     Toast.makeText(context, "Operation Canceled !", Toast.LENGTH_SHORT).show();
                 })
-                .setTitle("Remove TimeTask").setMessage("Are you sure you wante to delete this TimeTask ?  ").create();
+                .setTitle("Remove TimeTask").setMessage("Are you sure you wante to delete this Event ?  ").create();
         dialog.show();
 
 
     }
+
 }

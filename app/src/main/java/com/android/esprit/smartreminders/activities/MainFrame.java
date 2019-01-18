@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private FrameLayout fragmentContainer;
 
     private Object editedObject;
 
@@ -70,6 +72,7 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+        fragmentContainer=findViewById(R.id.fragment_container);
         this.setTitle(R.string.app_name);
         this.switchFragments(R.id.fragment_container, new ScheduleFragment());
         new Handler().postDelayed(this::init_Layout_data, 500);
@@ -94,7 +97,9 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            fragmentContainer.removeAllViews();
             super.onBackPressed();
+
           //  updateHihlightedDrawer();
         }
 
@@ -200,10 +205,7 @@ public class MainFrame extends AppCommonsActivity implements NavigationView.OnNa
     public void goToUnStackedFragment(FragmentChild Child) {
         if (!Child.getClass().equals(visibleFragment)) {
             visibleFragment = Child.getClass();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, Child);
-            transaction.commit();
-
+            switchFragments(R.id.fragment_container,Child);
         }
 
     }

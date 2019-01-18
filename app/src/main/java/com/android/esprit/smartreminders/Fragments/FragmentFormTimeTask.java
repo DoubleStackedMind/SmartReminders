@@ -1,6 +1,6 @@
 package com.android.esprit.smartreminders.Fragments;
 
-import android.annotation.SuppressLint;
+
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -19,17 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
 import com.android.esprit.smartreminders.Entities.Action;
 import com.android.esprit.smartreminders.Entities.Time;
 import com.android.esprit.smartreminders.Entities.TimeTask;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
-import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
 import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
@@ -41,15 +37,9 @@ import com.android.esprit.smartreminders.appcommons.validator.EditTextRequiredIn
 import com.android.esprit.smartreminders.customControllers.ActionPool;
 import com.android.esprit.smartreminders.notifications.Message;
 import com.android.esprit.smartreminders.sessions.Session;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 

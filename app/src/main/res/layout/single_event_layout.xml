@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="367dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
@@ -13,6 +13,7 @@
     card_view:cardElevation="4dp"
     tools:ignore="MissingConstraints"
     tools:layout_editor_absoluteX="0dp"
+    android:layout_marginBottom="10dp"
     tools:layout_editor_absoluteY="1dp">
 
 
@@ -36,14 +37,32 @@
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="Pick up Kids"
                 android:textColor="@color/colorGray"
                 android:textSize="20dp"
+
+                android:layout_marginBottom="100dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/descriptionView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:text="Check Home"
+                android:textColor="@color/colorGray"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
 
             <LinearLayout
@@ -74,15 +93,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="17dp"
                 android:layout_below="@+id/titleView"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/titleView"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+                app:layout_constraintHorizontal_bias="0.514"
                 app:layout_constraintStart_toStartOf="parent"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/descriptionView">
 
                 <TextView
                     android:id="@+id/StartTime"
