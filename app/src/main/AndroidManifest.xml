@@ -16,6 +16,9 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name=" android.hardware.location.network" />
 
@@ -53,6 +56,12 @@
 
         <receiver android:name=".Test.Notification_reciever" />
         <receiver android:name=".broadcastrecivers.WifiStateReceiver" />
+        <receiver android:name=".broadcastrecivers.AlarmReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
