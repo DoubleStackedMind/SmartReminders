@@ -1,6 +1,7 @@
 package com.android.esprit.smartreminders.Fragments;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -36,10 +37,12 @@ import android.widget.Toast;
 
 import com.android.esprit.smartreminders.Entities.Event;
 import com.android.esprit.smartreminders.Entities.Time;
+import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.Enums.StateOfTask;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.Services.CallBackWSConsumer;
+import com.android.esprit.smartreminders.Services.CallBackWSConsumerGET;
 import com.android.esprit.smartreminders.Services.WebServiceEvent;
 import com.android.esprit.smartreminders.Test.LocalData;
 import com.android.esprit.smartreminders.Test.Notification_reciever;
@@ -49,16 +52,22 @@ import com.android.esprit.smartreminders.notifications.NotificationScheduler;
 import com.android.esprit.smartreminders.sessions.Session;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class FragmentFormEvent extends FragmentChild implements View.OnClickListener {
 
     String TAG = "RemindMe";
     LocalData localData;
+
+    List<Event> myEvents = new ArrayList<>();
 
     SwitchCompat reminderSwitch;
     TextView tvTime;
@@ -68,6 +77,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     int hour = 0, min = 0;
 
     ClipboardManager myClipboard;
+    private User sessionUser;
 
 
     private EditText title;
@@ -79,10 +89,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
     private Button pushBThursday;
     private Button pushBFriday;
     private Button pushBSaturday;
-    private int StartHour;
-    private int StartMin;
-    private int EndHour;
-    private int EndMin;
     private Button RemindMeOn;
     private Button AddPlan;
     private Set<DayOfTheWeek> SelectedDays;
@@ -327,16 +333,23 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 }
                 break;
             case R.id.AddPlan:
+                if ((localData.get_min() - number) < 0){
+                    localData.set_hour(localData.get_hour() - 1);
+                    localData.set_min(60 - number);}
+                else {
+                    localData.set_min(localData.get_min() - number);
+                }
                 Event event = new Event();
                 event.setDay(SelectedDays);
                 event.setEndTime(new Time(localData.get_EndHour(),localData.get_EndMin()));
                 event.setStartTime(new Time(localData.get_hour(),localData.get_min()));
+                System.out.println("Start Hour "+localData.get_hour() +" Start Min : "+ localData.get_min());
+                System.out.println("End Hour "+localData.get_EndHour() +" End Min : "+ localData.get_EndMin());
                 event.setTitle(title.getText().toString());
                 event.setDescription(description.getText().toString());
                 event.setOwner(Session.getSession(this.ParentActivity).getSessionUser());
                 event.setReminder(number);
                 event.setState(StateOfTask.PENDING);
-
                 WebServiceEvent wse = new WebServiceEvent(this.ParentActivity, new CallBackWSConsumer<Event>() {
                     @Override
                     public void OnHostUnreachable() {
@@ -352,13 +365,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (localData.get_min() - number < 0){
-                    localData.set_hour(localData.get_hour() - 1);
-                    localData.set_min(60 - number);}
-                else {
-                    localData.set_min(localData.get_min() - number);
-                }
-                for (DayOfTheWeek d : SelectedDays) {
+
+           /*     for (DayOfTheWeek d : SelectedDays) {
                     switch (d) {
                         case Sunday:
                             NotificationScheduler.setReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
@@ -396,7 +404,7 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                             //setAlarm(6, StartHour, StartMin,1);
                             break;
                     }
-                }
+                } */
                 break;
         }
     }
@@ -447,7 +455,6 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
 
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.timepicker_header, null);
-
         TimePickerDialog builder = new TimePickerDialog(getContext(), R.style.DialogTheme,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -494,4 +501,32 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
         }
     }
 
+    public void TriggerAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        WebServiceEvent ws = new WebServiceEvent(this.ParentActivity, new CallBackWSConsumerGET<Event>() {
+            @Override
+            public void OnResultPresent(List<Event> results) {
+                myEvents = (ArrayList<Event>) results;
+                for(Event e : myEvents) {
+                    for(DayOfTheWeek d : e.getDays()) {
+                        if(d == DayOfTheWeek.DayOfWeekForID(day)) {
+                            NotificationScheduler.setReminder( getContext(),AlarmReceiver.class, e.getStartTime().getHour(),e.getStartTime().getHour());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void OnHostUnreachable() {
+            }
+        });
+        Map<String, String> map = new HashMap<>();
+        map.put("user", sessionUser.getId() + "");
+        try {
+            ws.findBy(map);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
