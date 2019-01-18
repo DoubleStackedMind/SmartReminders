@@ -201,6 +201,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
             }
         });
         TimeTask t = new TimeTask();
+        if(updateMode)
         t.setId(timeTask.getId());
         t.setExecutionTime(executionTime);
         t.setActions(SelectedActions);
@@ -209,8 +210,10 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
         t.setState(StateOfTask.IN_PROGRESS);
         t.setOwner(Session.getSession(this.getParentActivity()).getSessionUser());
         t.setTitle(Title.getEditText().getText().toString());
-        if (updateMode)
+        if (updateMode){
             ws.update(t);
+        }
+
         else
             ws.insert(t);
 

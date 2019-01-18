@@ -19,6 +19,14 @@ public abstract class Action implements Entity, ExecutableAction {
     protected String name;
     protected int icon;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Action() {
     }
 

@@ -23,6 +23,8 @@ public class Session {
             this.sessionUser = new User();
             try {
                 this.sessionUser.FromJsonObject(new JSONObject(data));
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

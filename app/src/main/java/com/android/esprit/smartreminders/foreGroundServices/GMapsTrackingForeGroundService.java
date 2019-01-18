@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.icu.util.Calendar;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -19,14 +20,24 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.esprit.smartreminders.Entities.AbstractEventOrTask;
+import com.android.esprit.smartreminders.Entities.TimeTask;
+import com.android.esprit.smartreminders.Enums.DayOfTheWeek;
 import com.android.esprit.smartreminders.R;
 import com.android.esprit.smartreminders.activities.MainFrame;
 import com.android.esprit.smartreminders.broadcastrecivers.WifiStateReceiver;
+import com.android.esprit.smartreminders.customControllers.ActionPool;
 import com.android.esprit.smartreminders.customControllers.CameraController;
 import com.android.esprit.smartreminders.listeners.AmbientLightListener;
 import com.android.esprit.smartreminders.listeners.LocationListener;
 import com.android.esprit.smartreminders.listeners.ProximityListener;
 import com.android.esprit.smartreminders.listeners.ShakeDetector;
+import com.android.esprit.smartreminders.sessions.Session;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.android.esprit.smartreminders.appcommons.App.CHANNEL_ID;
 import static com.android.volley.VolleyLog.TAG;
@@ -83,6 +94,7 @@ public class GMapsTrackingForeGroundService extends Service {
         startForeground(1, notification);
         registerSensorListeners();
         // sami invoke your notification listener !
+        runthreadTaskHandler();
     }
 
     private void invokeBahaviour() {
@@ -103,7 +115,6 @@ public class GMapsTrackingForeGroundService extends Service {
                         1000);
             }
         }, mProximity, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-
 
 
         mSensorManager.registerListener(new AmbientLightListener() {
@@ -127,7 +138,7 @@ public class GMapsTrackingForeGroundService extends Service {
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
-        c= new CameraController(this);
+        c = new CameraController(this);
         mShakeDetector.setOnShakeListener(count -> {
             if (c.isFlashOn())
                 c.disableFlash();
@@ -193,6 +204,45 @@ public class GMapsTrackingForeGroundService extends Service {
     private void registerBroadCastReciver() {
         IntentFilter filter = new IntentFilter(WifiManager.RSSI_CHANGED_ACTION);
         registerReceiver(new WifiStateReceiver(), filter);
+    }
+
+    private void runthreadTaskHandler() {
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
+                    System.out.println("Thread Running...");
+                    if (Session.getSession(GMapsTrackingForeGroundService.this).getSessionUser().getPlans() != null) {
+                        List<TimeTask> tasks = (List<TimeTask>) (List<?>) Session.getSession(GMapsTrackingForeGroundService.this).getSessionUser().getPlans().stream().filter(e -> e instanceof TimeTask).collect(Collectors.toList());
+                        tasks.forEach(e -> {
+                            Calendar c = Calendar.getInstance();
+                            int hour = c.get(Calendar.HOUR_OF_DAY);
+                            int minute = c.get(Calendar.MINUTE);
+                            int second = c.get(Calendar.SECOND);
+                            System.out.println("hours:" + hour + " : " + minute + ":" + second);
+                            if (second <= 3) {
+                                if (e.getDays().contains(DayOfTheWeek.DayOfWeekForID(c.get(Calendar.DAY_OF_WEEK)))) {
+                                    System.out.println("i have an action ");
+                                    if (e.getExecutionTime().getMinute() == minute && e.getExecutionTime().getHour() == hour) {
+                                        System.out.println("executing action! ");
+                                        e.getActions().forEach(a -> {
+                                            ActionPool.getInstance(GMapsTrackingForeGroundService.this).getActions()[a.getId() - 1].executeAction();
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                    try {
+                        sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        thread.start();
+
     }
 
 

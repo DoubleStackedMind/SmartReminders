@@ -1,34 +1,39 @@
 package com.android.esprit.smartreminders.Entities;
 
 
+import com.android.esprit.smartreminders.Exceptions.NotAValidStateOfTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public  class User implements Entity {
+public class User implements Entity {
     private int id;
     private String email;
     private String name;
     private String password;
     private DailyPlan dailyplan;
-    private Set<AbstractEventOrTask>Plans;
+    private Set<AbstractEventOrTask> Plans;
     private Set<Zone> zones;
-    public User(){
+
+    public User() {
 
     }
-    public User(int id, String email, String password,String name) {
+
+    public User(int id, String email, String password, String name) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.name=name;
-        this.dailyplan=new DailyPlan();
-        this.Plans=new HashSet<>();
-        this.zones= new HashSet<>();
+        this.name = name;
+        this.dailyplan = new DailyPlan();
+        this.Plans = new HashSet<>();
+        this.zones = new HashSet<>();
     }
 
     public int getId() {
@@ -63,7 +68,10 @@ public  class User implements Entity {
         this.name = name;
     }
 
-    public DailyPlan getDailyplan(){ return this.dailyplan;}
+    public DailyPlan getDailyplan() {
+        return this.dailyplan;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,23 +123,52 @@ public  class User implements Entity {
     @Override
     public void FromJsonObject(JSONObject ja) throws JSONException {
 
-        this.id=ja.getInt("id");
-        this.email=ja.getString("email");
-        this.password=ja.getString("password");
-        this.name=ja.getString("name");
-        this.dailyplan= new DailyPlan();
+        this.id = ja.getInt("id");
+        this.email = ja.getString("email");
+        this.password = ja.getString("password");
+        this.name = ja.getString("name");
+
+        this.dailyplan = new DailyPlan();
+        Set<AbstractEventOrTask> plans = new HashSet<>();
+        String stringactions = ja.get("actions").toString();
+        String res = stringactions.replaceAll("\\:", ":");
+        System.out.println(res);
+
+        JSONArray jsa = new JSONArray(res);
+
+        for (int i = 0; i < jsa.length(); i++) {
+            AbstractEventOrTask a = new AbstractEventOrTask() {
+            };
+            try {
+                a.FromJsonObject((JSONObject) jsa.get(i));
+            } catch (NotAValidStateOfTask notAValidStateOfTask) {
+                notAValidStateOfTask.printStackTrace();
+            }
+            plans.add(a);
+        }
+        this.Plans = new HashSet<>();
+        this.Plans.addAll(plans);
 
     }
 
     @Override
     public JSONObject ToJsonObject() throws JSONException {
+        JSONArray plans = new JSONArray();
+        Plans.forEach(e -> {
+            try {
+                plans.put(e.ToJsonObject());
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        });
         return
                 new JSONObject()
                         .put("id", this.id)
                         .put("email", this.email)
                         .put("password", this.password)
-                        .put("name",this.name);
-                //.put("dailyplan",this.dailyplan.)
+                        .put("name", this.name)
+                        .put("plans", plans);
+
     }
 
     @Override
@@ -140,7 +177,7 @@ public  class User implements Entity {
         res.put("email", this.email);
         res.put("id", this.id + "");
         res.put("password", this.password);
-        res.put("name",this.name);
+        res.put("name", this.name);
         return res;
     }
 

@@ -1,5 +1,6 @@
 package com.android.esprit.smartreminders.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.esprit.smartreminders.Adapters.TimeTaskAdapater;
 import com.android.esprit.smartreminders.Adapters.ZonesAdapter;
+import com.android.esprit.smartreminders.Entities.AbstractEventOrTask;
 import com.android.esprit.smartreminders.Entities.TimeTask;
 import com.android.esprit.smartreminders.Entities.User;
 import com.android.esprit.smartreminders.Entities.Zone;
@@ -23,10 +25,13 @@ import com.android.esprit.smartreminders.Services.WebServiceTimeTask;
 import com.android.esprit.smartreminders.Services.WebServiceZone;
 import com.android.esprit.smartreminders.sessions.Session;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TasksFragment extends FragmentChild {
 
@@ -70,7 +75,7 @@ public class TasksFragment extends FragmentChild {
         timetasks_list.setOverscrollHeader(this.getParentActivity().getDrawable(R.drawable.blue));
         timetasks_list.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         timetasks_list.setVerticalFadingEdgeEnabled(true);
-        addNewTimeTask.setOnClickListener((view)->this.ParentActivity.goToUnStackedFragment(new FragmentFormTimeTask()));
+        addNewTimeTask.setOnClickListener((view) ->{ this.ParentActivity.setEditedObject(null);this.ParentActivity.goToUnStackedFragment(new FragmentFormTimeTask())  ; });
     }
 
     public void initData() {
@@ -85,6 +90,18 @@ public class TasksFragment extends FragmentChild {
                 TasksFragment.this.timetasks_list.setAdapter(adapter);
                 srl.setRefreshing(false);
                 error_msg.setVisibility(View.GONE);
+
+                SharedPreferences sharedPref = TasksFragment.this.ParentActivity.getSharedPreferences("Myprefs", TasksFragment.this.ParentActivity.MODE_PRIVATE);
+                User u = Session.getSession(TasksFragment.this.ParentActivity).getSessionUser();
+                u.setPlans(results.stream().collect(Collectors.toSet()));
+                Session.getSession(TasksFragment.this.ParentActivity).setSessionUser(u);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                try {
+                    editor.putString("Logged_user_data", Session.getSession(TasksFragment.this.ParentActivity).getSessionUser().ToJsonObject().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                editor.apply();
             }
 
             @Override
