@@ -98,6 +98,8 @@ public class Event extends AbstractEventOrTask implements Entity {
         minutes = StringArray[1];
         this.EndTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
 
+        this.setReminder(ja.getInt("reminderETA"));
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -105,7 +107,8 @@ public class Event extends AbstractEventOrTask implements Entity {
     public JSONObject ToJsonObject() throws JSONException {
         return super.ToJsonObject()
                 .put("startTime", this.StartTime)
-                .put("endTime", this.EndTime);
+                .put("endTime", this.EndTime)
+                .put("reminderETA",this.Reminder);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -114,6 +117,7 @@ public class Event extends AbstractEventOrTask implements Entity {
         Map<String, String> res = super.ToPostMap();
         res.put("startTime", this.StartTime.toString());
         res.put("endTime", this.EndTime.toString());
+        res.put("reminderETA",this.Reminder+"");
         return res;
     }
 }
