@@ -85,7 +85,6 @@ public class TasksFragment extends FragmentChild {
                 TasksFragment.this.timetasks_list.setAdapter(adapter);
                 srl.setRefreshing(false);
                 error_msg.setVisibility(View.GONE);
-
             }
 
             @Override
