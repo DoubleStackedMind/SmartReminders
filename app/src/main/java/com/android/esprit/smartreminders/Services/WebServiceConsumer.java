@@ -109,7 +109,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
         }*/
         Log.d("Url", "Consume: Url Used :" + url);
         StringRequest postRequest = new StringRequest(
-                Request.Method.GET,
+                Request.Method.POST,
                 url,
                 response -> {
                     System.out.println(response);
