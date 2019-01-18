@@ -88,12 +88,12 @@ public class Event extends AbstractEventOrTask implements Entity {
         String hours;
         String StringArray[];
 
-        StringArray = ja.get("starttime").toString().split(":");
+        StringArray = ja.get("startTime").toString().split(":");
         hours = StringArray[0];
         minutes = StringArray[1];
         this.StartTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
 
-        StringArray = ja.get("endtime").toString().split(":");
+        StringArray = ja.get("endTime").toString().split(":");
         hours = StringArray[0];
         minutes = StringArray[1];
         this.EndTime = new Time(Integer.valueOf(hours), Integer.valueOf(minutes));
@@ -104,16 +104,16 @@ public class Event extends AbstractEventOrTask implements Entity {
     @Override
     public JSONObject ToJsonObject() throws JSONException {
         return super.ToJsonObject()
-                .put("starttime", this.StartTime)
-                .put("endtime", this.EndTime);
+                .put("startTime", this.StartTime)
+                .put("endTime", this.EndTime);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Map<String, String> ToPostMap() {
         Map<String, String> res = super.ToPostMap();
-        res.put("starttime", this.StartTime.toString());
-        res.put("endtime", this.EndTime.toString());
+        res.put("startTime", this.StartTime.toString());
+        res.put("endTime", this.EndTime.toString());
         return res;
     }
 }
