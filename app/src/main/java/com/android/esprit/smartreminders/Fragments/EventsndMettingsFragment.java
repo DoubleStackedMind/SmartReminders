@@ -63,7 +63,7 @@ public class EventsndMettingsFragment extends FragmentChild {
         events_list.setOverscrollHeader(this.getParentActivity().getDrawable(R.drawable.blue));
         events_list.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         events_list.setVerticalFadingEdgeEnabled(true);
-        addNewEvent.setOnClickListener((view)->this.ParentActivity.goToUnStackedFragment(new FragmentFormEvent()));
+        addNewEvent.setOnClickListener((view)->{this.ParentActivity.setEditedObject(null);this.ParentActivity.goToUnStackedFragment(new FragmentFormEvent());});
 
     }
     public void initData() {
@@ -103,11 +103,9 @@ public class EventsndMettingsFragment extends FragmentChild {
         });
         Map<String, String> map = new HashMap<>();
         map.put("user", sessionUser.getId() + "");
-        try {
+
             WT.findBy(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 

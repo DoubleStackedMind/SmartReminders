@@ -121,11 +121,9 @@ public class ZonesFragment extends FragmentChild {
         });
         Map<String, String> map = new HashMap<>();
         map.put("user", sessionUser.getId() + "");
-        try {
+
             WZ.findBy(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 

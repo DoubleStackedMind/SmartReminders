@@ -404,9 +404,9 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                         }
                     } else {
                         NotificationScheduler.setInExactReminder(getContext(), AlarmReceiver.class, localData.get_hour(), localData.get_min());
-                        Toast.makeText(getActivity(), "Event added!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getContext(), MainFrame.class);
-                        startActivity(intent);
+
+                      //  Intent intent = new Intent(getContext(), MainFrame.class);
+                     //   startActivity(intent);
                     }
                 }
         }
@@ -519,8 +519,9 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
             this.EndtvTime.setText(event.getEndTime().toString());
             this.number = event.getReminder();
             updateDaysButtons();
-            this.AddPlan.setText("UPDATE TIME TASK");
-        }
+            this.AddPlan.setText("UPDATE Event");
+        }else
+            this.AddPlan.setText("Add Event");
     }
 
     private void updateDataBase() {
@@ -533,6 +534,8 @@ public class FragmentFormEvent extends FragmentChild implements View.OnClickList
                     msg = "Event Updated !";
                 else
                     msg = "Event added!";
+                Message.message(FragmentFormEvent.this.ParentActivity,msg);
+                FragmentFormEvent.this.ParentActivity.goToUnStackedFragment(new EventsndMettingsFragment());
             }
 
             @Override

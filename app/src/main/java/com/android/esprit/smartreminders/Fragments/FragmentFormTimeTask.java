@@ -193,6 +193,7 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
                 else
                      msg = "Time Task Added !";
                 Message.message(FragmentFormTimeTask.this.ParentActivity.getApplicationContext(), msg);
+                FragmentFormTimeTask.this.ParentActivity.goToUnStackedFragment(new TasksFragment());
             }
             @Override
             public void OnHostUnreachable() {
@@ -393,6 +394,8 @@ public class FragmentFormTimeTask extends FragmentChild implements TimePickerDia
 
             this.addPlanbtn.setText("UPDATE TIME TASK");
 
+        }else{
+            this.addPlanbtn.setText("ADD TIME TASK");
         }
     }
 

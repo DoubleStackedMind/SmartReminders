@@ -106,7 +106,7 @@ public class EventsAdapter extends CustomAdapter<Event> {
 
     private void confirmAndDelete() {
         AlertDialog dialog = new AlertDialog.Builder(context, R.style.AlertDialogCustom)
-                .setIcon(R.drawable.icon_settings)
+                .setIcon(R.drawable.icon_calendar)
                 .setPositiveButton("Delete", (dialog1, which) -> {
                     WebServiceEvent WE = new WebServiceEvent(EventsAdapter.this.context, new CallBackWSConsumerSend<Event>() {
                         @Override

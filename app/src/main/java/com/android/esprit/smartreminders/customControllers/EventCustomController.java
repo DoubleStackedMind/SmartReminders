@@ -56,10 +56,8 @@ public class EventCustomController {
         });
         Map<String, String> map = new HashMap<>();
         map.put("user", Session.getSession(context).getSessionUser().getId() + "");
-        try {
+
             ws.findBy(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
     }
 }

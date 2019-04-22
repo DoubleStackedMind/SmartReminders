@@ -126,11 +126,8 @@ public class TasksFragment extends FragmentChild {
         });
         Map<String, String> map = new HashMap<>();
         map.put("user", sessionUser.getId() + "");
-        try {
             WT.findBy(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 

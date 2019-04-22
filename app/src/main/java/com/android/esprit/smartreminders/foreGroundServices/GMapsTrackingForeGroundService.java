@@ -211,6 +211,7 @@ public class GMapsTrackingForeGroundService extends Service {
             public void run() {
                 while (true) {
                     System.out.println("Thread Running...");
+                    if(Session.getSession(GMapsTrackingForeGroundService.this).getSessionUser()!=null)
                     if (Session.getSession(GMapsTrackingForeGroundService.this).getSessionUser().getPlans() != null) {
                         List<TimeTask> tasks = (List<TimeTask>) (List<?>) Session.getSession(GMapsTrackingForeGroundService.this).getSessionUser().getPlans().stream().filter(e -> e instanceof TimeTask).collect(Collectors.toList());
                         tasks.forEach(e -> {

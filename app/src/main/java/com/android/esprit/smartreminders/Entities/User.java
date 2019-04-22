@@ -127,40 +127,45 @@ public class User implements Entity {
         this.email = ja.getString("email");
         this.password = ja.getString("password");
         this.name = ja.getString("name");
-
         this.dailyplan = new DailyPlan();
         Set<AbstractEventOrTask> plans = new HashSet<>();
-        String stringactions = ja.get("actions").toString();
-        String res = stringactions.replaceAll("\\:", ":");
-        System.out.println(res);
+        String stringactions;
+        if(ja.has("actions")) {
+            stringactions = ja.get("actions").toString();
+            String res = stringactions.replaceAll("\\:", ":");
+            System.out.println(res);
 
-        JSONArray jsa = new JSONArray(res);
+            JSONArray jsa = new JSONArray(res);
 
-        for (int i = 0; i < jsa.length(); i++) {
-            AbstractEventOrTask a = new AbstractEventOrTask() {
-            };
-            try {
-                a.FromJsonObject((JSONObject) jsa.get(i));
-            } catch (NotAValidStateOfTask notAValidStateOfTask) {
-                notAValidStateOfTask.printStackTrace();
+            for (int i = 0; i < jsa.length(); i++) {
+                AbstractEventOrTask a = new AbstractEventOrTask() {
+                };
+                try {
+                    a.FromJsonObject((JSONObject) jsa.get(i));
+                } catch (NotAValidStateOfTask notAValidStateOfTask) {
+                    notAValidStateOfTask.printStackTrace();
+                }
+                plans.add(a);
             }
-            plans.add(a);
+            this.Plans = new HashSet<>();
+            this.Plans.addAll(plans);
         }
-        this.Plans = new HashSet<>();
-        this.Plans.addAll(plans);
 
     }
 
     @Override
     public JSONObject ToJsonObject() throws JSONException {
         JSONArray plans = new JSONArray();
-        Plans.forEach(e -> {
-            try {
-                plans.put(e.ToJsonObject());
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        });
+        if(Plans!=null) {
+
+            Plans.forEach(e -> {
+                try {
+                    plans.put(e.ToJsonObject());
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            });
+        }
         return
                 new JSONObject()
                         .put("id", this.id)

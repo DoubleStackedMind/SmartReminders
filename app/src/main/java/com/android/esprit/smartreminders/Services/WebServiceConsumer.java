@@ -1,10 +1,8 @@
 package com.android.esprit.smartreminders.Services;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.android.esprit.smartreminders.Entities.Entity;
 import com.android.esprit.smartreminders.R;
@@ -26,51 +24,46 @@ public abstract class WebServiceConsumer<T extends Entity> {
     protected List<T> entities;
     protected CallBackWSConsumer<T> Behaviour;
     protected String url;
-    public void SetBehaviour(CallBackWSConsumer<T> callBack ){
-        this.Behaviour=callBack;
+
+    public void SetBehaviour(CallBackWSConsumer<T> callBack) {
+        this.Behaviour = callBack;
     }
+
     public void setParentActivity(Activity parentActivity) {
         this.parentActivity = parentActivity;
-
-
     }
+
     public List<T> getEntities() {
         return entities;
     }
 
-    public  int insert(T t){
+    public void insert(T t) {
         String localUrl = url + "new";
         Consume(localUrl, t);
-        return 200;
     }
 
-    public  int update(T t) {
+    public void update(T t) {
         String localUrl = url + "edit";
         Consume(localUrl, t);
-        return 200;
     }
 
-    public int remove(T t) {
+    public void remove(T t) {
         String localUrl = url + "delete";
         Consume(localUrl, t);
-        return 200;
     }
 
-    public  void findBy(Map<String, String> columnAndValue) throws InterruptedException {
+    public void findBy(Map<String, String> columnAndValue) {
         StringBuilder localUrl = new StringBuilder(url);
         for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
             if (localUrl.toString().endsWith("/"))// beginning of the get attributes
-            {
                 localUrl.append("?").append(one.getKey()).append("=").append(one.getValue());
-            } else // after adding the first attribue you pass an &
-            {
+            else
                 localUrl.append("&").append(one.getKey()).append("=").append(one.getValue());
-            }
         }
         ConsumeAndWait(localUrl.toString(), Request.Method.GET);
     }
 
-    public  void fetch(Map<String, String> columnAndValue) throws InterruptedException {// arguments can null
+    public void fetch(Map<String, String> columnAndValue) {// arguments can null
 
         StringBuilder localUrl = new StringBuilder(url + "all/");
         for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
@@ -96,33 +89,22 @@ public abstract class WebServiceConsumer<T extends Entity> {
 
 
     public void Consume(String url, T t) {
-      /*  StringBuilder localUrl= new StringBuilder(url);
-        Map<String, String> columnAndValue= t.ToPostMap();
-        for (Map.Entry<String, String> one : columnAndValue.entrySet()) {
-            if (localUrl.toString().endsWith("t"))// beginning of the get attributes
-            {
-                localUrl.append("?").append(one.getKey()).append("=").append(one.getValue());
-            } else // after adding the first attribue you pass an &
-            {
-                localUrl.append("&").append(one.getKey()).append("=").append(one.getValue());
-            }
-        }*/
         Log.d("Url", "Consume: Url Used :" + url);
         StringRequest postRequest = new StringRequest(
                 Request.Method.POST,
                 url,
                 response -> {
                     System.out.println(response);
-                    String result="";
+                    String result = "";
                     try {
-                       JSONObject ja=new JSONObject(response);
-                        result=ja.get("result").toString();
+                        JSONObject ja = new JSONObject(response);
+                        result = ja.get("result").toString();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     if (result.equals("ok")) {
                         this.Behaviour.OnResultPresent();
-                        Log.d("WebService:" + this.getClass().getName() + "[response]:", "Done With Result Ok");
+                        Log.d("WebServiceConsume:" + this.getClass().getName() + "[response]:", "Done With Result Ok");
                     } else
                         this.Behaviour.OnResultNull();
 
@@ -131,7 +113,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
                     Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
                     this.Behaviour.OnHostUnreachable();
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 return new HashMap<String, String>(t.ToPostMap());
@@ -155,7 +137,7 @@ public abstract class WebServiceConsumer<T extends Entity> {
                         this.Behaviour.OnResultPresent(entities);
                 },
                 error -> {
-                    Log.d("WebService:" + this.getClass().getName() + "[error]:", "That didn't work !");
+                    Log.d("WebServiceConsumeAndWait:" + this.getClass().getName() + "[error]:", "That didn't work !");
                     this.Behaviour.OnHostUnreachable();
                 }
         );
